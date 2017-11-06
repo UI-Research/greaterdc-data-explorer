@@ -1,0 +1,93 @@
+@import "./_variables.styl"
+
+.greater-dc-data-explorer
+
+  .Filters
+    height: 185px
+    padding: 36px 0 43px
+    background: $filters-bg
+
+    .row
+      height: $filters-input-height
+      margin-bottom: 15px
+
+    .Select
+    input[type=text]
+    button[type=submit]
+      display: inline-block
+      width: calc(25% - 15px)
+      height: $filters-input-height
+      border: none
+      padding: 0 15px
+      margin: 0 10px
+      background: $filters-input-bg
+      font-size: 16px
+      font-weight: bold
+      color: $filters-input-color
+      outline: none
+      vertical-align: middle
+      color: white
+
+      &.wide
+        width: calc(75% - 5px)
+
+      &:first-child
+        margin-left: 0
+      &:last-child
+        margin-right: 0
+
+    .Select
+      height: $filters-input-height
+      padding: 0
+
+      &, input
+        font-family: sans-serif
+
+      .Select-control
+        height: $filters-input-height
+        border: none
+        border-radius: 0
+        padding-left: 35px
+        background: $filters-input-bg
+
+        .Select-placeholder
+          line-height: @height
+          left: 25px
+        .Select-input
+          height: @height
+          padding: 0
+
+          input
+            color: white
+            outline: none
+
+        .Select-arrow-zone
+          display: inline-block
+          position: absolute
+          left: 10px
+          height: @height
+          line-height: @height
+
+        .Select-clear-zone
+          width: 27px
+
+        .Select-value
+          height: @height
+          line-height: @height
+          left: 25px
+
+          .Select-value-label
+            color: white
+
+      .Select-menu-outer
+        border: none
+        border-radius: 0
+
+    button[type=submit]
+      background: $yellow
+      border-radius: 0
+      text-transform: uppercase
+      color: black
+
+      &:after
+        content: " >"
