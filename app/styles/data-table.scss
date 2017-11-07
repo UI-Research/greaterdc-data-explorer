@@ -1,0 +1,66 @@
+@import "variables";
+
+.greater-dc-data-explorer {
+
+  .DataTable {
+    background: white;
+    padding: $data-list-container-vpadding 0;
+
+    .DataTable-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 5px 0;
+
+      button {
+        border: 1px solid $data-list-button-border;
+        background: $data-list-button-bg;
+        text-transform: uppercase;
+        color: white;
+        border-radius: 0;
+        padding: 7px 13px;
+        cursor: pointer;
+
+        &:hover {
+          background: adjust-color($data-list-button-bg, $lightness: 5%);
+        }
+      }
+
+      a {
+        font-size: 12px;
+      }
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-family: sans-serif;
+
+      td {
+        padding: 20px 20px;
+      }
+
+      thead td {
+        background: $yellow;
+      }
+
+      thead tr:first-child td {
+        font-weight: bold;
+        padding-bottom: 0;
+      }
+      thead tr:last-child td {
+        font-size: 14px;
+      }
+
+      tbody {
+        td {
+          border-bottom: 1px solid black;
+        }
+        td.indicator {
+          border-bottom: none;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
