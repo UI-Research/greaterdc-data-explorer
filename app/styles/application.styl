@@ -1,3 +1,5 @@
+@import "./_variables.styl"
+
 html, body, #app
   margin: 0
   padding: 0
@@ -11,6 +13,14 @@ html, body, #app
   .App
     margin: 0
     padding: 0
+
+    a, a:link, a:active, a:visited
+      color: $link-blue
+      text-decoration: none
+      font-family: sans-serif
+
+    a:hover
+      color: lighten($link-blue, 5%)
 
     .container
       max-width: 90vw

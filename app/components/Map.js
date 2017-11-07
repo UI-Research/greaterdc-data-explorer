@@ -18,6 +18,7 @@ export default class Map extends Component {
       <div className="Map">
         <div class="container">
           <div id="map" />
+          <a className="Map-embed" href="#">&lt;/&gt; Embed</a>
         </div>
       </div>
     );
