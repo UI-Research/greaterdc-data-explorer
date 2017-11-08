@@ -6,11 +6,21 @@ import DataTable from "./DataTable"
 
 export default class App extends Component {
 
+  state = {
+    filters: {},
+  }
+
+  setFilters = (filters) => {
+    this.setState({ filters });
+  }
+
   render() {
+    const { filters } = this.state;
+
     return (
       <div className="App">
-        <Filters />
-        <Map />
+        <Filters onUpdate={this.setFilters} />
+        <Map filters={filters} />
         <DataTable />
       </div>
     );
