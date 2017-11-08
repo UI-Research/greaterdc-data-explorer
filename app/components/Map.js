@@ -1,16 +1,123 @@
-import { h , Component } from "preact"
+import { h , Component } from "preact";
+import { string } from "prop-types";
+
+import {
+  shapefileFor,
+  sourceLayerFor,
+  areaKeyFor,
+} from "../constants/map";
 
 export default class Map extends Component {
+
+  static propTypes = {
+    geography: string,
+  }
+
+  state = {
+    sources: [],
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { geography } = nextProps;
+
+    if (geography) this.addSource(geography);
+
+    this.makeSourceVisible(geography);
+  }
 
   componentDidMount() {
     window.mapboxgl.accessToken = "pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZTy4hI_PWXw3C3UFbDQ";
     this.map = new window.mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/streets-v9",
-      // center: [ -74.50, 40 ],
-      center: [ -77.0675577, 38.880812 ],
+      center: [ -77.0675577, 38.890812 ],
       zoom: 11,
     });
+  }
+
+  addSource = (id) => {
+    if (!this.map) return;
+    if (this.map.getSource(id)) return;
+
+    const url = shapefileFor(id);
+    if (!url) throw new Error(`invalid geography '${id}'`);
+
+    this.map.addSource(id, {
+      type: "vector",
+      url,
+    });
+
+    this.addLayers(id);
+
+    this.setState({
+      sources: [ ...this.state.sources, id ],
+    });
+  }
+
+  addLayers = (id) => {
+    if (!this.map) return;
+    if (!this.map.getSource(id)) return;
+
+    this.map.addLayer({
+      id: `${id}-lines`,
+      type: "line",
+      source: id,
+      "source-layer": sourceLayerFor(id),
+      paint: {
+        "line-width": 2,
+        "line-color": "#cc0000",
+      },
+    });
+
+    this.map.addLayer({
+      id: `${id}-fills`,
+      type: "fill",
+      source: id,
+      "source-layer": sourceLayerFor(id),
+      paint: {
+        "fill-opacity": 0.0,
+        "fill-color": "#ffffff",
+      },
+    });
+
+    this.map.addLayer({
+      id: `${id}-hover`,
+      type: "fill",
+      source: id,
+      "source-layer": sourceLayerFor(id),
+      paint: {
+        "fill-opacity": 0.3,
+        "fill-color": "#cc0000",
+      },
+      layout: {
+        visibility: "visible",
+      },
+      filter: ["==", areaKeyFor(id), ""],
+    });
+
+    this.map.on("mousemove", `${id}-fills`, (ev) => {
+      const key = areaKeyFor(id);
+      this.map.setFilter(`${id}-hover`, ["==", key, ev.features[0].properties[key]]);
+    });
+
+    this.map.on("mouseleave", `${id}-fills`, (ev) => {
+      const key = areaKeyFor(id);
+      this.map.setFilter(`${id}-hover`, ["==", key, ""]);
+    });
+  }
+
+  makeSourceVisible = (id) => {
+    this.state.sources.forEach(source => {
+      [ "lines", "fills" ].forEach(layer => {
+        this.map.setLayoutProperty(`${source}-${layer}`, "visibility", "none");
+      })
+    });
+
+    if (!id) return;
+
+    [ "lines", "fills" ].forEach(layer => {
+      this.map.setLayoutProperty(`${id}-${layer}`, "visibility", "visible");
+    })
   }
 
   render() {

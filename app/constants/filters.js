@@ -1,4 +1,4 @@
-export const GEO_OPT_CENSUS_TRACTS = "census-tracts";
+export const GEO_OPT_CENSUS = "census";
 export const GEO_OPT_ZIP_CODES = "zip-codes";
 export const GEO_OPT_ANCS = "ancs";
 export const GEO_OPT_PSAS = "psas";
@@ -38,21 +38,21 @@ const dcZipCodes = [
 ];
 
 export const geographyOptions = [
-  { value: GEO_OPT_CENSUS_TRACTS, label: "Census Tracts" },
+  { value: GEO_OPT_CENSUS, label: "Census Tracts" },
   { value: GEO_OPT_ZIP_CODES, label: "Zip Codes" },
   { value: GEO_OPT_ANCS, label: "Advisory Neighboorhood Commissions (ANCs)" },
   { value: GEO_OPT_PSAS, label: "Police Service Areas (PSAs)" },
 ];
 
 export const topicOptions = {
-  [GEO_OPT_CENSUS_TRACTS]: taxonomies,
+  [GEO_OPT_CENSUS]: taxonomies,
   [GEO_OPT_ANCS]: taxonomies,
   [GEO_OPT_PSAS]: taxonomies,
   [GEO_OPT_ZIP_CODES]: dcZipCodes.map(zip => ({ value: zip, label: zip })),
 };
 
 export const topicPlaceholders = {
-  [GEO_OPT_CENSUS_TRACTS]: "Census Tract",
+  [GEO_OPT_CENSUS]: "Census Tract",
   [GEO_OPT_ANCS]: "Advisory Neighboorhood Commision (ANC)",
   [GEO_OPT_PSAS]: "Police Service Area (PSA)",
   [GEO_OPT_ZIP_CODES]: "Zip Code",
@@ -75,7 +75,7 @@ export const indicatorOptions = {
 
 export const yearOptions = (geography, topic, indicator) => {
   return {
-    [GEO_OPT_CENSUS_TRACTS]: [],
+    [GEO_OPT_CENSUS]: [],
     [GEO_OPT_ZIP_CODES]: [],
     [GEO_OPT_ANCS]: [],
     [GEO_OPT_PSAS]: [],

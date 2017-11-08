@@ -20,7 +20,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <Filters onUpdate={this.setFilters} />
-        <Map filters={filters} />
+        <Map geography={filters.geography} />
         <DataTable />
       </div>
     );
