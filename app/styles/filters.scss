@@ -1,0 +1,135 @@
+@import "variables";
+
+.greater-dc-data-explorer {
+
+  .Filters {
+    height: 185px;
+    padding: 36px 0 43px;
+    background: $filters-bg;
+
+    .Filters-row {
+      position: relative;
+      height: $filters-input-height;
+      margin-bottom: 15px;
+
+      &.right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+    }
+
+    .Select,
+    .Filters-set-filters {
+      display: inline-block;
+      width: calc(25% - 15px);
+      height: $filters-input-height;
+      border: none;
+      padding: 0 15px;
+      margin: 0 10px;
+      background: $filters-input-bg;
+      font-size: 16px;
+      font-weight: bold;
+      color: $filters-input-color;
+      outline: none;
+      vertical-align: middle;
+      color: white;
+    }
+
+    .Select {
+      &:first-of-type {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .Filters-set-filters,
+    .Filters-reset-filters {
+      border: none;
+      border-radius: 0;
+      text-transform: uppercase;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .Filters-set-filters {
+      background: $yellow;
+      color: black;
+      margin-right: 0;
+
+      &:after {
+        content: " >";
+      }
+    }
+
+    .Filters-reset-filters {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 10px);
+      padding: 0;
+      background: transparent;
+      color: #a6cbd7;
+      font-weight: bold;
+    }
+
+    .Select {
+      height: $filters-input-height;
+      padding: 0;
+
+      &, input {
+        font-family: sans-serif;
+      }
+
+      .Select-control {
+        height: $filters-input-height;
+        border: none;
+        border-radius: 0;
+        padding-left: 35px;
+        background: $filters-input-bg;
+
+        .Select-placeholder {
+          line-height: $filters-input-height;
+          left: 25px;
+        }
+        .Select-input {
+          height: $filters-input-height;
+          padding: 0;
+
+          input {
+            color: white;
+            outline: none;
+          }
+        }
+
+        .Select-arrow-zone {
+          display: inline-block;
+          position: absolute;
+          left: 10px;
+          height: $filters-input-height;
+          line-height: $filters-input-height;
+        }
+
+        .Select-clear-zone {
+          width: 27px;
+        }
+
+        .Select-value {
+          height: $filters-input-height;
+          line-height: $filters-input-height;
+          left: 25px;
+
+          .Select-value-label {
+            color: white;
+          }
+        }
+      }
+
+      .Select-menu-outer {
+        border: none;
+        border-radius: 0;
+      }
+    }
+  }
+}
