@@ -24,3 +24,6 @@ node_modules/
 
 # Brunch output folder.
 public/
+
+# data is automatically generated from CSV sources
+app/assets/data

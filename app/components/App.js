@@ -1,8 +1,9 @@
 import { h, Component } from "preact";
+// import axios from "axios";
 
-import Filters from "./Filters"
-import Map from "./Map"
-import DataTable from "./DataTable"
+import Filters from "./Filters";
+import Map from "./Map";
+import DataTable from "./DataTable";
 
 export default class App extends Component {
 

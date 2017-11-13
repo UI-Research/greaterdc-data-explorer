@@ -6,10 +6,12 @@
   "version": "0.0.1",
   "repository": "",
   "scripts": {
-    "start": "brunch watch --server",
-    "build": "brunch build --production"
+    "start": "yarn convert-data && brunch watch --server",
+    "build": "yarn convert-data && brunch build --production",
+    "convert-data": "ruby scripts/csv2json.rb ./data"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "preact": "^8.1.0",
     "preact-compat": "^3.17.0",
     "react-select": "^1.0.0-rc.10"
