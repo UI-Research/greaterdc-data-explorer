@@ -1,41 +1,78 @@
-import { h, Component } from "preact"
-import Select from "react-select"
+import { h, Component } from "preact";
+import Select from "react-select";
 
-const censusTracts = [
-  { value: 1, label: "One" },
-  { value: 2, label: "Two" },
-  { value: 3, label: "Three" },
-];
+import {
+  geographyOptions,
+  topicOptions,
+  topicPlaceholders,
+  indicatorOptions,
+  yearOptions,
+} from "../constants/filters";
 
 export default class Filters extends Component {
 
   handleChange = (name) => (opt) => {
     this.setState({
       [name]: (opt && opt.value) || null,
-    })
+    }, () => this.props.onUpdate(this.state));
+
+    if (name == "geography" && !opt) {
+      this.resetFilters();
+    }
   }
 
   resetFilters = () => {
     this.setState({
-      tract: null,
+      geography: null,
       topic: null,
       indicator: null,
       year: null,
-    });
+    }, () => this.props.onUpdate(this.state));
   }
 
   render() {
-    const { tract, topic, indicator, year } = this.state;
+    const { geography, topic, indicator, year } = this.state;
+    const yearOpts = yearOptions(geography, topic, indicator);
 
     return (
       <div className="Filters">
         <div className="container">
 
           <div className="Filters-row">
-            <Select name="tract" placeholder="Tract" options={censusTracts} onChange={this.handleChange("tract")} value={tract} />
-            <Select name="topic" placeholder="Topic" options={censusTracts} onChange={this.handleChange("topic")} value={topic} />
-            <Select name="indicator" placeholder="Indicator" options={censusTracts} onChange={this.handleChange("indicator")} value={indicator} />
-            <Select name="year" placeholder="Year" options={censusTracts} onChange={this.handleChange("year")} value={year} />
+            <Select
+              name="geography"
+              placeholder="Geography"
+              options={geographyOptions}
+              onChange={this.handleChange("geography")}
+              value={geography}
+            />
+
+            <Select
+              name="topic"
+              placeholder={topicPlaceholders[geography] || "Please select geography"}
+              disabled={!geography}
+              options={topicOptions[geography] || []}
+              onChange={this.handleChange("topic")}
+              value={topic}
+            />
+
+            <Select
+              name="indicator"
+              placeholder={topic ? "Indicator" : "Please select topic"}
+              disabled={!topic}
+              options={indicatorOptions[topic] || []}
+              onChange={this.handleChange("indicator")}
+              value={indicator}
+            />
+
+            <Select
+              name="year"
+              placeholder="Year"
+              disabled={yearOpts.length == 0}
+              options={yearOpts}
+              onChange={this.handleChange("year")}
+              value={year}
+            />
           </div>
 
           <div className="Filters-row right">

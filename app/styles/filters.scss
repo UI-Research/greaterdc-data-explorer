@@ -82,6 +82,10 @@
         font-family: sans-serif;
       }
 
+      &.is-disabled .Select-placeholder {
+        color: adjust-color($filters-bg, $lightness: 7%)
+      }
+
       .Select-control {
         height: $filters-input-height;
         border: none;
