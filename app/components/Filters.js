@@ -4,35 +4,22 @@ import Select from "react-select";
 import {
   geographyOptions,
   topicOptions,
-  topicPlaceholders,
-  indicatorOptions,
-  yearOptions,
 } from "../constants/filters";
+
+import { indicators, years } from "../lib/data";
 
 export default class Filters extends Component {
 
   handleChange = (name) => (opt) => {
-    this.setState({
-      [name]: (opt && opt.value) || null,
-    }, () => this.props.onUpdate(this.state));
-
-    if (name == "geography" && !opt) {
-      this.resetFilters();
-    }
-  }
-
-  resetFilters = () => {
-    this.setState({
-      geography: null,
-      topic: null,
-      indicator: null,
-      year: null,
-    }, () => this.props.onUpdate(this.state));
+    this.props.setFilter(name, (opt && opt.value));
   }
 
   render() {
-    const { geography, topic, indicator, year } = this.state;
-    const yearOpts = yearOptions(geography, topic, indicator);
+    const { clearFilters, filters, data, metadata } = this.props;
+    const { geography, topic, indicator, year } = filters;
+
+    const indicatorOpts = indicators(data);
+    const yearOpts = years(data);
 
     return (
       <div className="Filters">
@@ -49,7 +36,7 @@ export default class Filters extends Component {
 
             <Select
               name="topic"
-              placeholder={topicPlaceholders[geography] || "Please select geography"}
+              placeholder={geography ? "Topic" : "Please select geography"}
               disabled={!geography}
               options={topicOptions[geography] || []}
               onChange={this.handleChange("topic")}
@@ -60,7 +47,7 @@ export default class Filters extends Component {
               name="indicator"
               placeholder={topic ? "Indicator" : "Please select topic"}
               disabled={!topic}
-              options={indicatorOptions[topic] || []}
+              options={indicators(data, metadata)}
               onChange={this.handleChange("indicator")}
               value={indicator}
             />
@@ -77,7 +64,7 @@ export default class Filters extends Component {
 
           <div className="Filters-row right">
             <button type="submit" className="Filters-set-filters">Explore Data</button>
-            <button type="button" className="Filters-reset-filters" onClick={this.resetFilters}>Clear All</button>
+            <button type="button" className="Filters-reset-filters" onClick={clearFilters}>Clear All</button>
           </div>
 
         </div>

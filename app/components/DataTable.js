@@ -3,6 +3,21 @@ import { h, Component } from "preact"
 export default class DataList extends Component {
 
   render() {
+    const { filters: { geography, topic, indicator }, area } = this.props;
+
+    if (!area || !geography || !topic || !indicator) {
+      return (
+        <div class="DataTable">
+          <div class="container">
+            {!geography && <p>Please select a geography on the filters above to see data</p>}
+            {!topic && <p>Please select a topic on the filters above to see data</p>}
+            {!indicator && <p>Please select a indicator on the filters above to see data</p>}
+            {!area && <p>Please select an area on the map above to see data</p>}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="DataTable">
         <div className="container">

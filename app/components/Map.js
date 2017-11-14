@@ -1,5 +1,5 @@
 import { h , Component } from "preact";
-import { string } from "prop-types";
+import { string, func } from "prop-types";
 
 import {
   shapefileFor,
@@ -11,6 +11,7 @@ export default class Map extends Component {
 
   static propTypes = {
     geography: string,
+    setArea: func.isRequired,
   }
 
   state = {
@@ -18,9 +19,17 @@ export default class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { geography } = nextProps;
+    const { geography, area } = nextProps;
+    const { geography: oldGeography } = this.props;
 
-    if (geography) this.addSource(geography);
+    if (geography) { 
+      this.addSource(geography);
+      this.map.setFilter(`${geography}-selected`, ["==", areaKeyFor(geography), area || ""]);
+    }
+
+    if ((!geography && oldGeography) || (oldGeography && (geography !== oldGeography))) {
+      this.map.setFilter(`${oldGeography}-selected`, ["==", areaKeyFor(oldGeography), ""])
+    }
 
     this.makeSourceVisible(geography);
   }
@@ -92,8 +101,29 @@ export default class Map extends Component {
       layout: {
         visibility: "visible",
       },
-      filter: ["==", areaKeyFor(id), ""],
+      filter: [ "==", areaKeyFor(id), "" ],
     });
+
+    this.map.addLayer({
+      id: `${id}-selected`,
+      type: "fill",
+      source: id,
+      "source-layer": sourceLayerFor(id),
+      paint: {
+        "fill-opacity": 0.3,
+        "fill-color": "#0000cc",
+      },
+      layout: {
+        visibility: "visible",
+      },
+      filter: [ "==", areaKeyFor(id), "" ],
+    })
+
+    this.map.on("click", `${id}-fills`, (ev) => {
+      const key = areaKeyFor(id);
+      const newArea = ev.features[0].properties[key];
+      this.props.setArea(newArea === this.props.area ? null : newArea);
+    })
 
     this.map.on("mousemove", `${id}-fills`, (ev) => {
       const key = areaKeyFor(id);

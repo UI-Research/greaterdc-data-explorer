@@ -20,7 +20,8 @@ exports.plugins = {
     ],
     plugins: [
       [ "transform-react-jsx", { pragma: "h" } ],
-      [ "transform-class-properties" ]
+      [ "transform-class-properties" ],
+      [ "transform-object-rest-spread" ],
     ],
   },
 };
