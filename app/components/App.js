@@ -27,6 +27,7 @@ export default class App extends Component {
       year: null,
     },
     area: null,
+    areaProps: null,
     dataSources: {},
     metadataSources: {},
   }
@@ -36,14 +37,14 @@ export default class App extends Component {
     // when clearing geography, clear every other filter and area
     if (filter === "geography" && !value) {
       this.clearFilters();
-      this.setArea(null);
+      this.setArea(null, null);
       return;
     }
 
     // if changing geography, invalidate selected area and filters
     if (filter === "geography" && value && value !== this.state.filters.geography) {
       this.clearFilters();
-      this.setArea(null);
+      this.setArea(null, null);
     }
 
     if (filter === "topic" && value) {
@@ -93,12 +94,12 @@ export default class App extends Component {
   }
 
   // Area management
-  setArea = (area) => {
-    this.setState({ area });
+  setArea = (area, areaProps) => {
+    this.setState({ area, areaProps });
   }
 
   render() {
-    const { filters, area, dataSources, metadataSources } = this.state;
+    const { filters, area, areaProps, dataSources, metadataSources } = this.state;
     const { geography, topic } = filters;
 
     const dataKey = dataSourceKey(geography, topic);
@@ -124,7 +125,9 @@ export default class App extends Component {
         <DataTable
           filters={filters}
           area={area}
+          areaProps={areaProps}
           data={data}
+          metadata={metadata}
         />
       </div>
     );

@@ -121,8 +121,17 @@ export default class Map extends Component {
 
     this.map.on("click", `${id}-fills`, (ev) => {
       const key = areaKeyFor(id);
-      const newArea = ev.features[0].properties[key];
-      this.props.setArea(newArea === this.props.area ? null : newArea);
+      const newAreaProps = ev.features[0].properties;
+      const newArea = newAreaProps[key];
+
+      this.map.easeTo({ center: [ev.lngLat.lng, ev.lngLat.lat], zoom: 12 });
+
+      if (newArea === this.props.area) {
+        this.props.setArea(null, null);
+      }
+      else {
+        this.props.setArea(newArea, newAreaProps);
+      }
     })
 
     this.map.on("mousemove", `${id}-fills`, (ev) => {

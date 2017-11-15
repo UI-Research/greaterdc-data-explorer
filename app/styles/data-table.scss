@@ -53,12 +53,17 @@
       }
 
       tbody {
-        td {
+        td.separator {
+          padding: 0;
           border-bottom: 1px solid black;
         }
         td.indicator {
           border-bottom: none;
           font-weight: bold;
+        }
+
+        tr.highlight td {
+          background: rgba($link-blue, 0.1)
         }
       }
     }

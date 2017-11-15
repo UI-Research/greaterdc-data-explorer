@@ -31,3 +31,21 @@ export const areaKeyFor = (geography) => {
     [GEO_OPT_PSAS]: "GIS_ID",
   }[geography];
 }
+
+export const rowKeyFor = (geography) => {
+  return {
+    [GEO_OPT_CENSUS]: "GEO2010_nf",
+    [GEO_OPT_ZIP_CODES]: null,
+    [GEO_OPT_ANCS]: "ANC2012_nf",
+    [GEO_OPT_PSAS]: "PSA2012_nf",
+  }[geography];
+};
+
+export const areaLabel = (geography) => {
+  return {
+    [GEO_OPT_CENSUS]:    (properties) => (1),
+    [GEO_OPT_ZIP_CODES]: (properties) => (1),
+    [GEO_OPT_ANCS]:      (properties) => (1),
+    [GEO_OPT_PSAS]:      (properties) => (1),
+  }[geography];
+};

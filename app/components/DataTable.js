@@ -1,38 +1,74 @@
-import { h, Component } from "preact"
+import { h, Component } from "preact";
+
+import {
+  geographyLabel,
+  areaLabel,
+  aggregates,
+  rowsFor,
+} from "../constants/data_table";
+
+import {
+  taxonomies,
+} from "../constants/filters";
+
+import {
+  indicators,
+  years,
+} from "../lib/data";
 
 export default class DataList extends Component {
 
   render() {
-    const { filters: { geography, topic, indicator }, area } = this.props;
+    const { filters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
 
-    if (!area || !geography || !topic || !indicator) {
-      return (
-        <div class="DataTable">
-          <div class="container">
-            {!geography && <p>Please select a geography on the filters above to see data</p>}
-            {!topic && <p>Please select a topic on the filters above to see data</p>}
-            {!indicator && <p>Please select a indicator on the filters above to see data</p>}
-            {!area && <p>Please select an area on the map above to see data</p>}
-          </div>
-        </div>
+    const canShowData = !!(geography && topic);
+    const geographyType = geographyLabel(geography);
+
+    const rows = [];
+    indicators(data, metadata).forEach(({ value: currentIndicator, label }) => {
+      const areaValues = rowsFor(data, geography, area);
+
+      const selectedYears = year ? [ { value: year } ] : years(data);
+
+      selectedYears.forEach(({ value: currentYear }) => {
+        const aggs = aggregates(data, currentIndicator, currentYear);
+        const cx = currentIndicator === indicator ? "highlight" : ""
+
+        rows.push(
+          <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
+            <td>{label}, {currentYear}</td>
+            <td>{area && areaValues.find(r => r.timeframe === currentYear)[currentIndicator]}</td>
+            <td>{aggs.avg}</td>
+            <td>{aggs.min}</td>
+            <td>{aggs.max}</td>
+          </tr>
+        );
+      });
+
+      rows.push(
+        <tr key={`${currentIndicator}-separator`}>
+          <td colSpan="5" class="separator" />
+        </tr>
       );
-    }
+    });
 
     return (
       <div className="DataTable">
         <div className="container">
 
-          <div class="DataTable-actions">
-            <button>📄 Download Data</button>
-            <a href="#">Sources and Notes</a>
-          </div>
+          {canShowData &&
+            <div class="DataTable-actions">
+              <button>📄 Download Data</button>
+              <a href="#">Sources and Notes</a>
+            </div>
+          }
 
           <table>
             <thead>
               <tr>
-                <td>Tract XYZ</td>
-                <td>This tract</td>
-                <td colSpan="3">All Tracts in DC</td>
+                <td>{areaLabel(geography, areaProps)}</td>
+                <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
+                <td colSpan="3">{geographyType ? `All Tracts in DC` : "Please select a geography"}</td>
               </tr>
               <tr>
                 <td colSpan="2"></td>
@@ -43,20 +79,23 @@ export default class DataList extends Component {
             </thead>
             <tbody>
               <tr>
-                <td colSpan="5" className="indicator">Foreign Born</td>
+                <td colSpan="5" className="indicator">
+                  {taxonomies[topic] || "Please select a topic"}
+                </td>
               </tr>
 
-              {[0,1,2,3,4].map(row => (
-                <tr key={row}>
-                  <td>% foreign born, 1980</td>
-                  <td>1.9</td>
-                  <td>6.4</td>
-                  <td>0.0</td>
-                  <td>38</td>
+              {rows}
+
+              {!canShowData &&
+                <tr className="no-data">
+                  <td colSpan="1" />
+                  <td>No data to show</td>
+                  <td colSpan="3" />
                 </tr>
-              ))}
+              }
             </tbody>
           </table>
+
       </div>
     </div>
     );

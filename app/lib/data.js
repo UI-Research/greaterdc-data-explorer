@@ -1,9 +1,5 @@
 import axios from "axios";
 
-function uniq(value, index, self) {
-  return self.indexOf(value) === index;
-}
-
 const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe",
   "Anc2012", "ANC2012_nf",
@@ -42,17 +38,22 @@ export const fetchMetadataSource = (geography, topic) => {
     });
 }
 
+const labelFor = (col, metadata) => metadata.find(e => e.NAME === col).LABEL;
 export const indicators = (data, metadata) => {
   if (!data || !metadata) return [];
 
-  const labelFor = (col) => metadata.find(e => e.NAME === col).LABEL;
 
   return Object.keys(data[0])
     .filter(column => !INDICATORS_BLACKLIST.includes(column))
-    .reduce((all, indicator) => [ ...all, { value: indicator, label: labelFor(indicator) }], []);
+    .reduce((all, indicator) => [ ...all, { value: indicator, label: labelFor(indicator, metadata) }], []);
 };
 
-export const years = (data) => {
+
+function uniq(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+export const years = (data, year) => {
   if (!data) return [];
 
   return data
