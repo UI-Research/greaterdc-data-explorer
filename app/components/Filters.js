@@ -6,12 +6,26 @@ import {
   topicOptions,
 } from "../constants/filters";
 
-import { indicators, years } from "../lib/data";
+import {
+  indicators,
+  years,
+} from "../lib/data";
 
 export default class Filters extends Component {
 
   handleChange = (name) => (opt) => {
     this.props.setFilter(name, (opt && opt.value));
+  }
+
+  componentDidUpdate(prevProps) {
+    const { topic, data, metadata } = this.props;
+    const { topic: prevTopic, data: prevData } = prevProps;
+
+    if ((prevTopic !== topic) || (!prevData && data)) {
+      const yearOpts = years(data);
+      this.props.setFilter("indicator", indicators(data, metadata)[0].value);
+      this.props.setFilter("year", yearOpts[yearOpts.length - 1].value);
+    }
   }
 
   render() {
