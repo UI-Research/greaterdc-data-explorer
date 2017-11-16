@@ -3,6 +3,18 @@ export const GEO_OPT_ZIP_CODES = "zip";
 export const GEO_OPT_ANCS = "anc12";
 export const GEO_OPT_PSAS = "psa12";
 
+export const GEO_LABEL_CENSUS = "Tract";
+export const GEO_LABEL_ZIP_CODES = "Zip Code";
+export const GEO_LABEL_ANCS = "ANC";
+export const GEO_LABEL_PSAS = "PSA";
+
+export const geographies = {
+  [GEO_OPT_CENSUS]: GEO_LABEL_CENSUS,
+  [GEO_OPT_ZIP_CODES]: GEO_LABEL_ZIP_CODES,
+  [GEO_OPT_ANCS]: GEO_LABEL_ANCS,
+  [GEO_OPT_PSAS]: GEO_LABEL_PSAS,
+}
+
 export const TOPIC_OPT_HEALTH = "health";
 export const TOPIC_OPT_HOUSING = "housing";
 export const TOPIC_OPT_IMMIGRATION = "immigration";
@@ -29,7 +41,7 @@ export const TOPIC_LABEL_CRIME = "Crime and justice";
 export const TOPIC_LABEL_EDUCATION = "Education and training";
 export const TOPIC_LABEL_FAMILIES = "Families";
 
-export const taxonomies = {
+export const topics = {
   // [TOPIC_OPT_HEALTH]: TOPIC_LABEL_HEALTH,
   // [TOPIC_OPT_HOUSING]: TOPIC_LABEL_HOUSING,
   // [TOPIC_OPT_IMMIGRATION]: TOPIC_LABEL_IMMIGRATION,
@@ -44,18 +56,4 @@ export const taxonomies = {
   // [TOPIC_OPT_FAMILIES]: TOPIC_LABEL_FAMILIES,
 }
 
-export const geographyOptions = [
-  { value: GEO_OPT_CENSUS, label: "Census Tracts" },
-  { value: GEO_OPT_ZIP_CODES, label: "Zip Codes" },
-  { value: GEO_OPT_ANCS, label: "Advisory Neighboorhood Commissions (ANCs)" },
-  { value: GEO_OPT_PSAS, label: "Police Service Areas (PSAs)" },
-];
 
-const options = Object.keys(taxonomies).map(key => ({ value: key, label: taxonomies[key] }));
-
-export const topicOptions = {
-  [GEO_OPT_CENSUS]: options,
-  [GEO_OPT_ANCS]: options,
-  [GEO_OPT_PSAS]: options,
-  [GEO_OPT_ZIP_CODES]: options,
-};

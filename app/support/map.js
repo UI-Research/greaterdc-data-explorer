@@ -3,9 +3,9 @@ import {
   GEO_OPT_ZIP_CODES,
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
-} from "./filters";
+} from "../constants/taxonomy";
 
-export const shapefileFor = (geography) => {
+export const shapefile = (geography) => {
   return {
     [GEO_OPT_CENSUS]: "mapbox://urbaninstitute.dm691mz1",
     [GEO_OPT_ZIP_CODES]: "mapbox://urbaninstitute.dvi7r97h",
@@ -14,7 +14,7 @@ export const shapefileFor = (geography) => {
   }[geography];
 };
 
-export const sourceLayerFor = (geography) => {
+export const sourceLayer = (geography) => {
   return {
     [GEO_OPT_CENSUS]: "census-2010-d2vbqp",
     [GEO_OPT_ZIP_CODES]: "zip-codes-5t51e9",
@@ -23,7 +23,7 @@ export const sourceLayerFor = (geography) => {
   }[geography];
 };
 
-export const areaKeyFor = (geography) => {
+export const areaKey = (geography) => {
   return {
     [GEO_OPT_CENSUS]: "GEOID",
     [GEO_OPT_ZIP_CODES]: "GIS_ID",
@@ -32,20 +32,3 @@ export const areaKeyFor = (geography) => {
   }[geography];
 }
 
-export const rowKeyFor = (geography) => {
-  return {
-    [GEO_OPT_CENSUS]: "GEO2010_nf",
-    [GEO_OPT_ZIP_CODES]: null,
-    [GEO_OPT_ANCS]: "ANC2012_nf",
-    [GEO_OPT_PSAS]: "PSA2012_nf",
-  }[geography];
-};
-
-export const areaLabel = (geography) => {
-  return {
-    [GEO_OPT_CENSUS]:    (properties) => (1),
-    [GEO_OPT_ZIP_CODES]: (properties) => (1),
-    [GEO_OPT_ANCS]:      (properties) => (1),
-    [GEO_OPT_PSAS]:      (properties) => (1),
-  }[geography];
-};

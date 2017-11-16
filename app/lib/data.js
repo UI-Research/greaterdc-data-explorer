@@ -49,11 +49,9 @@ export const indicators = (data, metadata) => {
 };
 
 
-function uniq(value, index, self) {
-  return self.indexOf(value) === index;
-}
+const uniq = (value, index, self) => (self.indexOf(value) === index);
 
-export const years = (data, year) => {
+export const years = (data) => {
   if (!data) return [];
 
   return data
@@ -62,3 +60,19 @@ export const years = (data, year) => {
     .sort()
     .reduce((all, year) => [ ...all, { label: year, value: year } ], []);
 };
+
+const isNumeric = (n) => ( !isNaN(parseFloat(n)) && isFinite(n) );
+
+export const aggregates = (data, indicator, year) => {
+  if (!data || !indicator || !year) return {};
+
+  const values = data
+  .filter(row => row.timeframe === year && isNumeric(row[indicator]))
+  .map(row => row[indicator])
+
+  return {
+    min: Math.min(...values),
+    max: Math.max(...values),
+    avg: (values.reduce((total, val) => total + val, 0) / values.length).toFixed(2),
+  };
+}

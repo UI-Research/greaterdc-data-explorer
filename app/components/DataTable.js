@@ -1,19 +1,19 @@
 import { h, Component } from "preact";
 
 import {
-  geographyLabel,
-  areaLabel,
-  aggregates,
-  rowsFor,
-} from "../constants/data_table";
+  geographies,
+  topics,
+} from "../constants/taxonomy";
 
 import {
-  taxonomies,
-} from "../constants/filters";
+  areaLabel,
+  areaRows,
+} from "../support/data_table";
 
 import {
   indicators,
   years,
+  aggregates,
 } from "../lib/data";
 
 export default class DataList extends Component {
@@ -22,11 +22,11 @@ export default class DataList extends Component {
     const { filters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
 
     const canShowData = !!(geography && topic);
-    const geographyType = geographyLabel(geography);
+    const geographyType = geographies[geography];
 
     const rows = [];
     indicators(data, metadata).forEach(({ value: currentIndicator, label }) => {
-      const areaValues = rowsFor(data, geography, area);
+      const areaValues = areaRows(data, geography, area);
 
       const selectedYears = year ? [ { value: year } ] : years(data);
 
@@ -34,10 +34,14 @@ export default class DataList extends Component {
         const aggs = aggregates(data, currentIndicator, currentYear);
         const cx = currentIndicator === indicator ? "highlight" : ""
 
+        const areaValue = area && areaValues.length > 0
+        ? areaValues.find(r => r.timeframe === currentYear)[currentIndicator]
+        : "N/A";
+
         rows.push(
           <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
             <td>{label}, {currentYear}</td>
-            <td>{area && areaValues.find(r => r.timeframe === currentYear)[currentIndicator]}</td>
+            <td>{area && areaValue}</td>
             <td>{aggs.avg}</td>
             <td>{aggs.min}</td>
             <td>{aggs.max}</td>
@@ -71,7 +75,7 @@ export default class DataList extends Component {
                 <td colSpan="3">{geographyType ? `All Tracts in DC` : "Please select a geography"}</td>
               </tr>
               <tr>
-                <td colSpan="2"></td>
+                <td colSpan="2" />
                 <td>Average</td>
                 <td>Low</td>
                 <td>High</td>
@@ -80,7 +84,7 @@ export default class DataList extends Component {
             <tbody>
               <tr>
                 <td colSpan="5" className="indicator">
-                  {taxonomies[topic] || "Please select a topic"}
+                  {topics[topic] || "Please select a topic"}
                 </td>
               </tr>
 
@@ -96,8 +100,8 @@ export default class DataList extends Component {
             </tbody>
           </table>
 
+        </div>
       </div>
-    </div>
     );
   }
 }

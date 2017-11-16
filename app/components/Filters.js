@@ -4,7 +4,7 @@ import Select from "react-select";
 import {
   geographyOptions,
   topicOptions,
-} from "../constants/filters";
+} from "../support/filters";
 
 import {
   indicators,
@@ -12,10 +12,6 @@ import {
 } from "../lib/data";
 
 export default class Filters extends Component {
-
-  handleChange = (name) => (opt) => {
-    this.props.setFilter(name, (opt && opt.value));
-  }
 
   componentDidUpdate(prevProps) {
     const { topic, data, metadata } = this.props;
@@ -28,11 +24,16 @@ export default class Filters extends Component {
     }
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  handleChange = (name) => (opt) => {
+    this.props.setFilter(name, (opt && opt.value));
+  }
+
   render() {
     const { clearFilters, filters, data, metadata } = this.props;
     const { geography, topic, indicator, year } = filters;
 
-    const indicatorOpts = indicators(data);
     const yearOpts = years(data);
 
     return (

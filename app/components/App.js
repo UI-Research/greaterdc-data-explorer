@@ -8,17 +8,12 @@ import {
   dataSourceKey,
   fetchDataSource,
   fetchMetadataSource,
-  indicators,
-  years,
 } from "../lib/data";
 
 export default class App extends Component {
 
-  // componentDidMount() {
-  //   this.setFilter("geography", "TR10");
-  //   this.setFilter("topic", "crime");
-  // }
-
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   state = {
     filters: {
       geography: null,
@@ -32,7 +27,8 @@ export default class App extends Component {
     metadataSources: {},
   }
 
-  // Filter management
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   setFilter = (filter, value) => {
     // when clearing geography, clear every other filter and area
     if (filter === "geography" && !value) {
@@ -82,6 +78,8 @@ export default class App extends Component {
     });
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   clearFilters = () => {
     this.setState({
       filters: {
@@ -93,7 +91,8 @@ export default class App extends Component {
     });
   }
 
-  // Area management
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   setArea = (area, areaProps) => {
     this.setState({ area, areaProps });
   }
