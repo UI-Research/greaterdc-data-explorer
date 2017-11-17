@@ -116,9 +116,11 @@ export default class App extends Component {
         />
 
         <Map
-          geography={geography}
+          filters={filters}
           area={area}
           setArea={this.setArea}
+          data={data}
+          metadata={metadata}
         />
 
         <DataTable

@@ -1,5 +1,5 @@
 import { h , Component } from "preact";
-import { string, func } from "prop-types";
+import { func, object } from "prop-types";
 
 import {
   shapefile,
@@ -7,35 +7,52 @@ import {
   areaKey,
 } from "../support/map";
 
+import {
+  choroplethRows,
+  choroplethColor,
+  rowKey,
+  indicatorLabel,
+} from "../lib/data";
+
+import {
+  equal,
+} from "../lib/classifiers";
+
+import {
+  blueColorRamp,
+} from "../constants/colors";
+
+// in order, add the following layers:
+//
+// invisible areas for hover events
+// hover indicator
+// selected area
+// choropleth (only visible when an indicator is selected)
+// delimiting lines
+const layers = (geography) => ([
+  { id: `${geography}-fills`, type: "fill", paint: { "fill-opacity": 0, "fill-color": "#ffffff" } },
+  { id: `${geography}-hover`, type: "fill", paint: { "fill-opacity": 0.3, "fill-color": "#cc0000" }, filter: [ "==", areaKey(geography), "" ] },
+  { id: `${geography}-choropleth`, type: "fill", paint: { "fill-opacity": 0.9 }, layout: { visibility: "none" } },
+  { id: `${geography}-selected`, type: "fill", paint: { "fill-opacity": 0.3, "fill-color": "#cc0000" }, filter: [ "==", areaKey(geography), "" ] },
+  { id: `${geography}-lines`, type: "line", paint: { "line-width": 1, "line-color": "rgba(0, 0, 0, 0.7)" } },
+]);
+
 export default class Map extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
   static propTypes = {
-    geography: string,
+    filters: object,
     setArea: func.isRequired,
+    data: object,
+    metadata: object,
   }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
   state = {
     sources: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { geography, area } = nextProps;
-    const { geography: oldGeography } = this.props;
-
-    if (geography) { 
-      this.addSource(geography);
-      this.map.setFilter(`${geography}-selected`, ["==", areaKey(geography), area || ""]);
-    }
-
-    if ((!geography && oldGeography) || (oldGeography && (geography !== oldGeography))) {
-      this.map.setFilter(`${oldGeography}-selected`, ["==", areaKey(oldGeography), ""])
-    }
-
-    this.makeSourceVisible(geography);
+    choropleths: {},
   }
 
   componentDidMount() {
@@ -48,87 +65,64 @@ export default class Map extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { filters: { geography, indicator, year }, area, data } = nextProps;
+    const { filters: { geography: oldGeography } } = this.props;
+
+    if (geography) {
+      this.addSource(geography);
+      this.map.setFilter(`${geography}-selected`, ["==", areaKey(geography), area || ""]);
+    }
+
+    if ((!geography && oldGeography) || (oldGeography && (geography !== oldGeography))) {
+      this.map.setFilter(`${oldGeography}-selected`, ["==", areaKey(oldGeography), ""])
+    }
+
+    this.makeSourceVisible(geography);
+    this.setChoropleth(data, geography, indicator, year);
+  }
+
+
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  addSource = (id) => {
+  addSource = (geography) => {
     if (!this.map) return;
-    if (this.map.getSource(id)) return;
+    if (this.map.getSource(geography)) return;
 
-    const url = shapefile(id);
-    if (!url) throw new Error(`invalid geography '${id}'`);
+    const url = shapefile(geography);
+    if (!url) throw new Error(`invalid geography '${geography}'`);
 
-    this.map.addSource(id, {
+    this.map.addSource(geography, {
       type: "vector",
       url,
     });
 
-    this.addLayers(id);
+    this.addLayers(geography);
 
     this.setState({
-      sources: [ ...this.state.sources, id ],
+      sources: [ ...this.state.sources, geography ],
     });
   }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  addLayers = (id) => {
+  addLayers = (geography) => {
     if (!this.map) return;
-    if (!this.map.getSource(id)) return;
+    if (!this.map.getSource(geography)) return;
 
-    this.map.addLayer({
-      id: `${id}-lines`,
-      type: "line",
-      source: id,
-      "source-layer": sourceLayer(id),
-      paint: {
-        "line-width": 2,
-        "line-color": "#cc0000",
-      },
+    layers(geography).forEach(layer => {
+      this.map.addLayer({
+        ...layer,
+        ...{
+          source: geography,
+          "source-layer": sourceLayer(geography),
+        },
+      })
     });
 
-    this.map.addLayer({
-      id: `${id}-fills`,
-      type: "fill",
-      source: id,
-      "source-layer": sourceLayer(id),
-      paint: {
-        "fill-opacity": 0.0,
-        "fill-color": "#ffffff",
-      },
-    });
-
-    this.map.addLayer({
-      id: `${id}-hover`,
-      type: "fill",
-      source: id,
-      "source-layer": sourceLayer(id),
-      paint: {
-        "fill-opacity": 0.3,
-        "fill-color": "#cc0000",
-      },
-      layout: {
-        visibility: "visible",
-      },
-      filter: [ "==", areaKey(id), "" ],
-    });
-
-    this.map.addLayer({
-      id: `${id}-selected`,
-      type: "fill",
-      source: id,
-      "source-layer": sourceLayer(id),
-      paint: {
-        "fill-opacity": 0.3,
-        "fill-color": "#0000cc",
-      },
-      layout: {
-        visibility: "visible",
-      },
-      filter: [ "==", areaKey(id), "" ],
-    })
-
-    this.map.on("click", `${id}-fills`, (ev) => {
-      const key = areaKey(id);
+    // select area
+    this.map.on("click", `${geography}-fills`, (ev) => {
+      const key = areaKey(geography);
       const newAreaProps = ev.features[0].properties;
       const newArea = newAreaProps[key];
 
@@ -142,37 +136,74 @@ export default class Map extends Component {
       }
     })
 
-    this.map.on("mousemove", `${id}-fills`, (ev) => {
-      const key = areaKey(id);
-      this.map.setFilter(`${id}-hover`, ["==", key, ev.features[0].properties[key]]);
+    // show hide current area on mousemove / leave
+    this.map.on("mousemove", `${geography}-fills`, (ev) => {
+      const key = areaKey(geography);
+      this.map.setFilter(`${geography}-hover`, ["==", key, ev.features[0].properties[key]]);
     });
 
-    this.map.on("mouseleave", `${id}-fills`, () => {
-      const key = areaKey(id);
-      this.map.setFilter(`${id}-hover`, ["==", key, ""]);
+    this.map.on("mouseleave", `${geography}-fills`, () => {
+      const key = areaKey(geography);
+      this.map.setFilter(`${geography}-hover`, ["==", key, ""]);
     });
   }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  makeSourceVisible = (id) => {
+  makeSourceVisible = (geography) => {
     this.state.sources.forEach(source => {
-      [ "lines", "fills" ].forEach(layer => {
+      [ "lines", "fills", "choropleth" ].forEach(layer => {
         this.map.setLayoutProperty(`${source}-${layer}`, "visibility", "none");
       })
     });
 
-    if (!id) return;
+    if (!geography) return;
 
     [ "lines", "fills" ].forEach(layer => {
-      this.map.setLayoutProperty(`${id}-${layer}`, "visibility", "visible");
-    })
+      this.map.setLayoutProperty(`${geography}-${layer}`, "visibility", "visible");
+    });
+  }
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  setChoropleth = (data, geography, indicator, year) => {
+    if (!data || !geography || !indicator) return;
+
+    const indicatorKey = rowKey(geography);
+    const colorForRow = choroplethColor(data, geography, indicator, year);
+    const stops = choroplethRows(data, year).map(row => (
+      [ row[indicatorKey].toString(), colorForRow(row) ]
+    ));
+
+    this.map.setPaintProperty(`${geography}-choropleth`, "fill-color", {
+      property: areaKey(geography),
+      type: "categorical",
+      stops: stops
+    });
+    this.map.setLayoutProperty(`${geography}-choropleth`, "visibility", "visible");
   }
 
   render() {
+    const { filters: { indicator, year }, data, metadata } = this.props;
+    const legendCx = indicator ? "Map-legend visible" : "Map-legend";
+
+    const steps = equal((choroplethRows(data, year) || []).map(r => r[indicator]));
+
     return (
       <div className="Map">
         <div class="container">
+          <div className={legendCx}>
+            <h3>{indicator && metadata && indicatorLabel(indicator, metadata)}</h3>
+            <ul>
+              {blueColorRamp.map((color, step) => (
+                <li>
+                  <span class="color" style={{ backgroundColor: color }} />
+                  <span class="legend">≤ {steps[step].toFixed(2)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div id="map" />
           <a className="Map-embed" href="#">&lt;/&gt; Embed</a>
         </div>

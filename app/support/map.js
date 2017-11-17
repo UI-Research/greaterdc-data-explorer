@@ -28,7 +28,6 @@ export const areaKey = (geography) => {
     [GEO_OPT_CENSUS]: "GEOID",
     [GEO_OPT_ZIP_CODES]: "GIS_ID",
     [GEO_OPT_ANCS]: "ANC_ID",
-    [GEO_OPT_PSAS]: "GIS_ID",
+    [GEO_OPT_PSAS]: "NAME",
   }[geography];
 }
-
