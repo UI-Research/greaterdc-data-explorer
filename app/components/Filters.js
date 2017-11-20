@@ -19,6 +19,7 @@ export default class Filters extends Component {
 
     if ((prevTopic !== topic) || (!prevData && data)) {
       const yearOpts = years(data);
+
       this.props.setFilter("indicator", indicators(data, metadata)[0].value);
       this.props.setFilter("year", yearOpts[yearOpts.length - 1].value);
     }

@@ -8,7 +8,14 @@ import {
   dataSourceKey,
   fetchDataSource,
   fetchMetadataSource,
+
+  choroplethRows,
+  choroplethColorStops,
 } from "../lib/data";
+
+import {
+  equalIntervals,
+} from "../lib/classifiers";
 
 export default class App extends Component {
 
@@ -25,6 +32,8 @@ export default class App extends Component {
     areaProps: null,
     dataSources: {},
     metadataSources: {},
+    choroplethSteps: [],
+    choroplethColorStops: [],
   }
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -48,26 +57,38 @@ export default class App extends Component {
       const dataKey = dataSourceKey(geography, value);
 
       if (!dataSources[dataKey]) {
-        fetchDataSource(geography, value)
-        .then(data => {
-          this.setState({
-            dataSources: {
-              ...this.state.dataSources,
-              [dataKey]: data,
-            },
-          });
-        });
+        Promise.all([
+          fetchDataSource(geography, value),
+          fetchMetadataSource(geography, value),
+        ])
+        .then(([ data, metadata ]) => {
+          const { dataSources, metadataSources } = this.state;
 
-        fetchMetadataSource(geography, value)
-        .then(data => {
           this.setState({
-            metadataSources: {
-              ...this.state.metadataSources,
-              [dataKey]: data,
-            },
+            dataSources: { ...dataSources, [dataKey]: data },
+            metadataSources: { ...metadataSources, [dataKey]: metadata },
           });
         });
       }
+    }
+
+    // calculate choropleth data if indicator / year changes
+    if (filter === "indicator" || filter === "year") {
+      const { filters, filters: { geography, topic } } = this.state;
+      const indicator = filter === "indicator" ? value : filters.indicator;
+      const year = filter === "year" ? value : filters.year;
+
+      const dataKey = dataSourceKey(geography, topic);
+      const data = this.state.dataSources[dataKey];
+
+      const rows = choroplethRows(data, geography, indicator, year);
+      const steps = equalIntervals(rows.map(row => row[indicator]));
+      const colorStops = choroplethColorStops(rows, steps, geography, indicator);
+
+      this.setState({
+        choroplethSteps: steps,
+        choroplethColorStops: colorStops,
+      });
     }
 
     this.setState({
@@ -98,7 +119,9 @@ export default class App extends Component {
   }
 
   render() {
-    const { filters, area, areaProps, dataSources, metadataSources } = this.state;
+    const {
+      filters, area, areaProps, dataSources, metadataSources, choroplethSteps, choroplethColorStops,
+    } = this.state;
     const { geography, topic } = filters;
 
     const dataKey = dataSourceKey(geography, topic);
@@ -121,6 +144,8 @@ export default class App extends Component {
           setArea={this.setArea}
           data={data}
           metadata={metadata}
+          choroplethSteps={choroplethSteps}
+          choroplethColorStops={choroplethColorStops}
         />
 
         <DataTable

@@ -8,15 +8,8 @@ import {
 } from "../support/map";
 
 import {
-  choroplethRows,
-  choroplethColor,
-  rowKey,
   indicatorLabel,
 } from "../lib/data";
-
-import {
-  equal,
-} from "../lib/classifiers";
 
 import {
   blueColorRamp,
@@ -28,7 +21,7 @@ import {
 // hover indicator
 // selected area
 // choropleth (only visible when an indicator is selected)
-// delimiting lines
+// area lines
 const layers = (geography) => ([
   { id: `${geography}-fills`, type: "fill", paint: { "fill-opacity": 0, "fill-color": "#ffffff" } },
   { id: `${geography}-hover`, type: "fill", paint: { "fill-opacity": 0.3, "fill-color": "#cc0000" }, filter: [ "==", areaKey(geography), "" ] },
@@ -66,7 +59,7 @@ export default class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { filters: { geography, indicator, year }, area, data } = nextProps;
+    const { filters: { geography }, area , choroplethColorStops } = nextProps;
     const { filters: { geography: oldGeography } } = this.props;
 
     if (geography) {
@@ -79,9 +72,8 @@ export default class Map extends Component {
     }
 
     this.makeSourceVisible(geography);
-    this.setChoropleth(data, geography, indicator, year);
+    this.setChoropleth(geography, choroplethColorStops);
   }
-
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
@@ -166,28 +158,20 @@ export default class Map extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  setChoropleth = (data, geography, indicator, year) => {
-    if (!data || !geography || !indicator) return;
-
-    const indicatorKey = rowKey(geography);
-    const colorForRow = choroplethColor(data, geography, indicator, year);
-    const stops = choroplethRows(data, year).map(row => (
-      [ row[indicatorKey].toString(), colorForRow(row) ]
-    ));
+  setChoropleth = (geography, colorStops) => {
+    if (!geography || colorStops.length === 0) return;
 
     this.map.setPaintProperty(`${geography}-choropleth`, "fill-color", {
       property: areaKey(geography),
       type: "categorical",
-      stops: stops
+      stops: colorStops,
     });
     this.map.setLayoutProperty(`${geography}-choropleth`, "visibility", "visible");
   }
 
   render() {
-    const { filters: { indicator, year }, data, metadata } = this.props;
+    const { filters: { indicator }, metadata, choroplethSteps } = this.props;
     const legendCx = indicator ? "Map-legend visible" : "Map-legend";
-
-    const steps = equal((choroplethRows(data, year) || []).map(r => r[indicator]));
 
     return (
       <div className="Map">
@@ -195,10 +179,10 @@ export default class Map extends Component {
           <div className={legendCx}>
             <h3>{indicator && metadata && indicatorLabel(indicator, metadata)}</h3>
             <ul>
-              {blueColorRamp.map((color, step) => (
+              {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
                 <li>
                   <span class="color" style={{ backgroundColor: color }} />
-                  <span class="legend">≤ {steps[step].toFixed(2)}</span>
+                  <span class="legend">≤ {choroplethSteps[step].toFixed(2)}</span>
                 </li>
               ))}
             </ul>

@@ -1,8 +1,5 @@
 import axios from "axios";
-
-import {
-  equal,
-} from "./classifiers";
+import groupBy from "lodash.groupby";
 
 import {
   blueColorRamp,
@@ -26,6 +23,9 @@ export const rowKey = (geography) => ({
   [GEO_OPT_PSAS]: "PSA2012_nf",
 }[geography]);
 
+//
+// Data fetching
+//
 export const fetchDataSource = (geography, topic) => {
   const url = `/data/${topic}/${topic}_${geography}.json`;
   return axios
@@ -50,6 +50,9 @@ export const fetchMetadataSource = (geography, topic) => {
     });
 }
 
+//
+// Filters
+//
 const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe",
   "Anc2012", "ANC2012_nf",
@@ -82,6 +85,9 @@ export const years = (data) => {
     .reduce((all, year) => [ ...all, { label: year, value: year } ], []);
 };
 
+//
+// Data table
+//
 const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
 export const aggregates = (data, indicator, year) => {
@@ -98,16 +104,31 @@ export const aggregates = (data, indicator, year) => {
   };
 }
 
-export const choroplethRows = (data, year = null) => {
-  return year ? data.filter(r => r.timeframe === year) : data;
+//
+// Choropleth
+//
+export const choroplethRows = (data, geography, indicator, year = null) => {
+  if (year) {
+    return data.filter(r => r.timeframe === year);
+  }
+
+  const grouped = groupBy(data, rowKey(geography));
+  const aggregateRows = Object.keys(grouped).map(area => ({
+    [rowKey(geography)]: area,
+    [indicator]: grouped[area].reduce((sum, row) => sum + row[indicator], 0) / grouped[area].length,
+  }))
+
+  return aggregateRows;
 }
 
-export const choroplethColor = (data, geography, indicator, year = null) => {
-  const values = choroplethRows(data, year).map(row => row[indicator]);
-  const steps = equal(values);
+export const choroplethColorStops = (rows, steps, geography, indicator) => {
+  const indicatorKey = rowKey(geography);
 
-  return (row) => {
+  // return
+  return rows.map(row => {
     const bucket = steps.findIndex(step => row[indicator] <= step);
-    return bucket === -1 ? "rgba(0,0,0,0)" : blueColorRamp[bucket];
-  };
-};
+    const color = bucket === -1 ? "rgba(0,0,0,0)" : blueColorRamp[bucket];
+
+    return [ row[indicatorKey].toString(), color ];
+  });
+}
