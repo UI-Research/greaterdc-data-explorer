@@ -104,15 +104,18 @@ export const aggregates = (data, indicator, year) => {
   };
 }
 
+export const csvSourceURL = (geography, topic) => `/data/${topic}/${topic}_${geography}.csv`;
+
 //
 // Choropleth
 //
 export const choroplethRows = (data, geography, indicator, year = null) => {
   if (year) {
-    return data.filter(r => r.timeframe === year);
+    return data.filter(row => row.timeframe === year && isNumeric(row[indicator]));
   }
 
-  const grouped = groupBy(data, rowKey(geography));
+  const cleanData = data.filter(row => isNumeric(row[indicator]));
+  const grouped = groupBy(cleanData, rowKey(geography));
   const aggregateRows = Object.keys(grouped).map(area => ({
     [rowKey(geography)]: area,
     [indicator]: grouped[area].reduce((sum, row) => sum + row[indicator], 0) / grouped[area].length,

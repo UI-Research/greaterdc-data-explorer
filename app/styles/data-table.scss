@@ -12,7 +12,7 @@
       justify-content: space-between;
       margin: 5px 0;
 
-      button {
+      a[download] {
         border: 1px solid $data-list-button-border;
         background: $data-list-button-bg;
         text-transform: uppercase;

@@ -59,7 +59,7 @@ export default class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { filters: { geography }, area , choroplethColorStops } = nextProps;
+    const { filters: { geography, indicator }, area , choroplethColorStops } = nextProps;
     const { filters: { geography: oldGeography } } = this.props;
 
     if (geography) {
@@ -72,7 +72,8 @@ export default class Map extends Component {
     }
 
     this.makeSourceVisible(geography);
-    this.setChoropleth(geography, choroplethColorStops);
+
+    if (indicator) this.setChoropleth(geography, choroplethColorStops);
   }
 
   // https://github.com/babel/babel-eslint/issues/487

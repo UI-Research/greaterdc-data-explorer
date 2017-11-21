@@ -15,10 +15,13 @@ import {
   indicators,
   years,
   aggregates,
+  csvSourceURL,
 } from "../lib/data";
 
-export default class DataList extends Component {
+export default class DataTable extends Component {
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   state = {
     leftShadow: false,
     rightShadow: true,
@@ -32,6 +35,8 @@ export default class DataList extends Component {
     this.scroller.removeEventListener("scroll", this.handleContainerScroll);
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   handleContainerScroll = throttle(() => {
     const { scrollLeft, scrollWidth, clientWidth } = this.scroller;
 
@@ -82,13 +87,16 @@ export default class DataList extends Component {
       );
     });
 
+    const downloadURL = csvSourceURL(geography, topic);
+    const downloadName = downloadURL.match(/\/([\w\d_\-\.]+)$/)[1];
+
     return (
       <div className="DataTable">
         <div className={containerCx}>
 
           {canShowData &&
             <div class="DataTable-actions">
-              <button>📄 Download Data</button>
+              <a href={downloadURL} download={downloadName}>📄 Download Data</a>
               <a href="#">Sources and Notes</a>
             </div>
           }
