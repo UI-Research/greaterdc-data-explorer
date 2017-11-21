@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "lodash.groupby": "^4.6.0",
     "preact": "^8.1.0",
     "preact-compat": "^3.17.0",
     "react-select": "^1.0.0-rc.10"
