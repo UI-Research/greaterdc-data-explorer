@@ -3,9 +3,9 @@ import {
   GEO_OPT_ZIP_CODES,
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
-} from "./filters";
+} from "../constants/taxonomy";
 
-export const shapefileFor = (geography) => {
+export const shapefile = (geography) => {
   return {
     [GEO_OPT_CENSUS]: "mapbox://urbaninstitute.dm691mz1",
     [GEO_OPT_ZIP_CODES]: "mapbox://urbaninstitute.dvi7r97h",
@@ -14,7 +14,7 @@ export const shapefileFor = (geography) => {
   }[geography];
 };
 
-export const sourceLayerFor = (geography) => {
+export const sourceLayer = (geography) => {
   return {
     [GEO_OPT_CENSUS]: "census-2010-d2vbqp",
     [GEO_OPT_ZIP_CODES]: "zip-codes-5t51e9",
@@ -23,7 +23,7 @@ export const sourceLayerFor = (geography) => {
   }[geography];
 };
 
-export const areaKeyFor = (geography) => {
+export const areaKey = (geography) => {
   return {
     [GEO_OPT_CENSUS]: "GEOID",
     [GEO_OPT_ZIP_CODES]: "GIS_ID",
@@ -31,3 +31,4 @@ export const areaKeyFor = (geography) => {
     [GEO_OPT_PSAS]: "GIS_ID",
   }[geography];
 }
+

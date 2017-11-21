@@ -4,35 +4,37 @@ import Select from "react-select";
 import {
   geographyOptions,
   topicOptions,
-  topicPlaceholders,
-  indicatorOptions,
-  yearOptions,
-} from "../constants/filters";
+} from "../support/filters";
+
+import {
+  indicators,
+  years,
+} from "../lib/data";
 
 export default class Filters extends Component {
 
-  handleChange = (name) => (opt) => {
-    this.setState({
-      [name]: (opt && opt.value) || null,
-    }, () => this.props.onUpdate(this.state));
+  componentDidUpdate(prevProps) {
+    const { topic, data, metadata } = this.props;
+    const { topic: prevTopic, data: prevData } = prevProps;
 
-    if (name == "geography" && !opt) {
-      this.resetFilters();
+    if ((prevTopic !== topic) || (!prevData && data)) {
+      const yearOpts = years(data);
+      this.props.setFilter("indicator", indicators(data, metadata)[0].value);
+      this.props.setFilter("year", yearOpts[yearOpts.length - 1].value);
     }
   }
 
-  resetFilters = () => {
-    this.setState({
-      geography: null,
-      topic: null,
-      indicator: null,
-      year: null,
-    }, () => this.props.onUpdate(this.state));
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  handleChange = (name) => (opt) => {
+    this.props.setFilter(name, (opt && opt.value));
   }
 
   render() {
-    const { geography, topic, indicator, year } = this.state;
-    const yearOpts = yearOptions(geography, topic, indicator);
+    const { clearFilters, filters, data, metadata } = this.props;
+    const { geography, topic, indicator, year } = filters;
+
+    const yearOpts = years(data);
 
     return (
       <div className="Filters">
@@ -49,7 +51,7 @@ export default class Filters extends Component {
 
             <Select
               name="topic"
-              placeholder={topicPlaceholders[geography] || "Please select geography"}
+              placeholder={geography ? "Topic" : "Please select geography"}
               disabled={!geography}
               options={topicOptions[geography] || []}
               onChange={this.handleChange("topic")}
@@ -60,7 +62,7 @@ export default class Filters extends Component {
               name="indicator"
               placeholder={topic ? "Indicator" : "Please select topic"}
               disabled={!topic}
-              options={indicatorOptions[topic] || []}
+              options={indicators(data, metadata)}
               onChange={this.handleChange("indicator")}
               value={indicator}
             />
@@ -77,7 +79,7 @@ export default class Filters extends Component {
 
           <div className="Filters-row right">
             <button type="submit" className="Filters-set-filters">Explore Data</button>
-            <button type="button" className="Filters-reset-filters" onClick={this.resetFilters}>Clear All</button>
+            <button type="button" className="Filters-reset-filters" onClick={clearFilters}>Clear All</button>
           </div>
 
         </div>
