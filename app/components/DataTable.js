@@ -1,4 +1,5 @@
 import { h, Component } from "preact";
+import throttle from "lodash.throttle";
 
 import {
   geographies,
@@ -18,11 +19,36 @@ import {
 
 export default class DataList extends Component {
 
+  state = {
+    leftShadow: false,
+    rightShadow: true,
+  }
+
+  componentDidMount() {
+    this.scroller.addEventListener("scroll", this.handleContainerScroll);
+  }
+
+  componentWillUnmount() {
+    this.scroller.removeEventListener("scroll", this.handleContainerScroll);
+  }
+
+  handleContainerScroll = throttle(() => {
+    const { scrollLeft, scrollWidth, clientWidth } = this.scroller;
+
+    this.setState({
+      leftShadow: scrollLeft > 0,
+      rightShadow: scrollLeft < scrollWidth - clientWidth,
+    });
+  }, 100);
+
   render() {
     const { filters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
+    const { leftShadow, rightShadow } = this.state;
 
     const canShowData = !!(geography && topic);
     const geographyType = geographies[geography];
+
+    const containerCx = `container ${leftShadow ? "left-shadow" : ""} ${rightShadow ? "right-shadow": ""}`;
 
     const rows = [];
     indicators(data, metadata).forEach(({ value: currentIndicator, label }) => {
@@ -58,7 +84,7 @@ export default class DataList extends Component {
 
     return (
       <div className="DataTable">
-        <div className="container">
+        <div className={containerCx}>
 
           {canShowData &&
             <div class="DataTable-actions">
@@ -67,38 +93,40 @@ export default class DataList extends Component {
             </div>
           }
 
-          <table>
-            <thead>
-              <tr>
-                <td>{areaLabel(geography, areaProps)}</td>
-                <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
-                <td colSpan="3">{geographyType ? `All Tracts in DC` : "Please select a geography"}</td>
-              </tr>
-              <tr>
-                <td colSpan="2" />
-                <td>Average</td>
-                <td>Low</td>
-                <td>High</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colSpan="5" className="indicator">
-                  {topics[topic] || "Please select a topic"}
-                </td>
-              </tr>
-
-              {rows}
-
-              {!canShowData &&
-                <tr className="no-data">
-                  <td colSpan="1" />
-                  <td>No data to show</td>
-                  <td colSpan="3" />
+          <div className="scroller" ref={ref => this.scroller = ref}>
+            <table>
+              <thead>
+                <tr>
+                  <td>{areaLabel(geography, areaProps)}</td>
+                  <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
+                  <td colSpan="3">{geographyType ? `All Tracts in DC` : "Please select a geography"}</td>
                 </tr>
-              }
-            </tbody>
-          </table>
+                <tr>
+                  <td colSpan="2" />
+                  <td>Average</td>
+                  <td>Low</td>
+                  <td>High</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan="5" className="indicator">
+                    {topics[topic] || "Please select a topic"}
+                  </td>
+                </tr>
+
+                {rows}
+
+                {!canShowData &&
+                  <tr className="no-data">
+                    <td colSpan="1" />
+                    <td>No data to show</td>
+                    <td colSpan="3" />
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
 
         </div>
       </div>
