@@ -34,11 +34,10 @@ data
 CSV Conversion
 ---
 
-* Requirements
-    * `Ruby >= 2.0.0`
-
 * Run
-    * `yarn convert-data` - converts all `.csv` files under `/data` to their `JSON` counterparts; converted files are placed in `app/assets/data/`, with the same folder structure as the original `/data` folder
+    * `yarn convert-data` - converts all `.csv` files under `/data` to their `JSON` counterparts; converted files are placed in `app/assets/data/`, with the same folder structure as the original `/data` folder; original files will be copied to the destination folder to allow downloading
 
 * Notes
     * You should not need to run this command by hand; running `yarn start` / `yarn build` will run the `convert-data` task before everything else
+    * Running `yarn convert-data` will automatically set `--from=./data`, and `--to=./app/assets/data`; if you wish to use a different values for these arguments, you can run the script directly using `node scripts/csv2json.js --from=source/folder --to=source/folder`;
+    * The application was designed to expect data files to be present in `app/assets/data`. If this requirement changes for any reason, `app/lib/data.js` should be changed to reflect these changes.
