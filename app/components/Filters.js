@@ -79,7 +79,6 @@ export default class Filters extends Component {
           </div>
 
           <div className="Filters-row right">
-            <button type="submit" className="Filters-set-filters">Explore Data</button>
             <button type="button" className="Filters-reset-filters" onClick={clearFilters}>Clear All</button>
           </div>
 

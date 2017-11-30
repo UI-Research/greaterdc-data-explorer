@@ -3,9 +3,10 @@
 .greater-dc-data-explorer {
 
   .Filters {
-    height: 185px;
+    position: relative;
     padding: 36px 0 43px;
     background: $filters-bg;
+    z-index: 10;
 
     .Filters-row {
       position: relative;
@@ -16,11 +17,11 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+	height: auto
       }
     }
 
-    .Select,
-    .Filters-set-filters {
+    .Select {
       display: inline-block;
       width: calc(25% - 15px);
       height: $filters-input-height;
@@ -45,30 +46,16 @@
       }
     }
 
-    .Filters-set-filters,
-    .Filters-reset-filters {
-      border: none;
-      border-radius: 0;
-      text-transform: uppercase;
-      outline: none;
-      cursor: pointer;
-    }
-
-    .Filters-set-filters {
-      background: $yellow;
-      color: black;
-      margin-right: 0;
-
-      &:after {
-        content: " >";
-      }
-    }
-
     .Filters-reset-filters {
       position: absolute;
       right: 0;
       top: calc(100% + 10px);
       padding: 0;
+      border: none;
+      border-radius: 0;
+      text-transform: uppercase;
+      outline: none;
+      cursor: pointer;
       background: transparent;
       color: #a6cbd7;
       font-weight: bold;
@@ -78,8 +65,8 @@
       height: $filters-input-height;
       padding: 0;
 
-      &, input {
-        font-family: sans-serif;
+      &, input, button {
+	font-family: "Lato", sans-serif;
       }
 
       &.is-disabled .Select-placeholder {
@@ -116,6 +103,10 @@
         }
 
         .Select-clear-zone {
+	  display: inline-block;
+	  position: absolute;
+	  right: 10px;
+	  top: 12px;
           width: 27px;
         }
 
@@ -133,6 +124,7 @@
       .Select-menu-outer {
         border: none;
         border-radius: 0;
+        box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3)
       }
     }
   }
