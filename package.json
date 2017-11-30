@@ -8,7 +8,7 @@
   "scripts": {
     "start": "yarn convert-data && brunch watch --server",
     "build": "yarn convert-data && brunch build --production",
-    "convert-data": "ruby scripts/csv2json.rb ./data"
+    "convert-data": "node scripts/csv2json.js --from=./data --to=./app/assets/data"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -27,9 +27,13 @@
     "babel-preset-env": "^1.6.1",
     "brunch": "^2",
     "clean-css-brunch": "^2",
+    "csv-parse": "^2.0.0",
     "eslint-brunch": "^3.12.0",
     "eslint-config-standard-preact": "^1.1.6",
     "eslint-plugin-react": "^7.4.0",
+    "glob": "^7.1.2",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
     "sass-brunch": "^2.10.4",
     "uglify-js-brunch": "^2"
   }
