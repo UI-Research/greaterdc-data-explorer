@@ -12,6 +12,7 @@ Greater DC Data Explorer
     * `public/` dir is fully auto-generated and served by HTTP server.  Write your code in `app/` dir.
     * Place static files you want to be copied from `app/assets/` to `public/`.
     * Place all csv files for conversion in the folder `/data` (create if not present), with 1 folder per topic (`/data/crime`, `/data/population`, ...)
+       * All files and folder should be in lowercase
 
 Example `/data` folder structure:
 
