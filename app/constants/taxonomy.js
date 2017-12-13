@@ -27,6 +27,7 @@ export const TOPIC_OPT_CHILDREN = "children";
 export const TOPIC_OPT_CRIME = "crime";
 export const TOPIC_OPT_EDUCATION = "education";
 export const TOPIC_OPT_FAMILIES = "families";
+export const TOPIC_OPT_INCOME = "income";
 
 export const TOPIC_LABEL_HEALTH = "Health and health policy";
 export const TOPIC_LABEL_HOUSING = "Housing and housing Finance";
@@ -40,6 +41,7 @@ export const TOPIC_LABEL_CHILDREN = "Children";
 export const TOPIC_LABEL_CRIME = "Crime and justice";
 export const TOPIC_LABEL_EDUCATION = "Education and training";
 export const TOPIC_LABEL_FAMILIES = "Families";
+export const TOPIC_LABEL_INCOME = "Income";
 
 export const topics = {
   // [TOPIC_OPT_HEALTH]: TOPIC_LABEL_HEALTH,
@@ -54,6 +56,7 @@ export const topics = {
   [TOPIC_OPT_CRIME]: TOPIC_LABEL_CRIME,
   // [TOPIC_OPT_EDUCATION]: TOPIC_LABEL_EDUCATION,
   // [TOPIC_OPT_FAMILIES]: TOPIC_LABEL_FAMILIES,
+  [TOPIC_OPT_INCOME]: TOPIC_LABEL_INCOME,
 }
 
 
