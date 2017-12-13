@@ -24,10 +24,10 @@ import {
 // area lines
 const layers = (geography) => ([
   { id: `${geography}-fills`, type: "fill", paint: { "fill-opacity": 0, "fill-color": "#ffffff" } },
-  { id: `${geography}-hover`, type: "fill", paint: { "fill-opacity": 0.3, "fill-color": "#cc0000" }, filter: [ "==", areaKey(geography), "" ] },
-  { id: `${geography}-choropleth`, type: "fill", paint: { "fill-opacity": 0.9 }, layout: { visibility: "none" } },
-  { id: `${geography}-selected`, type: "fill", paint: { "fill-opacity": 0.3, "fill-color": "#cc0000" }, filter: [ "==", areaKey(geography), "" ] },
-  { id: `${geography}-lines`, type: "line", paint: { "line-width": 1, "line-color": "rgba(0, 0, 0, 0.7)" } },
+  { id: `${geography}-choropleth`, type: "fill", paint: { "fill-opacity": 0.7 }, layout: { visibility: "none" } },
+  { id: `${geography}-hover`, type: "fill", paint: { "fill-opacity": 0.4, "fill-color": "#fbb755" }, filter: [ "==", areaKey(geography), "" ] },
+  { id: `${geography}-selected`, type: "fill", paint: { "fill-opacity": 0.7, "fill-color": "#fbb755" }, filter: [ "==", areaKey(geography), "" ] },
+  { id: `${geography}-lines`, type: "line", paint: { "line-width": 1, "line-color": "rgba(0, 0, 0, 0.4)" } },
 ]);
 
 export default class Map extends Component {
@@ -166,6 +166,7 @@ export default class Map extends Component {
       property: areaKey(geography),
       type: "categorical",
       stops: colorStops,
+      default: "rgba(255, 255, 255, 0)",
     });
     this.map.setLayoutProperty(`${geography}-choropleth`, "visibility", "visible");
   }

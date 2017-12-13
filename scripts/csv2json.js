@@ -11,8 +11,8 @@ function csv2json(file, from, to) {
     path.dirname(file).replace(from, ""),
   ]);
 
-  const json_path = path.join(destination_path, `${path.basename(file, ".csv")}.json`);
-  const csv_path = path.join(destination_path, path.basename(file));
+  const json_path = path.join(destination_path, `${path.basename(file, ".csv")}.json`).toLowerCase();
+  const csv_path = path.join(destination_path, path.basename(file)).toLowerCase();
 
   mkdirp.sync(destination_path);
 

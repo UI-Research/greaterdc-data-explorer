@@ -28,6 +28,13 @@ export const areaLabel = (geography, areaProps) => {
   }
 };
 
+export const headerLabels = {
+  [GEO_OPT_CENSUS]: "Tract",
+  [GEO_OPT_ZIP_CODES]: "Zip Code",
+  [GEO_OPT_ANCS]: "ANC",
+  [GEO_OPT_PSAS]: "PSA",
+};
+
 const rowKeys = {
   [GEO_OPT_CENSUS]: "GEO2010_nf",
   [GEO_OPT_ZIP_CODES]: null,

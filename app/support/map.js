@@ -7,7 +7,7 @@ import {
 
 export const shapefile = (geography) => {
   return {
-    [GEO_OPT_CENSUS]: "mapbox://urbaninstitute.dm691mz1",
+    [GEO_OPT_CENSUS]: "mapbox://urbaninstitute.1xt6hznf",
     [GEO_OPT_ZIP_CODES]: "mapbox://urbaninstitute.dvi7r97h",
     [GEO_OPT_ANCS]: "mapbox://urbaninstitute.41px4aw0",
     [GEO_OPT_PSAS]: "mapbox://urbaninstitute.7aqnlau8",
@@ -16,7 +16,7 @@ export const shapefile = (geography) => {
 
 export const sourceLayer = (geography) => {
   return {
-    [GEO_OPT_CENSUS]: "census-2010-d2vbqp",
+    [GEO_OPT_CENSUS]: "DCMetroArea2015_tr10-04yamm",
     [GEO_OPT_ZIP_CODES]: "zip-codes-5t51e9",
     [GEO_OPT_ANCS]: "ANC12-bac55n",
     [GEO_OPT_PSAS]: "PSA12-8baxgw",

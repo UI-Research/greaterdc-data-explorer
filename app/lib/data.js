@@ -27,7 +27,7 @@ export const rowKey = (geography) => ({
 // Data fetching
 //
 export const fetchDataSource = (geography, topic) => {
-  const url = `/data/${topic}/${topic}_${geography}.json`;
+  const url = `./data/${topic}/${topic}_${geography}.json`;
   return axios
     .get(url)
     .then(response => {
@@ -39,7 +39,7 @@ export const fetchDataSource = (geography, topic) => {
 };
 
 export const fetchMetadataSource = (geography, topic) => {
-  const url = `/data/${topic}/${topic}_${geography}_metadata..json`
+  const url = `./data/${topic}/${topic}_${geography}_metadata..json`
   return axios
     .get(url)
     .then(response => {
@@ -54,12 +54,12 @@ export const fetchMetadataSource = (geography, topic) => {
 // Filters
 //
 const INDICATORS_BLACKLIST = [
-  "start_date", "end_date", "timeframe",
+  "start_date", "end_date", "timeframe", "indc",
   "Anc2012", "ANC2012_nf",
   "City", "CITY_nf",
   "Psa2012", "PSA2012_nf",
   "Geo2000", "GEO2000_nf",
-  "Geo2010", "GEO2010_nf",
+  "Geo2010", "GEO2010_nf", "geo2010_nf",
   "Ward2002", "WARD2002_nf",
 ];
 
@@ -125,13 +125,11 @@ export const choroplethRows = (data, geography, indicator, year = null) => {
 }
 
 export const choroplethColorStops = (rows, steps, geography, indicator) => {
-  const indicatorKey = rowKey(geography);
-
-  // return
   return rows.map(row => {
     const bucket = steps.findIndex(step => row[indicator] <= step);
-    const color = bucket === -1 ? "rgba(0,0,0,0)" : blueColorRamp[bucket];
+    const color = bucket === -1 ? "rgba(255,255,255,0)" : blueColorRamp[bucket];
 
-    return [ row[indicatorKey].toString(), color ];
+    const stop = [ row[rowKey(geography)].toString(), color ];
+    return stop;
   });
 }

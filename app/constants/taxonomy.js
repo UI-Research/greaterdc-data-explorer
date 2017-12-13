@@ -3,10 +3,10 @@ export const GEO_OPT_ZIP_CODES = "zip";
 export const GEO_OPT_ANCS = "anc12";
 export const GEO_OPT_PSAS = "psa12";
 
-export const GEO_LABEL_CENSUS = "Tract";
-export const GEO_LABEL_ZIP_CODES = "Zip Code";
-export const GEO_LABEL_ANCS = "ANC";
-export const GEO_LABEL_PSAS = "PSA";
+export const GEO_LABEL_CENSUS = "Census Tracts";
+export const GEO_LABEL_ZIP_CODES = "Zip Codes";
+export const GEO_LABEL_ANCS = "Advisory Neighboorhood Commissions (ANCs)";
+export const GEO_LABEL_PSAS = "Police Service Areas (PSAs)";
 
 export const geographies = {
   [GEO_OPT_CENSUS]: GEO_LABEL_CENSUS,
@@ -34,7 +34,7 @@ export const TOPIC_LABEL_HOUSING = "Housing and housing Finance";
 export const TOPIC_LABEL_IMMIGRATION = "Immigrants and immigration";
 export const TOPIC_LABEL_WEALTH = "Income and wealth";
 export const TOPIC_LABEL_JOBS = "Job market and labor force";
-export const TOPIC_LABEL_POVERTY = "Poverty, veulnerability, and the safety net";
+export const TOPIC_LABEL_POVERTY = "Poverty, vulnerability, and the safety net";
 export const TOPIC_LABEL_AGING = "Aging";
 export const TOPIC_LABEL_RACE = "Race and ethnicity";
 export const TOPIC_LABEL_CHILDREN = "Children";
