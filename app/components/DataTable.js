@@ -2,13 +2,13 @@ import { h, Component } from "preact";
 import throttle from "lodash.throttle";
 
 import {
-  geographies,
   topics,
 } from "../constants/taxonomy";
 
 import {
   areaLabel,
   areaRows,
+  headerLabels,
 } from "../support/data_table";
 
 import {
@@ -51,7 +51,7 @@ export default class DataTable extends Component {
     const { leftShadow, rightShadow } = this.state;
 
     const canShowData = !!(geography && topic);
-    const geographyType = geographies[geography];
+    const geographyType = headerLabels[geography];
 
     const containerCx = `container ${leftShadow ? "left-shadow" : ""} ${rightShadow ? "right-shadow": ""}`;
 

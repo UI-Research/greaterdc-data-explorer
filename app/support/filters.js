@@ -4,14 +4,10 @@ import {
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
   topics,
+  geographies,
 } from "../constants/taxonomy";
 
-export const geographyOptions = [
-  { value: GEO_OPT_CENSUS, label: "Census Tracts" },
-  { value: GEO_OPT_ZIP_CODES, label: "Zip Codes" },
-  { value: GEO_OPT_ANCS, label: "Advisory Neighboorhood Commissions (ANCs)" },
-  { value: GEO_OPT_PSAS, label: "Police Service Areas (PSAs)" },
-];
+export const geographyOptions = Object.keys(geographies).map(key => ({ value: key, label: geographies[key] }));
 
 const options = Object.keys(topics).map(key => ({ value: key, label: topics[key] }));
 
