@@ -1,8 +1,10 @@
-const path = require("path");
-const fs = require("fs");
-const glob = require("glob");
-const mkdirp = require("mkdirp");
-const parse = require("csv-parse/lib/sync");
+/* eslint-disable no-console */
+
+import path from "path";
+import fs from "fs";
+import glob from "glob";
+import mkdirp from "mkdirp";
+import parse from "csv-parse/lib/sync";
 
 function csv2json(file, from, to) {
   const destination_path = path.join(...[
@@ -26,7 +28,9 @@ function csv2json(file, from, to) {
   console.log(`Converted ${file} to ${json_path}\n`);
 }
 
-// main script
+//-----------------------------------------------------------------------------
+// Main script
+
 const argv = require("minimist")(process.argv.slice(2));
 const { from, to } = argv;
 
@@ -34,7 +38,7 @@ if (!from || !to) {
   console.log("\nMissing arguments");
   console.log("Usage: node scripts/csv2json.js --from=path/to/sources --to=path/to/destination\n");
 
-  return;
+  process.exit(1);
 }
 
 try {
@@ -42,7 +46,8 @@ try {
 }
 catch(e) {
   console.log(`Invalid path '${from}'`)
-  return;
+
+  process.exit(1);
 }
 
 glob(`${from.replace(/\/$/, "")}/**/*.csv`, (err, files) => {
