@@ -15,6 +15,10 @@ import {
   blueColorRamp,
 } from "../constants/colors";
 
+import {
+  geographies,
+} from "../constants/taxonomy";
+
 // in order, add the following layers:
 //
 // invisible areas for hover events
@@ -35,7 +39,8 @@ export default class Map extends Component {
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
   static propTypes = {
-    filters: object,
+    onLoad: func.isRequired,
+    selectedFilters: object,
     setArea: func.isRequired,
     data: object,
     metadata: object,
@@ -48,6 +53,10 @@ export default class Map extends Component {
     choropleths: {},
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  loadedSources = [];
+
   componentDidMount() {
     window.mapboxgl.accessToken = "pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZTy4hI_PWXw3C3UFbDQ";
     this.map = new window.mapboxgl.Map({
@@ -56,53 +65,61 @@ export default class Map extends Component {
       center: [ -77.0675577, 38.890812 ],
       zoom: 11,
     });
+
+    this.map.on("load", this.props.onLoad);
+    this.map.on("data", this.handleMapData);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { filters: { geography, indicator }, area , choroplethColorStops } = nextProps;
-    const { filters: { geography: oldGeography } } = this.props;
+    const { geography: oldGeography, indicator: oldIndicator, year: oldYear } = this.props.selectedFilters;
+    const { selectedFilters: { geography, indicator, year }, choroplethColorStops } = nextProps;
 
-    if (geography) {
-      this.addSource(geography);
-      this.map.setFilter(`${geography}-selected`, ["==", areaKey(geography), area || ""]);
+    // geography chosen
+    if (geography && geography !== oldGeography) {
+      if (this.loadedSources.includes(geography)) {
+        this.makeSourceVisible(geography)
+      }
+      else {
+        this.addSource(geography);
+      }
     }
 
-    if ((!geography && oldGeography) || (oldGeography && (geography !== oldGeography))) {
-      this.map.setFilter(`${oldGeography}-selected`, ["==", areaKey(oldGeography), ""])
+    // geography cleared
+    if (!geography && geography !== oldGeography) {
+      this.makeSourceVisible(null);
     }
 
-    this.makeSourceVisible(geography);
+    // indicator chosen or year changed
+    if (
+      (indicator && indicator !== oldIndicator && this.loadedSources.includes(geography)) ||
+      (year !== oldYear && this.loadedSources.includes(geography))
+    ) {
+      this.setChoropleth(geography, choroplethColorStops);
+    }
 
-    if (indicator) this.setChoropleth(geography, choroplethColorStops);
+    // indicator cleared
+    if (!indicator && indicator !== oldIndicator) {
+      this.clearChoropleth(geography);
+    }
   }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
   addSource = (geography) => {
-    if (!this.map) return;
-    if (this.map.getSource(geography)) return;
-
     const url = shapefile(geography);
-    if (!url) throw new Error(`invalid geography '${geography}'`);
+    if (!url) {
+      throw new Error(`invalid geography: ${geography}`);
+    }
 
     this.map.addSource(geography, {
       type: "vector",
       url,
-    });
-
-    this.addLayers(geography);
-
-    this.setState({
-      sources: [ ...this.state.sources, geography ],
     });
   }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
   addLayers = (geography) => {
-    if (!this.map) return;
-    if (!this.map.getSource(geography)) return;
-
     layers(geography).forEach(layer => {
       this.map.addLayer({
         ...layer,
@@ -143,8 +160,28 @@ export default class Map extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
+  setChoropleth = (geography, colorStops) => {
+    if (!geography || colorStops.length === 0) return;
+
+    this.map.setPaintProperty(`${geography}-choropleth`, "fill-color", {
+      property: areaKey(geography),
+      type: "categorical",
+      stops: colorStops,
+      default: "rgba(255, 255, 255, 0)",
+    });
+    this.map.setLayoutProperty(`${geography}-choropleth`, "visibility", "visible");
+  }
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  clearChoropleth = (geography) => {
+    this.map.setLayoutProperty(`${geography}-choropleth`, "visibility", "none");
+  }
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   makeSourceVisible = (geography) => {
-    this.state.sources.forEach(source => {
+    this.loadedSources.forEach(source => {
       [ "lines", "fills", "choropleth" ].forEach(layer => {
         this.map.setLayoutProperty(`${source}-${layer}`, "visibility", "none");
       })
@@ -159,20 +196,23 @@ export default class Map extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  setChoropleth = (geography, colorStops) => {
-    if (!geography || colorStops.length === 0) return;
+  handleMapData = (ev) => {
+    if (!ev.sourceId) return;
+    if (this.loadedSources.includes(ev.sourceId) || !geographies.hasOwnProperty(ev.sourceId)) return;
 
-    this.map.setPaintProperty(`${geography}-choropleth`, "fill-color", {
-      property: areaKey(geography),
-      type: "categorical",
-      stops: colorStops,
-      default: "rgba(255, 255, 255, 0)",
-    });
-    this.map.setLayoutProperty(`${geography}-choropleth`, "visibility", "visible");
+    if (ev.isSourceLoaded) {
+      this.loadedSources.push(ev.sourceId);
+      this.addLayers(ev.sourceId);
+      this.makeSourceVisible(ev.sourceId);
+
+      if (this.props.indicator || this.props.year) {
+        this.setChoropleth(this.props.geography, this.props.choroplethColorStops);
+      }
+    }
   }
 
   render() {
-    const { filters: { indicator }, metadata, choroplethSteps } = this.props;
+    const { selectedFilters: { indicator }, metadata, choroplethSteps } = this.props;
     const legendCx = indicator ? "Map-legend visible" : "Map-legend";
 
     return (

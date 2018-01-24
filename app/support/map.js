@@ -26,7 +26,7 @@ export const sourceLayer = (geography) => {
 export const areaKey = (geography) => {
   return {
     [GEO_OPT_CENSUS]: "GEOID",
-    [GEO_OPT_ZIP_CODES]: "GIS_ID",
+    [GEO_OPT_ZIP_CODES]: "ZIPCODE",
     [GEO_OPT_ANCS]: "ANC_ID",
     [GEO_OPT_PSAS]: "NAME",
   }[geography];

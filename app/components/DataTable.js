@@ -47,7 +47,7 @@ export default class DataTable extends Component {
   }, 100);
 
   render() {
-    const { filters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
+    const { selectedFilters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
     const { leftShadow, rightShadow } = this.state;
 
     const canShowData = !!(geography && topic);

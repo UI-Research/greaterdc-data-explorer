@@ -23,7 +23,16 @@ function csv2json(file, from, to) {
   fs.createReadStream(file).pipe(fs.createWriteStream(csv_path));
   console.log(`Copied ${file} to ${csv_path}`);
 
-  const json = parse(fs.readFileSync(file), { columns: true, auto_parse: true, skip_empty_lines: true });
+  const json =
+    parse(fs.readFileSync(file), { columns: true, auto_parse: true, skip_empty_lines: true })
+    .map(row => {
+      const overrides = {};
+
+      if (row.timeframe) overrides.timeframe = row.timeframe.toString();
+
+      return { ...row, ...overrides };
+    });
+
   fs.writeFileSync(json_path, JSON.stringify(json));
   console.log(`Converted ${file} to ${json_path}\n`);
 }

@@ -1,29 +1,10 @@
 import { h, Component } from "preact";
 import Select from "react-select";
+import map from "lodash.map";
 
-import {
-  geographyOptions,
-  topicOptions,
-} from "../support/filters";
-
-import {
-  indicators,
-  years,
-} from "../lib/data";
+import { geographyOptions } from "../support/filters";
 
 export default class Filters extends Component {
-
-  componentDidUpdate(prevProps) {
-    const { topic, data, metadata } = this.props;
-    const { topic: prevTopic, data: prevData } = prevProps;
-
-    if ((prevTopic !== topic) || (!prevData && data)) {
-      const yearOpts = years(data);
-
-      this.props.setFilter("indicator", indicators(data, metadata)[0].value);
-      this.props.setFilter("year", yearOpts[yearOpts.length - 1].value);
-    }
-  }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
@@ -32,10 +13,22 @@ export default class Filters extends Component {
   }
 
   render() {
-    const { clearFilters, filters, data, metadata } = this.props;
-    const { geography, topic, indicator, year } = filters;
+    const { filters, selectedFilters, clearFilters } = this.props;
+    const { geography, topic, indicator, year } = selectedFilters;
 
-    const yearOpts = years(data);
+    if (!filters) return null;
+
+    const topicOptions = geography
+      ? map(filters[geography].topics, ({ label, value }) => ({ label, value }))
+      : [];
+
+    const indicatorOptions = geography && topic
+      ? map(filters[geography].topics[topic].indicators, ({ label, value }) => ({ label, value }))
+      : [];
+
+    const yearOptions = geography && topic && indicator
+      ? filters[geography].topics[topic].indicators[indicator].years
+      : [];
 
     return (
       <div className="Filters">
@@ -54,7 +47,7 @@ export default class Filters extends Component {
               name="topic"
               placeholder={geography ? "Topic" : "Please select geography"}
               disabled={!geography}
-              options={topicOptions[geography] || []}
+              options={topicOptions}
               onChange={this.handleChange("topic")}
               value={topic}
             />
@@ -63,7 +56,7 @@ export default class Filters extends Component {
               name="indicator"
               placeholder={topic ? "Indicator" : "Please select topic"}
               disabled={!topic}
-              options={indicators(data, metadata)}
+              options={indicatorOptions}
               onChange={this.handleChange("indicator")}
               value={indicator}
             />
@@ -71,8 +64,8 @@ export default class Filters extends Component {
             <Select
               name="year"
               placeholder="Year"
-              disabled={yearOpts.length == 0}
-              options={yearOpts}
+              disabled={yearOptions.length == 0}
+              options={yearOptions}
               onChange={this.handleChange("year")}
               value={year}
             />
