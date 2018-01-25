@@ -34,18 +34,13 @@
     }
 
     .Map-legend {
-      align-self:flex-start;
-      background: white;
-      border-radius: 3px;
-      box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3);
-      display: flex;
+      @extend %card;
       display: none;
       flex-basis: 25%;
       flex-wrap: wrap;
       font-size: 12px;
       margin-left: 41.66666667%;
       max-width: 25%;
-      padding: 10px 20px;
       position: relative;
       z-index: 1;
 

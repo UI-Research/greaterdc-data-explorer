@@ -55,7 +55,7 @@ export default class DataTable extends Component {
     const canShowData = !!(geography && topic);
     const geographyType = headerLabels[geography];
 
-    const containerCx = `container ${leftShadow ? "left-shadow" : ""} ${rightShadow ? "right-shadow": ""}`;
+    // const containerCx = `container ${leftShadow ? "left-shadow" : ""} ${rightShadow ? "right-shadow": ""}`;
 
     const rows = [];
     indicators(data, metadata).forEach(({ value: currentIndicator, label }) => {
@@ -99,53 +99,50 @@ export default class DataTable extends Component {
     const downloadName = downloadURL.match(/\/([\w\d_\-\.]+)$/)[1];
 
     return (
-      <div className="container">
+      <div className="container data-table-container">
         <div className="DataTable">
-          <div className={containerCx}>
+          <div className="scroller" ref={ref => this.scroller = ref}>
+            <table>
+              <thead>
+                <tr>
+                  <td>{areaLabel(geography, areaProps)}</td>
+                  <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
+                  <td colSpan="3">{geographyType ? `All ${geographyType}s in DC` : "Please select a geography"}</td>
+                </tr>
+                <tr>
+                  <td colSpan="2" />
+                  <td>Average</td>
+                  <td>Low</td>
+                  <td>High</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan="5" className="indicator">
+                    {topics[topic] || "Please select a topic"}
+                  </td>
+                </tr>
 
-            {canShowData &&
-              <div class="DataTable-actions">
-                <a href={downloadURL} download={downloadName}>📄 Download Data</a>
-                <a href="#">Sources and Notes</a>
-              </div>
-            }
+                {rows}
 
-            <div className="scroller" ref={ref => this.scroller = ref}>
-              <table>
-                <thead>
-                  <tr>
-                    <td>{areaLabel(geography, areaProps)}</td>
-                    <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
-                    <td colSpan="3">{geographyType ? `All ${geographyType}s in DC` : "Please select a geography"}</td>
+                {!canShowData &&
+                  <tr className="no-data">
+                    <td colSpan="1" />
+                    <td>No data to show</td>
+                    <td colSpan="3" />
                   </tr>
-                  <tr>
-                    <td colSpan="2" />
-                    <td>Average</td>
-                    <td>Low</td>
-                    <td>High</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colSpan="5" className="indicator">
-                      {topics[topic] || "Please select a topic"}
-                    </td>
-                  </tr>
-
-                  {rows}
-
-                  {!canShowData &&
-                    <tr className="no-data">
-                      <td colSpan="1" />
-                      <td>No data to show</td>
-                      <td colSpan="3" />
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-
+                }
+              </tbody>
+            </table>
           </div>
+        </div>
+        <div class="tab-container">
+          {canShowData &&
+            <div>
+              <a href={downloadURL} download={downloadName}>📄 Download Data</a>
+              <a href="#">Sources and Notes</a>
+            </div>
+          }
         </div>
       </div>
     );

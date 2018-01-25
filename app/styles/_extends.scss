@@ -4,7 +4,7 @@
   background: $filters-input-bg;
   border-radius: .125rem;
   border: 0;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,0.24), inset 0 -2px 5px 0 rgba(0,0,0,0.10), inset 0 2px 5px 0 rgba(0,0,0,0.10);
+  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3), inset 0 -2px 5px 0 rgba(0,0,0,0.10), inset 0 2px 5px 0 rgba(0,0,0,0.10);
   color: $filters-input-color;
   display: table;
   font-weight: bold;
@@ -20,7 +20,7 @@
 %button{
   @extend %input;
   border-radius: 0;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,0.24);
+  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
   text-transform: uppercase;
   color: white;
   &:hover{
@@ -32,4 +32,12 @@
 %container {
   margin: 0 auto;
   width: calc(100vw - 100px);
+}
+
+%card {
+  align-self: flex-start;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
 }

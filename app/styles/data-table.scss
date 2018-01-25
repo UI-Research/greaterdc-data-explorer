@@ -2,11 +2,19 @@
 
 .greater-dc-data-explorer {
 
+  .data-table-container{
+    overflow: visible;
+    top: calc(-50px - 30vh);
+    position: relative;
+    display: flex;
+  }
+
   .DataTable {
-    margin-top: -50px;
-    background: white;
-    padding: $data-list-container-vpadding 0;
+    @extend %card;
+    padding: 0;
     z-index: 2;
+    flex-basis: 58.33333333%;
+    max-width: 58.33333333%;
 
     .DataTable-actions {
       display: flex;
@@ -75,5 +83,11 @@
         }
       }
     }
+  }
+  .tab-container {
+    @extend %card;
+    flex-basis: 33.33333333%;
+    max-width: 33.33333333%;
+    margin-left: 8.33333333%;
   }
 }
