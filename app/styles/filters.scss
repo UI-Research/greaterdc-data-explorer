@@ -1,131 +1,86 @@
-@import "variables";
+@import "extends";
 
 .greater-dc-data-explorer {
 
-  .Filters {
-    position: relative;
-    padding: 36px 0 43px;
-    background: $filters-bg;
-    z-index: 10;
+  .Filters-row{
+    display: flex;
+    flex-basis: 25%;
+    flex-wrap: wrap;
+    max-width: 25%;
+  }
 
-    .Filters-row {
-      position: relative;
-      height: $filters-input-height;
-      margin-bottom: 15px;
-
-      &.right {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-	height: auto
-      }
+  .Select{
+    display: flex;
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
     }
+  }
 
-    .Select {
-      display: inline-block;
-      width: calc(25% - 15px);
-      height: $filters-input-height;
-      border: none;
-      padding: 0 15px;
-      margin: 0 10px;
-      background: $filters-input-bg;
-      font-size: 16px;
-      font-weight: bold;
-      color: $filters-input-color;
-      outline: none;
-      vertical-align: middle;
+  .Filters-reset-filters {
+    @extend %button;
+  }
+
+  .Select-control {
+    @extend %input;
+    // align-items: center;
+    // border: 0;
+    // display: flex;
+    // justify-content: space-between;
+  }
+
+  .Select-placeholder {
+    color: rgba($filters-input-color, 50%);
+  }
+
+  .Select.is-disabled > .Select-control {
+    background-color: $filters-input-bg;
+    .Select-placeholder {
+      color: adjust-color($filters-bg, $lightness: 5%);
+    }
+    &:hover {
+      cursor: not-allowed;
+    }
+    .Select-arrow-zone {
+      display: none;
+    }
+  }
+
+
+  .Select-input {
+    height: $filters-input-height;
+    padding: 0;
+
+    input {
       color: white;
-    }
-
-    .Select {
-      &:first-of-type {
-        margin-left: 0;
-      }
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-
-    .Filters-reset-filters {
-      position: absolute;
-      right: 0;
-      top: calc(100% + 10px);
-      padding: 0;
-      border: none;
-      border-radius: 0;
-      text-transform: uppercase;
       outline: none;
-      cursor: pointer;
-      background: transparent;
-      color: #a6cbd7;
-      font-weight: bold;
     }
+  }
 
-    .Select {
-      height: $filters-input-height;
-      padding: 0;
+  .Select-arrow-zone {
+    height: $filters-input-height;
+    line-height: $filters-input-height;
+    padding: 0;
+  }
 
-      &, input, button {
-	font-family: "Lato", sans-serif;
-      }
+  .Select-clear-zone {
 
-      &.is-disabled .Select-placeholder {
-        color: adjust-color($filters-bg, $lightness: 7%)
-      }
+  }
 
-      .Select-control {
-        height: $filters-input-height;
-        border: none;
-        border-radius: 0;
-        padding-left: 35px;
-        background: $filters-input-bg;
+  .Select-value {
+    height: $filters-input-height;
+    line-height: $filters-input-height;
+  }
 
-        .Select-placeholder {
-          line-height: $filters-input-height;
-          left: 25px;
-        }
-        .Select-input {
-          height: $filters-input-height;
-          padding: 0;
+  .Select-value-label {
+    color: white !important;
+  }
 
-          input {
-            color: white;
-            outline: none;
-          }
-        }
-
-        .Select-arrow-zone {
-          display: inline-block;
-          position: absolute;
-          left: 10px;
-          height: $filters-input-height;
-          line-height: $filters-input-height;
-        }
-
-        .Select-clear-zone {
-	  display: inline-block;
-	  position: absolute;
-	  right: 10px;
-	  top: 12px;
-          width: 27px;
-        }
-
-        .Select-value {
-          height: $filters-input-height;
-          line-height: $filters-input-height;
-          left: 25px;
-
-          .Select-value-label {
-            color: white;
-          }
-        }
-      }
-
-      .Select-menu-outer {
-        border: none;
-        border-radius: 0;
-        box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3)
-      }
-    }
+  .Select-menu-outer {
+    border: none;
+    border-radius: 0;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3)
   }
 }
