@@ -5,6 +5,10 @@ import {
   GEO_OPT_PSAS,
 } from "../constants/taxonomy";
 
+import {
+  rowKey
+} from "../lib/data";
+
 export const areaLabel = (geography, areaProps) => {
   if (!geography || !areaProps) {
     return `Please select ${!geography ? "a geography " : ""} ${!geography && !areaProps ? "and " : ""} ${!areaProps ? "an area" : ""}`;
@@ -12,7 +16,7 @@ export const areaLabel = (geography, areaProps) => {
 
   switch (geography) {
   case GEO_OPT_CENSUS:
-    return `Tract ${areaProps.TRACT.replace(/^0*/, "").match(/^(\d*)(\d{2})/).slice(1,3).join(".")}`;
+    return `Tract ${areaProps.TRACTCE.replace(/^0*/, "").match(/^(\d*)(\d{2})/).slice(1,3).join(".")}`;
 
   case GEO_OPT_ZIP_CODES:
     return `ZIP ${areaProps.ZIPCODE}`;
@@ -35,18 +39,9 @@ export const headerLabels = {
   [GEO_OPT_PSAS]: "PSA",
 };
 
-const rowKeys = {
-  [GEO_OPT_CENSUS]: "GEO2010_nf",
-  [GEO_OPT_ZIP_CODES]: null,
-  [GEO_OPT_ANCS]: "ANC2012_nf",
-  [GEO_OPT_PSAS]: "PSA2012_nf",
-};
-
 export const areaRows = (data, geography, area) => {
   if (!data || !area) return [];
 
-  const rowKey = rowKeys[geography];
-
   return data
-  .filter(row => row[rowKey].toString() === area.toString());
+  .filter(row => row[rowKey(geography)].toString() === area.toString());
 }

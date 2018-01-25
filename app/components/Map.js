@@ -9,6 +9,7 @@ import {
 
 import {
   indicatorLabel,
+  formatNumber,
 } from "../lib/data";
 
 import {
@@ -224,7 +225,7 @@ export default class Map extends Component {
               {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
                 <li>
                   <span class="color" style={{ backgroundColor: color }} />
-                  <span class="legend">≤ {choroplethSteps[step].toFixed(2)}</span>
+                  <span class="legend">≤ {formatNumber(choroplethSteps[step])}</span>
                 </li>
               ))}
             </ul>

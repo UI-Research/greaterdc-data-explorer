@@ -16,6 +16,7 @@ import {
   years,
   aggregates,
   csvSourceURL,
+  formatNumber,
 } from "../lib/data";
 
 export default class DataTable extends Component {
@@ -73,9 +74,9 @@ export default class DataTable extends Component {
           <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
             <td>{label}, {currentYear}</td>
             <td>{area && areaValue}</td>
-            <td>{aggs.avg}</td>
-            <td>{aggs.min}</td>
-            <td>{aggs.max}</td>
+            <td>{formatNumber(aggs.avg)}</td>
+            <td>{formatNumber(aggs.min)}</td>
+            <td>{formatNumber(aggs.max)}</td>
           </tr>
         );
       });

@@ -153,3 +153,14 @@ export const choroplethColorStops = (rows, steps, geography, indicator) => {
     return stop;
   });
 }
+
+// Value formatting
+export const formatNumber = (value) => {
+  // truncate to 2 decimal places to check if number is integer
+  //
+  // Number.isInteger(1000.00) => true
+  // Number.isInteger(1000.001) => false
+  const truncated = parseFloat(value.toString().replace(/(\.\d{2})\d+$/, "$1"));
+
+  return Number.isInteger(truncated) ? parseInt(value) : parseFloat(value).toFixed(2)
+};
