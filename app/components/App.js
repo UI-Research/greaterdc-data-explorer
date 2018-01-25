@@ -67,7 +67,7 @@ export default class App extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  setSearchFromFilters = (resolve) => () => {
+  setSearchFromFilters = (resolve = () => {}) => () => {
     const search = filterObject(this.state.selectedFilters, v => !!v);
     window.history.pushState({}, null, "?" + qs.stringify(search));
 
@@ -198,6 +198,8 @@ export default class App extends Component {
         indicator: null,
         year: null,
       },
+    }, () => {
+      window.history.pushState({}, null, window.location.pathname);
     });
   }
 
