@@ -129,32 +129,34 @@ export default class App extends Component {
     const metadata = metadataSources[dataKey];
 
     return (
-      <div className="App">
-        <Filters
-          filters={filters}
-          setFilter={this.setFilter}
-          clearFilters={this.clearFilters}
-          data={data}
-          metadata={metadata}
-        />
+      <div className="greater-dc-data-explorer">
+        <div className="App">
+          <Filters
+            filters={filters}
+            setFilter={this.setFilter}
+            clearFilters={this.clearFilters}
+            data={data}
+            metadata={metadata}
+          />
 
-        <Map
-          filters={filters}
-          area={area}
-          setArea={this.setArea}
-          data={data}
-          metadata={metadata}
-          choroplethSteps={choroplethSteps}
-          choroplethColorStops={choroplethColorStops}
-        />
+          <Map
+            filters={filters}
+            area={area}
+            setArea={this.setArea}
+            data={data}
+            metadata={metadata}
+            choroplethSteps={choroplethSteps}
+            choroplethColorStops={choroplethColorStops}
+          />
 
-        <DataTable
-          filters={filters}
-          area={area}
-          areaProps={areaProps}
-          data={data}
-          metadata={metadata}
-        />
+          <DataTable
+            filters={filters}
+            area={area}
+            areaProps={areaProps}
+            data={data}
+            metadata={metadata}
+          />
+        </div>
       </div>
     );
   }

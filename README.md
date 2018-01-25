@@ -46,6 +46,19 @@ CSV Conversion
     * Running `yarn convert-data` will automatically set `--from=./data`, and `--to=./app/assets/data`; if you wish to use a different values for these arguments, you can run the script directly using `node scripts/csv2json.js --from=source/folder --to=source/folder`;
     * The application was designed to expect data files to be present in `app/assets/data`. If this requirement changes for any reason, `app/lib/data.js` should be changed to reflect these changes.
 
+Render target
+---
+By default, the app is configured to render in a div with id `#app`. If you wish to change the render target, you can do so when invoking `yarn start` / `yarn build` commands, by prepending `RENDER_TARGET="#my-div"` to the command. This value can be any valid CSS selector (as used by [`document.QuerySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)). Examples:
+
+- `yarn build` will use `#app` as the render target;
+- `RENDER_TARGET="#my-div"` will use `#my-div` as the render target;
+- `RENDER_TARGET=".a-class .nested-class .nested-more-class"` will use `.nested-more-class` as the render target, provided the selector is correct; useful if for any reason you need to reference classes instead of just an ID
+
+### Notes:
+
+ - There is no attempt to validate that the selector used is valid. If the app is not rendering, please check if `RENDER_TARGET` exists and is a valid selector.
+ - If using a class as `RENDER_TARGET`, `document.querySelector` will return the first element found, with the [behaviour described in the first note of `document.querySelector` documentation](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
+
 Filter dropdown configuration
 ---
 
