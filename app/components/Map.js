@@ -233,29 +233,29 @@ export default class Map extends Component {
 
     return (
       <div className="Map">
-        <div id="map" style={{height: "100vh"}}>
-        <div class="container">
-          <Filters
-            filters={filters}
-            selectedFilters={selectedFilters}
-            setFilter={setFilter}
-            clearFilters={clearFilters}
-            data={data}
-            metadata={metadata}
-          />
-          <div className={legendCx}>
-            <h3>{indicator && metadata && indicatorLabel(indicator, metadata)}</h3>
-            <ul>
-              {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
-                <li>
-                  <span class="color" style={{ backgroundColor: color }} />
-                  <span class="legend">≤ {formatNumber(choroplethSteps[step])}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div id="map" style={{height: 'calc(100vh + 50px)'}}>
+          <div class="container">
+            <Filters
+              filters={filters}
+              selectedFilters={selectedFilters}
+              setFilter={setFilter}
+              clearFilters={clearFilters}
+              data={data}
+              metadata={metadata}
+            />
+            <div className={legendCx}>
+              <h3>{indicator && metadata && indicatorLabel(indicator, metadata)}</h3>
+              <ul>
+                {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
+                  <li>
+                    <span class="color" style={{ backgroundColor: color }} />
+                    <span class="legend">≤ {formatNumber(choroplethSteps[step])}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        </div>
+          </div>
         </div>
       </div>
     );

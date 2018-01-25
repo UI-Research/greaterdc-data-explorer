@@ -28,3 +28,8 @@
     background-color: lighten($filters-input-bg, 10%);
   }
 }
+
+%container {
+  margin: 0 auto;
+  width: calc(100vw - 100px);
+}

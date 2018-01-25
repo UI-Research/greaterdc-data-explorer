@@ -99,51 +99,53 @@ export default class DataTable extends Component {
     const downloadName = downloadURL.match(/\/([\w\d_\-\.]+)$/)[1];
 
     return (
-      <div className="DataTable">
-        <div className={containerCx}>
+      <div className="container">
+        <div className="DataTable">
+          <div className={containerCx}>
 
-          {canShowData &&
-            <div class="DataTable-actions">
-              <a href={downloadURL} download={downloadName}>📄 Download Data</a>
-              <a href="#">Sources and Notes</a>
-            </div>
-          }
+            {canShowData &&
+              <div class="DataTable-actions">
+                <a href={downloadURL} download={downloadName}>📄 Download Data</a>
+                <a href="#">Sources and Notes</a>
+              </div>
+            }
 
-          <div className="scroller" ref={ref => this.scroller = ref}>
-            <table>
-              <thead>
-                <tr>
-                  <td>{areaLabel(geography, areaProps)}</td>
-                  <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
-                  <td colSpan="3">{geographyType ? `All ${geographyType}s in DC` : "Please select a geography"}</td>
-                </tr>
-                <tr>
-                  <td colSpan="2" />
-                  <td>Average</td>
-                  <td>Low</td>
-                  <td>High</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colSpan="5" className="indicator">
-                    {topics[topic] || "Please select a topic"}
-                  </td>
-                </tr>
-
-                {rows}
-
-                {!canShowData &&
-                  <tr className="no-data">
-                    <td colSpan="1" />
-                    <td>No data to show</td>
-                    <td colSpan="3" />
+            <div className="scroller" ref={ref => this.scroller = ref}>
+              <table>
+                <thead>
+                  <tr>
+                    <td>{areaLabel(geography, areaProps)}</td>
+                    <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
+                    <td colSpan="3">{geographyType ? `All ${geographyType}s in DC` : "Please select a geography"}</td>
                   </tr>
-                }
-              </tbody>
-            </table>
-          </div>
+                  <tr>
+                    <td colSpan="2" />
+                    <td>Average</td>
+                    <td>Low</td>
+                    <td>High</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colSpan="5" className="indicator">
+                      {topics[topic] || "Please select a topic"}
+                    </td>
+                  </tr>
 
+                  {rows}
+
+                  {!canShowData &&
+                    <tr className="no-data">
+                      <td colSpan="1" />
+                      <td>No data to show</td>
+                      <td colSpan="3" />
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+          </div>
         </div>
       </div>
     );
