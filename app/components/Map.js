@@ -59,13 +59,18 @@ export default class Map extends Component {
   loadedSources = [];
 
   componentDidMount() {
-    window.mapboxgl.accessToken = "pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZTy4hI_PWXw3C3UFbDQ";
-    this.map = new window.mapboxgl.Map({
+    const { mapboxgl } = window;
+
+    mapboxgl.accessToken = "pk.eyJ1IjoidXJiYW5pbnN0aXR1dGUiLCJhIjoiTEJUbmNDcyJ9.mbuZTy4hI_PWXw3C3UFbDQ";
+    this.map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/streets-v9",
       center: [ -77.0675577, 38.890812 ],
       zoom: 11,
     });
+
+    this.map.scrollZoom.disable();
+    this.map.addControl(new mapboxgl.NavigationControl());
 
     this.map.on("load", this.props.onLoad);
     this.map.on("data", this.handleMapData);
@@ -137,8 +142,6 @@ export default class Map extends Component {
       const newAreaProps = ev.features[0].properties;
       const newArea = newAreaProps[key];
 
-      this.map.easeTo({ center: [ev.lngLat.lng, ev.lngLat.lat], zoom: 12 });
-
       if (newArea === this.props.area) {
         this.props.setArea(null, null);
       }
@@ -176,6 +179,7 @@ export default class Map extends Component {
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
   clearChoropleth = (geography) => {
+    if (!geography) return;
     this.map.setLayoutProperty(`${geography}-choropleth`, "visibility", "none");
   }
 
