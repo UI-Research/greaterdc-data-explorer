@@ -17,6 +17,10 @@
       pointer-events: none;
     }
 
+    #map{
+      z-index: 0;
+    }
+
     .container {
       @extend %container;
       padding-top: 10px;
