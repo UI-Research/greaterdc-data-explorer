@@ -235,9 +235,8 @@ export default class Map extends Component {
             </ul>
           </div>
 
-          <div id="map" />
-          <a className="Map-embed" href="#">&lt;/&gt; Embed</a>
         </div>
+        <div id="map" />
       </div>
     );
   }

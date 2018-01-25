@@ -32,49 +32,45 @@ export default class Filters extends Component {
 
     return (
       <div className="Filters">
-        <div className="container">
+        <div className="Filters-row">
+          <Select
+            name="geography"
+            placeholder="Geography"
+            options={geographyOptions}
+            onChange={this.handleChange("geography")}
+            value={geography}
+          />
 
-          <div className="Filters-row">
-            <Select
-              name="geography"
-              placeholder="Geography"
-              options={geographyOptions}
-              onChange={this.handleChange("geography")}
-              value={geography}
-            />
+          <Select
+            name="topic"
+            placeholder={geography ? "Topic" : "Please select geography"}
+            disabled={!geography}
+            options={topicOptions}
+            onChange={this.handleChange("topic")}
+            value={topic}
+          />
 
-            <Select
-              name="topic"
-              placeholder={geography ? "Topic" : "Please select geography"}
-              disabled={!geography}
-              options={topicOptions}
-              onChange={this.handleChange("topic")}
-              value={topic}
-            />
+          <Select
+            name="indicator"
+            placeholder={topic ? "Indicator" : "Please select topic"}
+            disabled={!topic}
+            options={indicatorOptions}
+            onChange={this.handleChange("indicator")}
+            value={indicator}
+          />
 
-            <Select
-              name="indicator"
-              placeholder={topic ? "Indicator" : "Please select topic"}
-              disabled={!topic}
-              options={indicatorOptions}
-              onChange={this.handleChange("indicator")}
-              value={indicator}
-            />
+          <Select
+            name="year"
+            placeholder="Year"
+            disabled={yearOptions.length == 0}
+            options={yearOptions}
+            onChange={this.handleChange("year")}
+            value={year}
+          />
+        </div>
 
-            <Select
-              name="year"
-              placeholder="Year"
-              disabled={yearOptions.length == 0}
-              options={yearOptions}
-              onChange={this.handleChange("year")}
-              value={year}
-            />
-          </div>
-
-          <div className="Filters-row right">
-            <button type="button" className="Filters-reset-filters" onClick={clearFilters}>Clear All</button>
-          </div>
-
+        <div className="Filters-row right">
+          <button type="button" className="Filters-reset-filters" onClick={clearFilters}>Clear All</button>
         </div>
       </div>
     );
