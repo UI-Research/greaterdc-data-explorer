@@ -73,7 +73,7 @@ export default class DataTable extends Component {
         rows.push(
           <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
             <td>{label}, {currentYear}</td>
-            <td>{area && areaValue}</td>
+            <td>{area && formatNumber(areaValue)}</td>
             <td>{formatNumber(aggs.avg)}</td>
             <td>{formatNumber(aggs.min)}</td>
             <td>{formatNumber(aggs.max)}</td>
