@@ -2,11 +2,17 @@
 
 .greater-dc-data-explorer {
 
+  .Filters {
+    flex-basis: 33.33333333%;
+    max-width: 33.33333333%;
+    z-index: 1;
+  }
+
   .Filters-row{
     display: flex;
-    flex-basis: 25%;
+    flex-basis: 100%;
     flex-wrap: wrap;
-    max-width: 25%;
+    max-width: 100%;
     &:first-child {
       margin-bottom: 10px;
     }

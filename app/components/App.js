@@ -2,7 +2,6 @@ import { h, Component } from "preact";
 import qs from "query-string";
 import Promise from "bluebird";
 
-import Filters from "./Filters";
 import Map from "./Map";
 import DataTable from "./DataTable";
 
@@ -224,6 +223,7 @@ export default class App extends Component {
     const metadata = metadataSources[dataKey];
 
     return (
+<<<<<<< HEAD
       <div className="greater-dc-data-explorer">
         <div className="App">
           <Filters
@@ -254,6 +254,30 @@ export default class App extends Component {
             metadata={metadata}
           />
         </div>
+=======
+      <div className="App">
+        <Map
+          area={area}
+          choroplethColorStops={choroplethColorStops}
+          choroplethSteps={choroplethSteps}
+          clearFilters={this.clearFilters}
+          data={data}
+          filters={filters}
+          metadata={metadata}
+          onLoad={this.setSelectedFiltersFromQueryString}
+          selectedFilters={selectedFilters}
+          setArea={this.setArea}
+          setFilter={this.setFilter}
+        />
+
+        <DataTable
+          selectedFilters={selectedFilters}
+          area={area}
+          areaProps={areaProps}
+          data={data}
+          metadata={metadata}
+        />
+>>>>>>> Move filter inside of map, make map height 100vh
       </div>
     );
   }

@@ -1,6 +1,8 @@
 import { h , Component } from "preact";
 import { func, object } from "prop-types";
 
+import Filters from './Filters';
+
 import {
   shapefile,
   sourceLayer,
@@ -217,12 +219,30 @@ export default class Map extends Component {
   }
 
   render() {
-    const { selectedFilters: { indicator }, metadata, choroplethSteps } = this.props;
+    const {
+      choroplethSteps,
+      clearFilters,
+      data,
+      filters,
+      metadata,
+      selectedFilters,
+      selectedFilters: { indicator },
+      setFilter,
+    } = this.props;
     const legendCx = indicator ? "Map-legend visible" : "Map-legend";
 
     return (
       <div className="Map">
+        <div id="map" style={{height: "100vh"}}>
         <div class="container">
+          <Filters
+            filters={filters}
+            selectedFilters={selectedFilters}
+            setFilter={setFilter}
+            clearFilters={clearFilters}
+            data={data}
+            metadata={metadata}
+          />
           <div className={legendCx}>
             <h3>{indicator && metadata && indicatorLabel(indicator, metadata)}</h3>
             <ul>
@@ -236,7 +256,7 @@ export default class Map extends Component {
           </div>
 
         </div>
-        <div id="map" />
+        </div>
       </div>
     );
   }
