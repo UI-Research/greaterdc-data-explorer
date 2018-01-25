@@ -3,6 +3,8 @@
 html, body, #app {
   margin: 0;
   padding: 0;
+  font-size: 14px;
+  font-family: "Lato", sans-serif;
 }
 
 // in order to avoid rule conflicts, scope everything under .greater-dc-data-explorer
@@ -30,6 +32,11 @@ html, body, #app {
       width: calc(100vw - 100px);
       margin: 0 auto;
     }
+  }
+}
+button, .btn, .button{
+  &:hover{
+    cursor: pointer;
   }
 }
 
