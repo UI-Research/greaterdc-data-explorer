@@ -44,8 +44,17 @@
       position: relative;
       z-index: 1;
 
-      h3{
-        margin: 0;
+      dl {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-top: 0;
+
+        dt {
+          h3 {
+            margin: 0;
+          }
+        }
       }
 
       .Map-key{

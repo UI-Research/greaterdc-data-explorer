@@ -243,7 +243,13 @@ export default class Map extends Component {
               metadata={metadata}
             />
             <div className="Map-legend">
-              <h3>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</h3>
+              <small>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</small>
+              <dl>
+                <dt>
+                  <h3>Hover Geography</h3>
+                </dt>
+                <dd>VALUE</dd>
+              </dl>
               { indicator ? (
                 <ul className="Map-key">
                   {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
