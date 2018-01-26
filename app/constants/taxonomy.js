@@ -2,17 +2,26 @@ export const GEO_OPT_CENSUS    = "tr10";
 export const GEO_OPT_ZIP_CODES = "zip";
 export const GEO_OPT_ANCS      = "anc12";
 export const GEO_OPT_PSAS      = "psa12";
+export const GEO_OPT_WD12      = "wd12";
+// export const GEO_OPT_CITY      = "city";
+// export const GEO_OPT_CLUSTER   = "cltr00";
 
 export const GEO_LABEL_CENSUS    = "Census Tracts";
 export const GEO_LABEL_ZIP_CODES = "Zip Codes";
 export const GEO_LABEL_ANCS      = "Advisory Neighboorhood Commissions (ANCs)";
 export const GEO_LABEL_PSAS      = "Police Service Areas (PSAs)";
+export const GEO_LABEL_WD12      = "Wards";
+// export const GEO_LABEL_CITY      = "City";
+// export const GEO_LABEL_CLUSTER   = "Clusters";
 
 export const geographies = {
   [GEO_OPT_CENSUS]    : GEO_LABEL_CENSUS,
   [GEO_OPT_ZIP_CODES] : GEO_LABEL_ZIP_CODES,
   [GEO_OPT_ANCS]      : GEO_LABEL_ANCS,
   [GEO_OPT_PSAS]      : GEO_LABEL_PSAS,
+  [GEO_OPT_WD12]      : GEO_LABEL_WD12,
+  // [GEO_OPT_CITY]      : GEO_LABEL_CITY,
+  // [GEO_OPT_CLUSTER]   : GEO_LABEL_CLUSTER,
 }
 
 export const TOPIC_OPT_POPULATION = "population";

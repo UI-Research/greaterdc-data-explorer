@@ -3,6 +3,7 @@ import {
   GEO_OPT_ZIP_CODES,
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
+  GEO_OPT_WD12
 } from "../constants/taxonomy";
 
 import {
@@ -22,6 +23,7 @@ export const areaLabel = (geography, areaProps) => {
     return `ZIP ${areaProps.ZIPCODE}`;
 
   case GEO_OPT_ANCS:
+  case GEO_OPT_WD12:
     return areaProps.NAME;
 
   case GEO_OPT_PSAS:
@@ -37,6 +39,7 @@ export const headerLabels = {
   [GEO_OPT_ZIP_CODES]: "Zip Code",
   [GEO_OPT_ANCS]: "ANC",
   [GEO_OPT_PSAS]: "PSA",
+  [GEO_OPT_WD12]: "Ward",
 };
 
 export const areaRows = (data, geography, area) => {

@@ -11,6 +11,9 @@ import {
   GEO_OPT_ZIP_CODES,
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
+  GEO_OPT_WD12,
+  // GEO_OPT_CITY,
+  // GEO_OPT_CLUSTER,
 } from "../constants/taxonomy";
 
 export const dataSourceKey = (geography, topic) => (
@@ -18,10 +21,13 @@ export const dataSourceKey = (geography, topic) => (
 );
 
 export const rowKey = (geography) => ({
-  [GEO_OPT_CENSUS]: "geo2010_nf",
-  [GEO_OPT_ZIP_CODES]: "zip_nf",
-  [GEO_OPT_ANCS]: "anc2012_nf",
-  [GEO_OPT_PSAS]: "psa2012_nf",
+  [GEO_OPT_CENSUS]    : "geo2010_nf",
+  [GEO_OPT_ZIP_CODES] : "zip_nf",
+  [GEO_OPT_ANCS]      : "anc2012_nf",
+  [GEO_OPT_PSAS]      : "psa2012_nf",
+  [GEO_OPT_WD12]      : "ward2012_nf",
+  // [GEO_OPT_CITY]      : "city_nf",
+  // [GEO_OPT_CLUSTER]   : "cluster_tr2000_nf",
 }[geography]);
 
 //
@@ -125,6 +131,7 @@ const areaTransform = (geography, value) => ({
   [GEO_OPT_ZIP_CODES]: v => parseInt(v, 10),
   [GEO_OPT_ANCS]: v => v,
   [GEO_OPT_PSAS]: v => v,
+  [GEO_OPT_WD12]: v => v,
 }[geography](value));
 
 export const choroplethRows = (data, geography, indicator, year = null) => {
