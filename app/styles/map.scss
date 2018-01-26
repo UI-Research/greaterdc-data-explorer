@@ -35,7 +35,6 @@
 
     .Map-legend {
       @extend %card;
-      display: none;
       flex-basis: 25%;
       flex-wrap: wrap;
       font-size: 12px;
@@ -44,11 +43,12 @@
       position: relative;
       z-index: 1;
 
-      &.visible {
-        display: inline-block;
+      h3{
+        margin: 0;
       }
 
       ul {
+        margin-top: 1rem;
         list-style: none;
         padding: 0;
 

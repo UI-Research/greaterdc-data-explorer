@@ -229,7 +229,6 @@ export default class Map extends Component {
       selectedFilters: { indicator },
       setFilter,
     } = this.props;
-    const legendCx = indicator ? "Map-legend visible" : "Map-legend";
 
     return (
       <div className="Map">
@@ -243,16 +242,19 @@ export default class Map extends Component {
               data={data}
               metadata={metadata}
             />
-            <div className={legendCx}>
-              <h3>{indicator && metadata && indicatorLabel(indicator, metadata)}</h3>
-              <ul>
-                {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
-                  <li>
+            <div className="Map-legend">
+              <h3>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</h3>
+              { indicator ?
+                (<ul>
+                  {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
+                    <li>
                     <span class="color" style={{ backgroundColor: color }} />
                     <span class="legend">≤ {formatNumber(choroplethSteps[step])}</span>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>)
+                : "" 
+              }
             </div>
 
           </div>
