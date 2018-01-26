@@ -8,7 +8,7 @@
     display: flex;
   }
 
-  .DataTable {
+  .DataTable{
     padding: 0;
     z-index: 2;
     flex-basis: 58.33333333%;
@@ -18,7 +18,7 @@
       @extend %card;
       max-height: 500px;
       max-height: calc(100vh - 50px);
-      overflow: auto;
+      overflow-y: auto;
       padding: 0;
     }
     .DataTable-actions {
@@ -51,7 +51,7 @@
       width: 100%;
 
       td {
-        padding: 20px 20px;
+        padding: 10px 20px;
       }
 
       thead td {
@@ -63,7 +63,7 @@
         padding-bottom: 0;
       }
       thead tr:last-child td {
-        font-size: 14px;
+        font-size: 1rem;
       }
 
       tbody {
@@ -100,5 +100,34 @@
   }
   .data-download-button {
     margin: 10px 0 0;
+  }
+  // Tabs
+  .rwt__tablist {
+    display: flex;
+    border-bottom: 1px solid whitesmoke;
+    justify-content: space-around;
+    .rwt__tab {
+      display: flex;
+      background: transparent;
+      border: 0;
+      font-family: inherit;
+      padding: $filters-input-padding-base;
+      position: relative;
+      flex-basis: 50%;
+      color: lighten(black, 50%);
+      outline: none;
+      &[aria-selected=true] {
+        font-weight: bold;
+        color: $filters-input-bg;
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          width: 100%;
+          border-bottom: 3px solid $filters-input-bg;
+        }
+      }
+    }
   }
 }

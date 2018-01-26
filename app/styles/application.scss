@@ -3,7 +3,7 @@
 html, body, #app {
   margin: 0;
   padding: 0;
-  font-size: 14px;
+  font-size: 12px;
   font-family: "Lato", sans-serif;
   background: $map-bg;
 }
@@ -34,7 +34,7 @@ html, body, #app {
     }
   }
 }
-button, .btn, .button{
+.btn, .button{
   @extend %button;
   &:hover{
     cursor: pointer;

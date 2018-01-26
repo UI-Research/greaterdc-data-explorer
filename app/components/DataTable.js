@@ -1,5 +1,6 @@
 import { h, Component } from "preact";
 import throttle from "lodash.throttle";
+import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
 
 import {
   topics,
@@ -138,11 +139,21 @@ export default class DataTable extends Component {
           <span className="button data-download-button" href={downloadURL} download={downloadName} role="button">Download Data</span>
         </div>
         <div class="tab-container">
-          {canShowData &&
-            <div>
-              <a href="#">Sources and Notes</a>
-            </div>
-          }
+          <Tabs defaultTab="one"monChange={(tabId) => { console.log(tabId) }}>
+            <TabList>
+              <Tab tabFor="one">About this App</Tab>
+              <Tab tabFor="two">Notes & Sources</Tab>
+            </TabList>
+            <TabPanel tabId="one">
+              <h2>About this App</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit</p>
+            </TabPanel>
+            <TabPanel tabId="two">
+              {canShowData &&
+                <h2>Sources Go here</h2>
+              }
+            </TabPanel>
+          </Tabs>
         </div>
       </div>
     );
