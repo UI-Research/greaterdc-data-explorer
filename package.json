@@ -6,22 +6,28 @@
   "version": "0.0.1",
   "repository": "",
   "scripts": {
-    "start": "yarn convert-data && brunch watch --server",
-    "build": "yarn convert-data && brunch build --production",
-    "convert-data": "node scripts/csv2json.js --from=./data --to=./app/assets/data"
+    "start": "yarn convert-data && yarn create-filters && brunch watch --server",
+    "build": "yarn convert-data && yarn create-filters && brunch build --production",
+    "convert-data": "babel-node scripts/csv2json.js --from=./data --to=./app/assets/data",
+    "create-filters": "babel-node scripts/create_filters.js --from=./data --to=./app/assets/data"
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "bluebird": "^3.5.1",
     "classnames": "^2.2.5",
     "lodash.groupby": "^4.6.0",
+    "lodash.map": "^4.6.0",
+    "lodash.sorteduniq": "^4.2.0",
     "lodash.throttle": "^4.1.1",
     "preact": "^8.1.0",
     "preact-compat": "^3.17.0",
+    "query-string": "^5.0.1",
     "react-select": "^1.0.0-rc.10"
   },
   "devDependencies": {
     "auto-reload-brunch": "^2",
-    "babel-brunch": "~6.0",
+    "babel-brunch": "^6.1.1",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

@@ -1,5 +1,6 @@
 import axios from "axios";
 import groupBy from "lodash.groupby";
+import sortedUniq from "lodash.sorteduniq";
 
 import {
   blueColorRamp,
@@ -10,6 +11,9 @@ import {
   GEO_OPT_ZIP_CODES,
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
+  GEO_OPT_WD12,
+  // GEO_OPT_CITY,
+  // GEO_OPT_CLUSTER,
 } from "../constants/taxonomy";
 
 export const dataSourceKey = (geography, topic) => (
@@ -17,10 +21,13 @@ export const dataSourceKey = (geography, topic) => (
 );
 
 export const rowKey = (geography) => ({
-  [GEO_OPT_CENSUS]: "GEO2010_nf",
-  [GEO_OPT_ZIP_CODES]: null,
-  [GEO_OPT_ANCS]: "ANC2012_nf",
-  [GEO_OPT_PSAS]: "PSA2012_nf",
+  [GEO_OPT_CENSUS]    : "geo2010_nf",
+  [GEO_OPT_ZIP_CODES] : "zip_nf",
+  [GEO_OPT_ANCS]      : "anc2012_nf",
+  [GEO_OPT_PSAS]      : "psa2012_nf",
+  [GEO_OPT_WD12]      : "ward2012_nf",
+  // [GEO_OPT_CITY]      : "city_nf",
+  // [GEO_OPT_CLUSTER]   : "cluster_tr2000_nf",
 }[geography]);
 
 //
@@ -39,7 +46,7 @@ export const fetchDataSource = (geography, topic) => {
 };
 
 export const fetchMetadataSource = (geography, topic) => {
-  const url = `./data/${topic}/${topic}_${geography}_metadata..json`
+  const url = `./data/${topic}/${topic}_${geography}_metadata.json`
   return axios
     .get(url)
     .then(response => {
@@ -50,45 +57,55 @@ export const fetchMetadataSource = (geography, topic) => {
     });
 }
 
+export const fetchFilters = () => {
+  return axios
+  .get("./data/filters.json")
+  .then(response => {
+    if (response.headers["content-type"].match(/application\/json/)) {
+      return response.data;
+    }
+    throw new Error("Unable to fetch ./data/filters.json");
+  });
+}
+
 //
 // Filters
 //
 const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "ANC2012_nf",
-  "City", "CITY_nf",
-  "Psa2012", "PSA2012_nf",
-  "Geo2000", "GEO2000_nf",
-  "Geo2010", "GEO2010_nf", "geo2010_nf",
-  "Ward2002", "WARD2002_nf",
+  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip",
 ];
 
 export const indicatorLabel = (indicator, metadata) => metadata.find(e => e.NAME === indicator).LABEL;
+
+export const filterColumn = (column) => {
+  if (/(_m|_moe|_nf)$/i.test(column)) return false;
+
+  return !INDICATORS_BLACKLIST.includes(column);
+}
 
 export const indicators = (data, metadata) => {
   if (!data || !metadata) return [];
 
   return Object.keys(data[0])
-    .filter(column => !INDICATORS_BLACKLIST.includes(column))
+    .filter(filterColumn)
     .reduce((all, indicator) => [ ...all, { value: indicator, label: indicatorLabel(indicator, metadata) }], []);
 };
 
-const uniq = (value, index, self) => (self.indexOf(value) === index);
+// const uniq = (value, index, self) => (self.indexOf(value) === index);
 
 export const years = (data) => {
   if (!data) return [];
 
-  return data
-    .map(row => row.timeframe)
-    .filter(uniq)
-    .sort()
+  // return data
+  return sortedUniq(data.map(row => row.timeframe).sort())
     .reduce((all, year) => [ ...all, { label: year, value: year } ], []);
 };
 
 //
 // Data table
 //
-const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
+export const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
 export const aggregates = (data, indicator, year) => {
   if (!data || !indicator || !year) return {};
@@ -109,17 +126,39 @@ export const csvSourceURL = (geography, topic) => `/data/${topic}/${topic}_${geo
 //
 // Choropleth
 //
+const areaTransform = (geography, value) => ({
+  [GEO_OPT_CENSUS]: v => v.toString(),
+  [GEO_OPT_ZIP_CODES]: v => parseInt(v, 10),
+  [GEO_OPT_ANCS]: v => v.toString(),
+  [GEO_OPT_PSAS]: v => v.toString(),
+  [GEO_OPT_WD12]: v => parseInt(v, 10),
+}[geography](value));
+
+export const rowMOE = (row, indicator) => {
+  const moe = row[`${indicator}_m`] || row[`${indicator}_MOE`];
+
+  return isNumeric(moe) ? moe : null;
+}
+
 export const choroplethRows = (data, geography, indicator, year = null) => {
   if (year) {
-    return data.filter(row => row.timeframe === year && isNumeric(row[indicator]));
+    return data
+      .filter(row => row.timeframe === year && isNumeric(row[indicator]))
+      .map(row => ({
+        [rowKey(geography)]: areaTransform(geography, row[rowKey(geography)]),
+        [indicator]: row[indicator],
+        moe: row[`${indicator}_m`] || row[`${indicator}_MOE`],
+      }));
   }
 
   const cleanData = data.filter(row => isNumeric(row[indicator]));
   const grouped = groupBy(cleanData, rowKey(geography));
+
   const aggregateRows = Object.keys(grouped).map(area => ({
-    [rowKey(geography)]: area,
+    [rowKey(geography)]: areaTransform(geography, area),
     [indicator]: grouped[area].reduce((sum, row) => sum + row[indicator], 0) / grouped[area].length,
-  }))
+    moe: null,
+  }));
 
   return aggregateRows;
 }
@@ -129,7 +168,18 @@ export const choroplethColorStops = (rows, steps, geography, indicator) => {
     const bucket = steps.findIndex(step => row[indicator] <= step);
     const color = bucket === -1 ? "rgba(255,255,255,0)" : blueColorRamp[bucket];
 
-    const stop = [ row[rowKey(geography)].toString(), color ];
+    const stop = [ row[rowKey(geography)], color ];
     return stop;
   });
 }
+
+// Value formatting
+export const formatNumber = (value) => {
+  // truncate to 2 decimal places to check if number is integer
+  //
+  // Number.isInteger(1000.00) => true
+  // Number.isInteger(1000.001) => false
+  const truncated = parseFloat(value.toString().replace(/(\.\d{2})\d+$/, "$1"));
+
+  return Number.isInteger(truncated) ? parseInt(value) : parseFloat(value).toFixed(2)
+};

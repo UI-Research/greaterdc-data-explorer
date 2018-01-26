@@ -16,6 +16,8 @@ import {
   years,
   aggregates,
   csvSourceURL,
+  formatNumber,
+  rowMOE,
 } from "../lib/data";
 
 export default class DataTable extends Component {
@@ -47,7 +49,7 @@ export default class DataTable extends Component {
   }, 100);
 
   render() {
-    const { filters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
+    const { selectedFilters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
     const { leftShadow, rightShadow } = this.state;
 
     const canShowData = !!(geography && topic);
@@ -65,17 +67,23 @@ export default class DataTable extends Component {
         const aggs = aggregates(data, currentIndicator, currentYear);
         const cx = currentIndicator === indicator ? "highlight" : ""
 
-        const areaValue = area && areaValues.length > 0
-        ? areaValues.find(r => r.timeframe === currentYear)[currentIndicator]
-        : "N/A";
+        const row = area && areaValues.length > 0
+          ? areaValues.find(r => r.timeframe === currentYear)
+          : {};
+
+        const areaValue = row[currentIndicator] || "N/A";
+        const marginOfError = rowMOE(row, currentIndicator);
 
         rows.push(
           <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
             <td>{label}, {currentYear}</td>
-            <td>{area && areaValue}</td>
-            <td>{aggs.avg}</td>
-            <td>{aggs.min}</td>
-            <td>{aggs.max}</td>
+            <td>
+              <span>{area && formatNumber(areaValue)}</span>
+              <span className="moe">{marginOfError && `±${marginOfError}`}</span>
+            </td>
+            <td>{formatNumber(aggs.avg)}</td>
+            <td>{formatNumber(aggs.min)}</td>
+            <td>{formatNumber(aggs.max)}</td>
           </tr>
         );
       });
@@ -107,7 +115,7 @@ export default class DataTable extends Component {
                 <tr>
                   <td>{areaLabel(geography, areaProps)}</td>
                   <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
-                  <td colSpan="3">{geographyType ? `All Tracts in DC` : "Please select a geography"}</td>
+                  <td colSpan="3">{geographyType ? `All ${geographyType}s in DC` : "Please select a geography"}</td>
                 </tr>
                 <tr>
                   <td colSpan="2" />
