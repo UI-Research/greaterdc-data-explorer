@@ -104,10 +104,12 @@
   // Tabs
   .rwt__tablist {
     display: flex;
+    align-items: center;
     border-bottom: 1px solid whitesmoke;
     justify-content: space-around;
     .rwt__tab {
       display: flex;
+      justify-content: center;
       background: transparent;
       border: 0;
       font-family: inherit;
