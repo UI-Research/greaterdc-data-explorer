@@ -35,11 +35,12 @@
 
     .Map-legend {
       @extend %card;
-      flex-basis: 25%;
+      flex-basis: 33.3333333%;
       flex-wrap: wrap;
       font-size: 12px;
-      margin-left: 41.66666667%;
-      max-width: 25%;
+      margin-left: 33.3333333%;
+      max-width: 33.3333333%;
+      padding: 20px;
       position: relative;
       z-index: 1;
 
@@ -47,21 +48,29 @@
         margin: 0;
       }
 
+      .Map-key{
+        display: flex;
+      }
       ul {
-        margin-top: 1rem;
+        margin: 1rem 0 0;
         list-style: none;
         padding: 0;
 
-        li { margin-bottom: 5px; }
-        li span {
-          display: inline-block;
-          vertical-align: middle;
+        li {
+          display: flex;
+          flex: 1 1 20%;
+          flex-direction: column;
+        }
 
-          &.color {
-            width: 25px;
-            height: 20px;
-            margin-right: 10px;
-          }
+        .key-values{
+          font-size: .875rem;
+          text-align: right;
+        }
+
+        .color{
+          display: flex;
+          height: 20px;
+          flex: 1 1 20%
         }
       }
     }

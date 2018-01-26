@@ -244,16 +244,16 @@ export default class Map extends Component {
             />
             <div className="Map-legend">
               <h3>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</h3>
-              { indicator ?
-                (<ul>
+              { indicator ? (
+                <ul className="Map-key">
                   {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
                     <li>
-                    <span class="color" style={{ backgroundColor: color }} />
-                    <span class="legend">≤ {formatNumber(choroplethSteps[step])}</span>
+                      <span class="key-values">≤ {formatNumber(choroplethSteps[step])}</span>
+                      <span class="color" style={{ backgroundColor: color }} />
                     </li>
-                  ))}
-                </ul>)
-                : "" 
+                    ))}
+                  </ul>
+                ) : ""
               }
             </div>
 
