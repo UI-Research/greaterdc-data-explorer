@@ -12,6 +12,26 @@ export default class Filters extends Component {
     this.props.setFilter(name, (opt && opt.value));
   }
 
+  handleInfoClick = (infoKey, e) => {
+    // TODO: Connect this with whatever shows notes & sources
+    // TODO: Prevent select from opening when info is clicked
+  }
+
+  renderOptions = (selectedOption) => {
+    return (
+      <div>
+        <span
+          className="info-button"
+          onClick={this.handleInfoClick.bind(null, selectedOption.value)}
+        >
+          &#x24d8;&nbsp;
+        </span>
+        <span>{selectedOption.label}</span>
+      </div>
+
+    )
+  }
+
   render() {
     const { filters, selectedFilters, clearFilters } = this.props;
     const { geography, topic, indicator, year } = selectedFilters;
@@ -35,37 +55,41 @@ export default class Filters extends Component {
         <div className="Filters-row">
           <Select
             name="geography"
-            placeholder="Geography"
-            options={geographyOptions}
             onChange={this.handleChange("geography")}
+            options={geographyOptions}
+            placeholder="Geography"
             value={geography}
+            valueRenderer={this.renderOptions}
           />
 
           <Select
-            name="topic"
-            placeholder={geography ? "Topic" : "Please select geography"}
             disabled={!geography}
-            options={topicOptions}
+            name="topic"
             onChange={this.handleChange("topic")}
+            options={topicOptions}
+            placeholder={geography ? "Topic" : "Please select geography"}
             value={topic}
+            valueRenderer={this.renderOptions}
           />
 
           <Select
-            name="indicator"
-            placeholder={topic ? "Indicator" : "Please select topic"}
             disabled={!topic}
-            options={indicatorOptions}
+            name="indicator"
             onChange={this.handleChange("indicator")}
+            options={indicatorOptions}
+            placeholder={topic ? "Indicator" : "Please select topic"}
             value={indicator}
+            valueRenderer={this.renderOptions}
           />
 
           <Select
-            name="year"
-            placeholder="Year"
             disabled={yearOptions.length == 0}
-            options={yearOptions}
+            name="year"
             onChange={this.handleChange("year")}
+            options={yearOptions}
+            placeholder={indicator ? "Year" : "Please select Indicator"}
             value={year}
+            valueRenderer={this.renderOptions}
           />
         </div>
 

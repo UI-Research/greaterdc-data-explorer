@@ -108,7 +108,7 @@ export default class DataTable extends Component {
                 <tr>
                   <td>Indicator</td>
                   <td>{areaLabel(geography, areaProps)}</td>
-                  <td className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s in DC` : "Please select a geography"}</td>
+                  <td className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s` : "Please select a geography"}</td>
                 </tr>
                 <tr>
                   <td colSpan="2" />
@@ -146,12 +146,13 @@ export default class DataTable extends Component {
             </TabList>
             <TabPanel tabId="one">
               <h2>About this App</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit</p>
+              <p>Looking for data about your community but don't know where to find it? Find data in our DC neighborhood profiles in the following subject areas: population, well-being, housing, foreclosures, and schools. Browse for relevant statistics and downloadable data.</p>
             </TabPanel>
             <TabPanel tabId="two">
-              {canShowData &&
-                <h2>Sources Go here</h2>
-              }
+              <ol className="source-list">
+                <li>Info about item 1</li>
+                <li>Infor about item 2</li>
+              </ol>
             </TabPanel>
           </Tabs>
         </div>

@@ -106,7 +106,7 @@
   .rwt__tablist {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid whitesmoke;
+    border-bottom: 1px solid $map-bg;
     justify-content: space-around;
     .rwt__tab {
       display: flex;
@@ -132,5 +132,8 @@
         }
       }
     }
+  }
+  .source-list{
+    padding-left: 1rem;
   }
 }
