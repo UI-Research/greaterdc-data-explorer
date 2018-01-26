@@ -3,22 +3,24 @@
 .greater-dc-data-explorer {
 
   .data-table-container{
-    overflow: visible;
     margin: calc(-50px - 30vh) auto 50px !important;
     position: relative;
     display: flex;
   }
 
   .DataTable {
-    @extend %card;
     padding: 0;
     z-index: 2;
     flex-basis: 58.33333333%;
     max-width: 58.33333333%;
-    max-height: 500px;
-    max-height: calc(100vh - 50px);
-    overflow: auto;
 
+    .scroller{
+      @extend %card;
+      max-height: 500px;
+      max-height: calc(100vh - 50px);
+      overflow: auto;
+      padding: 0;
+    }
     .DataTable-actions {
       display: flex;
       align-items: center;
@@ -77,6 +79,9 @@
         tr.highlight td {
           background: rgba($link-blue, 0.1)
         }
+        tr:last-child td, tr:nth-last-child(2) td {
+          border: 0;
+        }
 
         span.moe {
           color: $red;
@@ -92,5 +97,8 @@
     flex-basis: 33.33333333%;
     max-width: 33.33333333%;
     margin-left: 8.33333333%;
+  }
+  .data-download-button {
+    margin: 10px 0 0;
   }
 }

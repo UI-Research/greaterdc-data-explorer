@@ -135,11 +135,11 @@ export default class DataTable extends Component {
               </tbody>
             </table>
           </div>
+          <span className="button data-download-button" href={downloadURL} download={downloadName} role="button">Download Data</span>
         </div>
         <div class="tab-container">
           {canShowData &&
             <div>
-              <a href={downloadURL} download={downloadName}>📄 Download Data</a>
               <a href="#">Sources and Notes</a>
             </div>
           }
