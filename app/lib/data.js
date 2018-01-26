@@ -73,22 +73,22 @@ export const fetchFilters = () => {
 //
 const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "ANC2012_nf", "anc2012_nf",
-  "City", "CITY_nf", "city_nf",
-  "Psa2012", "PSA2012_nf", "psa2012_nf",
-  "Geo2000", "GEO2000_nf", "geo2000_nf",
-  "Geo2010", "GEO2010_nf", "geo2010_nf",
-  "Ward2002", "WARD2002_nf", "ward2002_nf",
-  "Zip", "Zip_nf", "zip_nf",
+  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip",
 ];
 
 export const indicatorLabel = (indicator, metadata) => metadata.find(e => e.NAME === indicator).LABEL;
+
+export const filterColumn = (column) => {
+  if (/(_m|_moe|_nf)$/i.test(column)) return false;
+
+  return !INDICATORS_BLACKLIST.includes(column);
+}
 
 export const indicators = (data, metadata) => {
   if (!data || !metadata) return [];
 
   return Object.keys(data[0])
-    .filter(column => !INDICATORS_BLACKLIST.includes(column))
+    .filter(filterColumn)
     .reduce((all, indicator) => [ ...all, { value: indicator, label: indicatorLabel(indicator, metadata) }], []);
 };
 
@@ -105,7 +105,7 @@ export const years = (data) => {
 //
 // Data table
 //
-const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
+export const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
 export const aggregates = (data, indicator, year) => {
   if (!data || !indicator || !year) return {};
@@ -127,26 +127,38 @@ export const csvSourceURL = (geography, topic) => `/data/${topic}/${topic}_${geo
 // Choropleth
 //
 const areaTransform = (geography, value) => ({
-  [GEO_OPT_CENSUS]: v => v,
+  [GEO_OPT_CENSUS]: v => v.toString(),
   [GEO_OPT_ZIP_CODES]: v => parseInt(v, 10),
-  [GEO_OPT_ANCS]: v => v,
-  [GEO_OPT_PSAS]: v => v,
-  [GEO_OPT_WD12]: v => v,
+  [GEO_OPT_ANCS]: v => v.toString(),
+  [GEO_OPT_PSAS]: v => v.toString(),
+  [GEO_OPT_WD12]: v => parseInt(v, 10),
 }[geography](value));
+
+export const rowMOE = (row, indicator) => {
+  const moe = row[`${indicator}_m`] || row[`${indicator}_MOE`];
+
+  return isNumeric(moe) ? moe : null;
+}
 
 export const choroplethRows = (data, geography, indicator, year = null) => {
   if (year) {
-    return data.filter(row => row.timeframe === year && isNumeric(row[indicator]));
+    return data
+      .filter(row => row.timeframe === year && isNumeric(row[indicator]))
+      .map(row => ({
+        [rowKey(geography)]: areaTransform(geography, row[rowKey(geography)]),
+        [indicator]: row[indicator],
+        moe: row[`${indicator}_m`] || row[`${indicator}_MOE`],
+      }));
   }
 
   const cleanData = data.filter(row => isNumeric(row[indicator]));
-
   const grouped = groupBy(cleanData, rowKey(geography));
 
   const aggregateRows = Object.keys(grouped).map(area => ({
     [rowKey(geography)]: areaTransform(geography, area),
     [indicator]: grouped[area].reduce((sum, row) => sum + row[indicator], 0) / grouped[area].length,
-  }))
+    moe: null,
+  }));
 
   return aggregateRows;
 }

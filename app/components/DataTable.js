@@ -17,6 +17,7 @@ import {
   aggregates,
   csvSourceURL,
   formatNumber,
+  rowMOE,
 } from "../lib/data";
 
 export default class DataTable extends Component {
@@ -66,14 +67,20 @@ export default class DataTable extends Component {
         const aggs = aggregates(data, currentIndicator, currentYear);
         const cx = currentIndicator === indicator ? "highlight" : ""
 
-        const areaValue = area && areaValues.length > 0
-        ? areaValues.find(r => r.timeframe === currentYear)[currentIndicator]
-        : "N/A";
+        const row = area && areaValues.length > 0
+          ? areaValues.find(r => r.timeframe === currentYear)
+          : {};
+
+        const areaValue = row[currentIndicator] || "N/A";
+        const marginOfError = rowMOE(row, currentIndicator);
 
         rows.push(
           <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
             <td>{label}, {currentYear}</td>
-            <td>{area && formatNumber(areaValue)}</td>
+            <td>
+              <span>{area && formatNumber(areaValue)}</span>
+              <span className="moe">{marginOfError && `±${marginOfError}`}</span>
+            </td>
             <td>{formatNumber(aggs.avg)}</td>
             <td>{formatNumber(aggs.min)}</td>
             <td>{formatNumber(aggs.max)}</td>

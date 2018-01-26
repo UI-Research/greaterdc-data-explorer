@@ -35,19 +35,7 @@ import glob from "glob";
 import parse from "csv-parse/lib/sync";
 
 import { geographies, topics } from "../app/constants/taxonomy.js";
-
-const INDICATORS_BLACKLIST = [
-  "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "ANC2012_nf", "anc2012_nf",
-  "City", "CITY_nf", "city_nf",
-  "Psa2012", "PSA2012_nf", "psa2012_nf",
-  "Geo2000", "GEO2000_nf", "geo2000_nf",
-  "Geo2010", "GEO2010_nf", "geo2010_nf",
-  "Ward2002", "WARD2002_nf", "ward2002_nf",
-  "Zip", "Zip_nf", "zip_nf",
-];
-
-const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
+import { filterColumn, isNumeric } from "../app/lib/data";
 
 function createFilters(from, to) {
   const filters = Object.keys(geographies).reduce((all, geography) => (
@@ -97,7 +85,8 @@ function indicatorsFor(geography, topic) {
     auto_parse: true,
     skip_empty_lines: true,
   })
-  .filter(line => !INDICATORS_BLACKLIST.includes(line.NAME))
+  // .filter(line => !INDICATORS_BLACKLIST.includes(line.NAME))
+  .filter(line => filterColumn(line.NAME))
   .map(line => ({
     value: line.NAME,
     label: line.LABEL,

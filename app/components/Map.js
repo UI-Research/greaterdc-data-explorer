@@ -104,7 +104,7 @@ export default class Map extends Component {
     }
 
     // indicator cleared
-    if (!indicator && indicator !== oldIndicator) {
+    if (!indicator && indicator !== oldIndicator && this.loadedSources.includes(geography)) {
       this.clearChoropleth(geography);
     }
   }

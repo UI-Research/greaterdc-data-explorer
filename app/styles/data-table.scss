@@ -64,6 +64,13 @@
         tr.highlight td {
           background: rgba($link-blue, 0.1)
         }
+
+        span.moe {
+          color: $red;
+          font-size: 12px;
+          vertical-align: 1px;
+          margin-left: 10px;
+        }
       }
     }
   }
