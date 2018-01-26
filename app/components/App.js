@@ -223,27 +223,20 @@ export default class App extends Component {
     const metadata = metadataSources[dataKey];
 
     return (
-<<<<<<< HEAD
       <div className="greater-dc-data-explorer">
         <div className="App">
-          <Filters
-            filters={filters}
-            selectedFilters={selectedFilters}
-            setFilter={this.setFilter}
+          <Map
+            area={area}
+            choroplethColorStops={choroplethColorStops}
+            choroplethSteps={choroplethSteps}
             clearFilters={this.clearFilters}
             data={data}
+            filters={filters}
             metadata={metadata}
-          />
-
-          <Map
             onLoad={this.setSelectedFiltersFromQueryString}
             selectedFilters={selectedFilters}
-            area={area}
             setArea={this.setArea}
-            data={data}
-            metadata={metadata}
-            choroplethSteps={choroplethSteps}
-            choroplethColorStops={choroplethColorStops}
+            setFilter={this.setFilter}
           />
 
           <DataTable
@@ -254,30 +247,6 @@ export default class App extends Component {
             metadata={metadata}
           />
         </div>
-=======
-      <div className="App">
-        <Map
-          area={area}
-          choroplethColorStops={choroplethColorStops}
-          choroplethSteps={choroplethSteps}
-          clearFilters={this.clearFilters}
-          data={data}
-          filters={filters}
-          metadata={metadata}
-          onLoad={this.setSelectedFiltersFromQueryString}
-          selectedFilters={selectedFilters}
-          setArea={this.setArea}
-          setFilter={this.setFilter}
-        />
-
-        <DataTable
-          selectedFilters={selectedFilters}
-          area={area}
-          areaProps={areaProps}
-          data={data}
-          metadata={metadata}
-        />
->>>>>>> Move filter inside of map, make map height 100vh
       </div>
     );
   }
