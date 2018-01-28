@@ -2,7 +2,6 @@ import { h, Component } from "preact";
 import qs from "query-string";
 import Promise from "bluebird";
 
-import Filters from "./Filters";
 import Map from "./Map";
 import DataTable from "./DataTable";
 
@@ -226,24 +225,18 @@ export default class App extends Component {
     return (
       <div className="greater-dc-data-explorer">
         <div className="App">
-          <Filters
-            filters={filters}
-            selectedFilters={selectedFilters}
-            setFilter={this.setFilter}
+          <Map
+            area={area}
+            choroplethColorStops={choroplethColorStops}
+            choroplethSteps={choroplethSteps}
             clearFilters={this.clearFilters}
             data={data}
+            filters={filters}
             metadata={metadata}
-          />
-
-          <Map
             onLoad={this.setSelectedFiltersFromQueryString}
             selectedFilters={selectedFilters}
-            area={area}
             setArea={this.setArea}
-            data={data}
-            metadata={metadata}
-            choroplethSteps={choroplethSteps}
-            choroplethColorStops={choroplethColorStops}
+            setFilter={this.setFilter}
           />
 
           <DataTable

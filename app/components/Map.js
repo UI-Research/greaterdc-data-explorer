@@ -1,6 +1,8 @@
 import { h , Component } from "preact";
 import { func, object } from "prop-types";
 
+import Filters from './Filters';
+
 import {
   shapefile,
   sourceLayer,
@@ -217,26 +219,51 @@ export default class Map extends Component {
   }
 
   render() {
-    const { selectedFilters: { indicator }, metadata, choroplethSteps } = this.props;
-    const legendCx = indicator ? "Map-legend visible" : "Map-legend";
+    const {
+      choroplethSteps,
+      clearFilters,
+      data,
+      filters,
+      metadata,
+      selectedFilters,
+      selectedFilters: { indicator },
+      setFilter,
+    } = this.props;
 
     return (
       <div className="Map">
-        <div class="container">
-          <div className={legendCx}>
-            <h3>{indicator && metadata && indicatorLabel(indicator, metadata)}</h3>
-            <ul>
-              {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
-                <li>
-                  <span class="color" style={{ backgroundColor: color }} />
-                  <span class="legend">≤ {formatNumber(choroplethSteps[step])}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div id="map" style={{height: 'calc(100vh + 50px)'}}>
+          <div class="container">
+            <Filters
+              filters={filters}
+              selectedFilters={selectedFilters}
+              setFilter={setFilter}
+              clearFilters={clearFilters}
+              data={data}
+              metadata={metadata}
+            />
+            <div className="Map-legend">
+              <small>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</small>
+              <dl>
+                <dt>
+                  <h3>Hover Geography</h3>
+                </dt>
+                <dd>VALUE</dd>
+              </dl>
+              { indicator ? (
+                <ul className="Map-key">
+                  {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
+                    <li>
+                      <span class="key-values">≤ {formatNumber(choroplethSteps[step])}</span>
+                      <span class="color" style={{ backgroundColor: color }} />
+                    </li>
+                    ))}
+                  </ul>
+                ) : ""
+              }
+            </div>
 
-          <div id="map" />
-          <a className="Map-embed" href="#">&lt;/&gt; Embed</a>
+          </div>
         </div>
       </div>
     );

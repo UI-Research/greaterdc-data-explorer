@@ -1,5 +1,6 @@
 import { h, Component } from "preact";
 import throttle from "lodash.throttle";
+import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
 
 import {
   topics,
@@ -55,7 +56,7 @@ export default class DataTable extends Component {
     const canShowData = !!(geography && topic);
     const geographyType = headerLabels[geography];
 
-    const containerCx = `container ${leftShadow ? "left-shadow" : ""} ${rightShadow ? "right-shadow": ""}`;
+    // const containerCx = `container ${leftShadow ? "left-shadow" : ""} ${rightShadow ? "right-shadow": ""}`;
 
     const rows = [];
     indicators(data, metadata).forEach(({ value: currentIndicator, label }) => {
@@ -99,23 +100,15 @@ export default class DataTable extends Component {
     const downloadName = downloadURL.match(/\/([\w\d_\-\.]+)$/)[1];
 
     return (
-      <div className="DataTable">
-        <div className={containerCx}>
-
-          {canShowData &&
-            <div class="DataTable-actions">
-              <a href={downloadURL} download={downloadName}>📄 Download Data</a>
-              <a href="#">Sources and Notes</a>
-            </div>
-          }
-
+      <div className="container data-table-container">
+        <div className="DataTable">
           <div className="scroller" ref={ref => this.scroller = ref}>
             <table>
               <thead>
                 <tr>
+                  <td>Indicator</td>
                   <td>{areaLabel(geography, areaProps)}</td>
-                  <td>{area ? `This ${geographyType}` : "Please select an area"}</td>
-                  <td colSpan="3">{geographyType ? `All ${geographyType}s in DC` : "Please select a geography"}</td>
+                  <td className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s` : "Please select a geography"}</td>
                 </tr>
                 <tr>
                   <td colSpan="2" />
@@ -143,7 +136,25 @@ export default class DataTable extends Component {
               </tbody>
             </table>
           </div>
-
+          <span className="button data-download-button" href={downloadURL} download={downloadName} role="button">Download Data</span>
+        </div>
+        <div class="tab-container">
+          <Tabs defaultTab="one"monChange={(tabId) => { console.log(tabId) }}>
+            <TabList>
+              <Tab tabFor="one">About this App</Tab>
+              <Tab tabFor="two">Notes & Sources</Tab>
+            </TabList>
+            <TabPanel tabId="one">
+              <h2>About this App</h2>
+              <p>Looking for data about your community but don't know where to find it? Find data in our DC neighborhood profiles in the following subject areas: population, well-being, housing, foreclosures, and schools. Browse for relevant statistics and downloadable data.</p>
+            </TabPanel>
+            <TabPanel tabId="two">
+              <ol className="source-list">
+                <li>Info about item 1</li>
+                <li>Infor about item 2</li>
+              </ol>
+            </TabPanel>
+          </Tabs>
         </div>
       </div>
     );
