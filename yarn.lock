@@ -3805,6 +3805,10 @@ react-select@^1.0.0-rc.10:
     prop-types "^15.5.8"
     react-input-autosize "^2.0.1"
 
+react-web-tabs@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-web-tabs/-/react-web-tabs-0.4.3.tgz#7df47200e10e267a47509d81378ca88a231bd821"
+
 read-components@~0.7:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/read-components/-/read-components-0.7.0.tgz#77dce7adcb72a514240c47a675b9bcf7a3509dd9"
