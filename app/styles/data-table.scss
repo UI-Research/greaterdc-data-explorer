@@ -14,6 +14,17 @@
     flex-basis: 58.33333333%;
     max-width: 58.33333333%;
 
+    &.DataTable-empty {
+      @extend %card;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 200px;
+      font-size: 22px;
+
+      img { margin-right: 20px }
+    }
+
     .scroller{
       @extend %card;
       max-height: 500px;
@@ -21,6 +32,7 @@
       overflow-y: auto;
       padding: 0;
     }
+
     .DataTable-actions {
       display: flex;
       align-items: center;

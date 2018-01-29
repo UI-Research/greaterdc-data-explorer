@@ -93,58 +93,62 @@ export default class DataTable extends Component {
 
     return (
       <div className="container data-table-container">
-        <div className="DataTable">
-          <div className="scroller" ref={ref => this.scroller = ref}>
-            <table>
-              <thead>
-                <tr>
-                  <td>Indicator</td>
-                  <td>{areaLabel(geography, areaProps)}</td>
-                  <td className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s` : "Please select a geography"}</td>
-                </tr>
-                <tr>
-                  <td colSpan="2" />
-                  <td>
-                    {hasNotesAndSources(notesAndSources, "general", "average") &&
-                      <span className="info-button" onClick={() => this.props.onInfoClick("general", "average")}>&#x24d8;&nbsp;</span>
-                    }
-                    Average
-                  </td>
-                  <td>
-                    {hasNotesAndSources(notesAndSources, "general", "low") &&
-                      <span className="info-button" onClick={() => this.props.onInfoClick("general", "low")}>&#x24d8;&nbsp;</span>
-                    }
-                    Low
-                  </td>
-                  <td>
-                    {hasNotesAndSources(notesAndSources, "general", "high") &&
-                      <span className="info-button" onClick={() => this.props.onInfoClick("general", "high")}>&#x24d8;&nbsp;</span>
-                    }
-                    High
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colSpan="5" className="indicator">
-                    {topics[topic] || "Please select a topic"}
-                  </td>
-                </tr>
 
-                {rows}
-
-                {!canShowData &&
-                  <tr className="no-data">
-                    <td colSpan="1" />
-                    <td>No data to show</td>
-                    <td colSpan="3" />
-                  </tr>
-                }
-              </tbody>
-            </table>
+        {!canShowData &&
+          <div className="DataTable DataTable-empty">
+            <img src="./images/empty-table.png" alt="No data to show" />
+            <span>Explore Greater DC Area Data by &lsquo;Geography&rsquo;, &lsquo;Topic&rsquo;, &lsquo;Indicator&rsquo;, &amp; &lsquo;Year&rsquo;</span>
           </div>
-          <a className="button data-download-button" href={downloadURL} download={downloadName} role="button">Download Data</a>
-        </div>
+        }
+
+        {canShowData &&
+          <div className="DataTable">
+            <div className="scroller" ref={ref => this.scroller = ref}>
+              <table>
+                <thead>
+                  <tr>
+                    <td>Indicator</td>
+                    <td>{areaLabel(geography, areaProps)}</td>
+                    <td className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s` : "Please select a geography"}</td>
+                  </tr>
+                  <tr>
+                    <td colSpan="2" />
+                    <td>
+                      {hasNotesAndSources(notesAndSources, "general", "average") &&
+                        <span className="info-button" onClick={() => this.props.onInfoClick("general", "average")}>&#x24d8;&nbsp;</span>
+                      }
+                      Average
+                    </td>
+                    <td>
+                      {hasNotesAndSources(notesAndSources, "general", "low") &&
+                        <span className="info-button" onClick={() => this.props.onInfoClick("general", "low")}>&#x24d8;&nbsp;</span>
+                      }
+                      Low
+                    </td>
+                    <td>
+                      {hasNotesAndSources(notesAndSources, "general", "high") &&
+                        <span className="info-button" onClick={() => this.props.onInfoClick("general", "high")}>&#x24d8;&nbsp;</span>
+                      }
+                      High
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colSpan="5" className="indicator">
+                      {topics[topic] || "Please select a topic"}
+                    </td>
+                  </tr>
+
+                  {rows}
+
+                </tbody>
+              </table>
+            </div>
+            <a className="button data-download-button" href={downloadURL} download={downloadName} role="button">Download Data</a>
+          </div>
+        }
+
         <div class="tab-container">
           <Tabs defaultTab={selectedTab} onChange={tab => this.props.setSelectedTab(tab)}>
             <TabList>
@@ -168,6 +172,7 @@ export default class DataTable extends Component {
             </TabPanel>
           </Tabs>
         </div>
+
       </div>
     );
   }
