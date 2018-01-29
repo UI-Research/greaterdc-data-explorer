@@ -17,6 +17,7 @@
     "classnames": "^2.2.5",
     "lodash.groupby": "^4.6.0",
     "lodash.map": "^4.6.0",
+    "lodash.some": "^4.6.0",
     "lodash.sorteduniq": "^4.2.0",
     "lodash.throttle": "^4.1.1",
     "preact": "^8.1.0",

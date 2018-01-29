@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
 import qs from "query-string";
 import Promise from "bluebird";
+import some from "lodash.some";
 
 import Map from "./Map";
 import DataTable from "./DataTable";
@@ -117,7 +118,8 @@ export default class App extends Component {
           const data = this.state.dataSources[dataKey];
           const rows = choroplethRows(data, geography, indicator, year);
 
-          steps = equalIntervals(rows.map(row => row[indicator]));
+          const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
+          const steps = equalIntervals(rows.map(row => row[indicator]), classifierSteps);
           colorStops = choroplethColorStops(rows, steps, geography, indicator);
         }
 
@@ -174,7 +176,8 @@ export default class App extends Component {
         const data = this.state.dataSources[dataKey];
 
         const rows = choroplethRows(data, geography, indicator, year);
-        const steps = equalIntervals(rows.map(row => row[indicator]));
+        const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
+        const steps = equalIntervals(rows.map(row => row[indicator]), classifierSteps);
         const colorStops = choroplethColorStops(rows, steps, geography, indicator);
 
         const newFilters = filter === "indicator"

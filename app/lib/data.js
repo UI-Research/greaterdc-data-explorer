@@ -157,6 +157,7 @@ export const choroplethRows = (data, geography, indicator, year = null) => {
         [rowKey(geography)]: areaTransform(geography, row[rowKey(geography)]),
         [indicator]: row[indicator],
         moe: row[`${indicator}_m`] || row[`${indicator}_MOE`],
+        indc: row.indc,
       }));
   }
 
@@ -167,6 +168,7 @@ export const choroplethRows = (data, geography, indicator, year = null) => {
     [rowKey(geography)]: areaTransform(geography, area),
     [indicator]: grouped[area].reduce((sum, row) => sum + row[indicator], 0) / grouped[area].length,
     moe: null,
+    indc: grouped[area][0].indc,
   }));
 
   return aggregateRows;
@@ -208,6 +210,8 @@ export const hasNotesAndSources = (data, level, item) => {
 // Value formatting
 //
 export const formatNumber = (value) => {
+  if (!value) return "N/A";
+
   // truncate to 2 decimal places to check if number is integer
   //
   // Number.isInteger(1000.00) => true

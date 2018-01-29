@@ -259,17 +259,17 @@ export default class Map extends Component {
                 </dt>
                 <dd>{areaValue(data, area, geography, indicator, year)}</dd>
               </dl>
-              { indicator ? (
+              {indicator && (
                 <ul className="Map-key">
-                  {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
-                    <li>
+                  {choroplethSteps.map((_, step) => (
+                    <li key={step}>
                       <span class="key-values">≤ {formatNumber(choroplethSteps[step])}</span>
-                      <span class="color" style={{ backgroundColor: color }} />
+                      <span class="color" style={{ backgroundColor: blueColorRamp[step] }} />
                     </li>
+
                   ))}
                 </ul>
-                ) : ""
-              }
+              )}
             </div>
 
           </div>
