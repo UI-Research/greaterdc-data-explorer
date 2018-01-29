@@ -1,5 +1,4 @@
 import { h, Component } from "preact";
-import throttle from "lodash.throttle";
 import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
 
 import {
@@ -23,40 +22,11 @@ import {
 
 export default class DataTable extends Component {
 
-  // https://github.com/babel/babel-eslint/issues/487
-  // eslint-disable-next-line no-undef
-  state = {
-    leftShadow: false,
-    rightShadow: true,
-  }
-
-  componentDidMount() {
-    this.scroller.addEventListener("scroll", this.handleContainerScroll);
-  }
-
-  componentWillUnmount() {
-    this.scroller.removeEventListener("scroll", this.handleContainerScroll);
-  }
-
-  // https://github.com/babel/babel-eslint/issues/487
-  // eslint-disable-next-line no-undef
-  handleContainerScroll = throttle(() => {
-    const { scrollLeft, scrollWidth, clientWidth } = this.scroller;
-
-    this.setState({
-      leftShadow: scrollLeft > 0,
-      rightShadow: scrollLeft < scrollWidth - clientWidth,
-    });
-  }, 100);
-
   render() {
     const { selectedFilters: { geography, topic, indicator, year }, area, areaProps, data, metadata } = this.props;
-    const { leftShadow, rightShadow } = this.state;
 
     const canShowData = !!(geography && topic);
     const geographyType = headerLabels[geography];
-
-    // const containerCx = `container ${leftShadow ? "left-shadow" : ""} ${rightShadow ? "right-shadow": ""}`;
 
     const rows = [];
     indicators(data, metadata).forEach(({ value: currentIndicator, label }) => {
@@ -139,16 +109,16 @@ export default class DataTable extends Component {
           <span className="button data-download-button" href={downloadURL} download={downloadName} role="button">Download Data</span>
         </div>
         <div class="tab-container">
-          <Tabs defaultTab="one"monChange={(tabId) => { console.log(tabId) }}>
+          <Tabs defaultTab="about">
             <TabList>
-              <Tab tabFor="one">About this App</Tab>
-              <Tab tabFor="two">Notes & Sources</Tab>
+              <Tab tabFor="about">About this App</Tab>
+              <Tab tabFor="notes">Notes & Sources</Tab>
             </TabList>
-            <TabPanel tabId="one">
+            <TabPanel tabId="about">
               <h2>About this App</h2>
               <p>Looking for data about your community but don't know where to find it? Find data in our DC neighborhood profiles in the following subject areas: population, well-being, housing, foreclosures, and schools. Browse for relevant statistics and downloadable data.</p>
             </TabPanel>
-            <TabPanel tabId="two">
+            <TabPanel tabId="notes">
               <ol className="source-list">
                 <li>Info about item 1</li>
                 <li>Infor about item 2</li>

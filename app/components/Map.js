@@ -257,8 +257,8 @@ export default class Map extends Component {
                       <span class="key-values">≤ {formatNumber(choroplethSteps[step])}</span>
                       <span class="color" style={{ backgroundColor: color }} />
                     </li>
-                    ))}
-                  </ul>
+                  ))}
+                </ul>
                 ) : ""
               }
             </div>

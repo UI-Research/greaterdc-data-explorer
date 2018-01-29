@@ -12,17 +12,22 @@ export default class Filters extends Component {
     this.props.setFilter(name, (opt && opt.value));
   }
 
-  handleInfoClick = (infoKey, e) => {
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  handleInfoClick = (infoKey) => {
     // TODO: Connect this with whatever shows notes & sources
     // TODO: Prevent select from opening when info is clicked
+    return infoKey;
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
   renderOptions = (selectedOption) => {
     return (
       <div>
         <span
           className="info-button"
-          onClick={this.handleInfoClick.bind(null, selectedOption.value)}
+          onClick={() => this.handleInfoClick(selectedOption.value)}
         >
           &#x24d8;&nbsp;
         </span>
