@@ -234,6 +234,7 @@ export default class Map extends Component {
       selectedFilters,
       selectedFilters: { geography, indicator, year },
       setFilter,
+      notesAndSources,
     } = this.props;
 
     return (
@@ -247,6 +248,8 @@ export default class Map extends Component {
               clearFilters={clearFilters}
               data={data}
               metadata={metadata}
+              notesAndSources={notesAndSources}
+              onInfoClick={this.props.onInfoClick}
             />
             <div className="Map-legend">
               <small>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</small>

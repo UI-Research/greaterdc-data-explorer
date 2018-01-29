@@ -27,11 +27,13 @@ CSV Conversion
   * Folders and files MUST follow this structure:
      * `<topic>/<topic>_<geography>.csv`
      * `<topic>/<topic>_<geography>.metadata`
+  * A CSV file with notes & sources must be placed at the root of the `/data` folder, and be named `help-text.csv`
 
 Example `/data` folder structure:
 
 ```
 data
+├── help-text.csv
 ├── crime
 │   ├── crime_anc12.csv
 │   ├── crime_anc12_metadata.csv
@@ -151,3 +153,17 @@ Once more data is available, just make sure the `TOPIC_OPT_*` value matches the 
 #### Indicator / Year
 
 Indicator and year are data-driven, so they should just work, provided the data is in good shape.
+
+Help Text (Notes & Sources)
+---
+
+All notes & sources are expected to live in a `help-text.csv` file. This CSV must contain 3 columns:
+
+* `level`: can be one of:
+  * `geography`, `topic`, `indicator`, or `general`
+* `item`: must match the data in the `data/**/*.csv` files if level is `geography`, `topic`, or `indicator`; can be other value if `level` is `general`
+  * `level === "geography"`: Must be one of the values in `app/lib/data.js:23-31`, otherwise data can't be linked
+  * `level === "topic"`: Must match one of the topics extracted from data folder (lowercase)
+  * `level === "indicator"`: Must exist as a CSV column in whatever data we are looking at (case sensitive)
+  * `level === "general"`: Must be one of `average`, `low`, or `high`
+* `text`: whatever text should be shown in the Notes & Sources box

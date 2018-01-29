@@ -36,25 +36,25 @@ export const rowKey = (geography) => ({
 export const fetchDataSource = (geography, topic) => {
   const url = `./data/${topic}/${topic}_${geography}.json`;
   return axios
-    .get(url)
-    .then(response => {
-      if (response.headers["content-type"].match(/application\/json/)) {
-        return response.data;
-      }
-      throw new Error(`Unable to fetch '${url}'`);
-    });
+  .get(url)
+  .then(response => {
+    if (response.headers["content-type"].match(/application\/json/)) {
+      return response.data;
+    }
+    throw new Error(`Unable to fetch '${url}'`);
+  });
 };
 
 export const fetchMetadataSource = (geography, topic) => {
   const url = `./data/${topic}/${topic}_${geography}_metadata.json`
   return axios
-    .get(url)
-    .then(response => {
-      if (response.headers["content-type"].match(/application\/json/)) {
-        return response.data;
-      }
-      throw new Error(`Unable to fetch '${url}'`);
-    });
+  .get(url)
+  .then(response => {
+    if (response.headers["content-type"].match(/application\/json/)) {
+      return response.data;
+    }
+    throw new Error(`Unable to fetch '${url}'`);
+  });
 }
 
 export const fetchFilters = () => {
@@ -65,6 +65,17 @@ export const fetchFilters = () => {
       return response.data;
     }
     throw new Error("Unable to fetch ./data/filters.json");
+  });
+}
+
+export const fetchHelpText = () => {
+  return axios
+  .get("./data/help-text.json")
+  .then(response => {
+    if (response.headers["content-type"].match(/application\/json/)) {
+      return response.data;
+    }
+    throw new Error("Unable to fetch ./data/help-text.json");
   });
 }
 
@@ -180,6 +191,17 @@ export const areaValue = (rows, area, geography, indicator, year) => {
   const value = rows.find(r => r.timeframe === year && r[rowKey(geography)].toString() === area.toString())[indicator];
 
   return formatNumber(value);
+}
+
+//
+// Sources & Notes
+//
+// export const notesAndSourcesFor = (data, selectedFilters) => {
+//   if (!data) return {};
+export const hasNotesAndSources = (data, level, item) => {
+  if (!data) return false;
+
+  return data.find(h => h.level === level && h.item === item);
 }
 
 //

@@ -93,15 +93,28 @@
       }
     }
   }
+
   .tab-container {
     @extend %card;
     flex-basis: 33.33333333%;
     max-width: 33.33333333%;
     margin-left: 8.33333333%;
+    max-height: 225px;
+
+    #notes {
+      max-height: 165px;
+      overflow-y: auto;
+    }
   }
+
   .data-download-button {
     margin: 10px 0 0;
+
+    &, &:link, &:active, &:visited {
+      color: white !important;
+    }
   }
+
   // Tabs
   .rwt__tablist {
     display: flex;

@@ -11,6 +11,7 @@ import {
   fetchMetadataSource,
 
   fetchFilters,
+  fetchHelpText,
 
   choroplethRows,
   choroplethColorStops,
@@ -43,12 +44,14 @@ export default class App extends Component {
     areaLocked: false,
     dataSources: {},
     metadataSources: {},
+    notesAndSources: [],
     choroplethSteps: [],
     choroplethColorStops: [],
   }
 
   componentWillMount() {
     fetchFilters().then(filters => this.setState({ filters }));
+    fetchHelpText().then(notesAndSources => this.setState({ notesAndSources }));
   }
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -215,15 +218,31 @@ export default class App extends Component {
     this.setState({ areaLocked: !this.state.areaLocked });
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  setSelectedTab = (selectedTab) => this.setState({ selectedTab });
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  handleInfoClick = (level, item) => {
+    if (this.state.notesAndSources.length === 0) return;
+
+    this.setState({ selectedTab: "notes" }, () => {
+      const node = document.querySelector(`#${level}-${item}`);
+
+      if (node) node.scrollIntoView();
+    });
+  }
+
   render() {
     const {
       filters,
-      selectedFilters,
+      selectedFilters, selectedFilters: { geography, topic },
       area, areaProps, areaLocked,
-      dataSources, metadataSources,
+      dataSources, metadataSources, notesAndSources,
       choroplethSteps, choroplethColorStops,
+      selectedTab,
     } = this.state;
-    const { geography, topic } = selectedFilters;
 
     const dataKey = dataSourceKey(geography, topic);
     const data = dataSources[dataKey];
@@ -242,11 +261,13 @@ export default class App extends Component {
             data={data}
             filters={filters}
             metadata={metadata}
+            notesAndSources={notesAndSources}
             onLoad={this.setSelectedFiltersFromQueryString}
             selectedFilters={selectedFilters}
             setArea={this.setArea}
             toggleAreaLock={this.toggleAreaLock}
             setFilter={this.setFilter}
+            onInfoClick={this.handleInfoClick}
           />
 
           <DataTable
@@ -255,6 +276,10 @@ export default class App extends Component {
             areaProps={areaProps}
             data={data}
             metadata={metadata}
+            notesAndSources={notesAndSources}
+            selectedTab={selectedTab}
+            setSelectedTab={this.setSelectedTab}
+            onInfoClick={this.handleInfoClick}
           />
         </div>
       </div>
