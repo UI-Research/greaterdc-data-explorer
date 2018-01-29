@@ -92,8 +92,6 @@ export const indicators = (data, metadata) => {
     .reduce((all, indicator) => [ ...all, { value: indicator, label: indicatorLabel(indicator, metadata) }], []);
 };
 
-// const uniq = (value, index, self) => (self.indexOf(value) === index);
-
 export const years = (data) => {
   if (!data) return [];
 
@@ -173,7 +171,20 @@ export const choroplethColorStops = (rows, steps, geography, indicator) => {
   });
 }
 
+//
+// Map legend
+//
+export const areaValue = (rows, area, geography, indicator, year) => {
+  if (!year || !area) return "Select Year";
+
+  const value = rows.find(r => r.timeframe === year && r[rowKey(geography)].toString() === area.toString())[indicator];
+
+  return formatNumber(value);
+}
+
+//
 // Value formatting
+//
 export const formatNumber = (value) => {
   // truncate to 2 decimal places to check if number is integer
   //

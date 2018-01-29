@@ -40,6 +40,7 @@ export default class App extends Component {
     filters: null,
     area: null,
     areaProps: null,
+    areaLocked: false,
     dataSources: {},
     metadataSources: {},
     choroplethSteps: [],
@@ -208,11 +209,17 @@ export default class App extends Component {
     this.setState({ area, areaProps });
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  toggleAreaLock = () => {
+    this.setState({ areaLocked: !this.state.areaLocked });
+  }
+
   render() {
     const {
       filters,
       selectedFilters,
-      area, areaProps,
+      area, areaProps, areaLocked,
       dataSources, metadataSources,
       choroplethSteps, choroplethColorStops,
     } = this.state;
@@ -227,6 +234,8 @@ export default class App extends Component {
         <div className="App">
           <Map
             area={area}
+            areaProps={areaProps}
+            areaLocked={areaLocked}
             choroplethColorStops={choroplethColorStops}
             choroplethSteps={choroplethSteps}
             clearFilters={this.clearFilters}
@@ -236,6 +245,7 @@ export default class App extends Component {
             onLoad={this.setSelectedFiltersFromQueryString}
             selectedFilters={selectedFilters}
             setArea={this.setArea}
+            toggleAreaLock={this.toggleAreaLock}
             setFilter={this.setFilter}
           />
 
