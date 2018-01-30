@@ -10,8 +10,13 @@ import {
 } from "../support/map";
 
 import {
+  areaLabel,
+} from "../support/data_table";
+
+import {
   indicatorLabel,
   formatNumber,
+  areaValue,
 } from "../lib/data";
 
 import {
@@ -45,6 +50,7 @@ export default class Map extends Component {
     onLoad: func.isRequired,
     selectedFilters: object,
     setArea: func.isRequired,
+    toggleAreaLock: func.isRequired,
     data: object,
     metadata: object,
   }
@@ -139,26 +145,25 @@ export default class Map extends Component {
     });
 
     // select area
-    this.map.on("click", `${geography}-fills`, (ev) => {
-      const key = areaKey(geography);
-      const newAreaProps = ev.features[0].properties;
-      const newArea = newAreaProps[key];
-
-      if (newArea === this.props.area) {
-        this.props.setArea(null, null);
-      }
-      else {
-        this.props.setArea(newArea, newAreaProps);
-      }
+    this.map.on("click", `${geography}-fills`, () => {
+      this.props.toggleAreaLock();
     })
 
     // show hide current area on mousemove / leave
     this.map.on("mousemove", `${geography}-fills`, (ev) => {
+      if (this.props.areaLocked) return;
+
       const key = areaKey(geography);
+      const newAreaProps = ev.features[0].properties;
+      const newArea = newAreaProps[key];
+
       this.map.setFilter(`${geography}-hover`, ["==", key, ev.features[0].properties[key]]);
+      this.props.setArea(newArea, newAreaProps);
     });
 
     this.map.on("mouseleave", `${geography}-fills`, () => {
+      if (this.props.areaLocked) return;
+
       const key = areaKey(geography);
       this.map.setFilter(`${geography}-hover`, ["==", key, ""]);
     });
@@ -220,14 +225,16 @@ export default class Map extends Component {
 
   render() {
     const {
+      area, areaProps,
       choroplethSteps,
       clearFilters,
       data,
       filters,
       metadata,
       selectedFilters,
-      selectedFilters: { indicator },
+      selectedFilters: { geography, indicator, year },
       setFilter,
+      notesAndSources,
     } = this.props;
 
     return (
@@ -241,26 +248,28 @@ export default class Map extends Component {
               clearFilters={clearFilters}
               data={data}
               metadata={metadata}
+              notesAndSources={notesAndSources}
+              onInfoClick={this.props.onInfoClick}
             />
             <div className="Map-legend">
               <small>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</small>
               <dl>
                 <dt>
-                  <h3>Hover Geography</h3>
+                  <h3>{area ? areaLabel(geography, areaProps) : "Hover area (click to lock)"}</h3>
                 </dt>
-                <dd>VALUE</dd>
+                <dd>{areaValue(data, area, geography, indicator, year)}</dd>
               </dl>
-              { indicator ? (
+              {indicator && (
                 <ul className="Map-key">
-                  {choroplethSteps.length > 0 && blueColorRamp.map((color, step) => (
-                    <li>
+                  {choroplethSteps.map((_, step) => (
+                    <li key={step}>
                       <span class="key-values">≤ {formatNumber(choroplethSteps[step])}</span>
-                      <span class="color" style={{ backgroundColor: color }} />
+                      <span class="color" style={{ backgroundColor: blueColorRamp[step] }} />
                     </li>
+
                   ))}
                 </ul>
-                ) : ""
-              }
+              )}
             </div>
 
           </div>

@@ -8,8 +8,8 @@
   "scripts": {
     "start": "yarn convert-data && yarn create-filters && brunch watch --server",
     "build": "yarn convert-data && yarn create-filters && brunch build --production",
-    "convert-data": "babel-node scripts/csv2json.js --from=./data --to=./app/assets/data",
-    "create-filters": "babel-node scripts/create_filters.js --from=./data --to=./app/assets/data"
+    "convert-data": "yarn babel-node scripts/csv2json.js --from=./data --to=./app/assets/data",
+    "create-filters": "yarn babel-node scripts/create_filters.js --from=./data --to=./app/assets/data"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -17,6 +17,7 @@
     "classnames": "^2.2.5",
     "lodash.groupby": "^4.6.0",
     "lodash.map": "^4.6.0",
+    "lodash.some": "^4.6.0",
     "lodash.sorteduniq": "^4.2.0",
     "lodash.throttle": "^4.1.1",
     "preact": "^8.1.0",

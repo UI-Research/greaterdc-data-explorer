@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
 import qs from "query-string";
 import Promise from "bluebird";
+import some from "lodash.some";
 
 import Map from "./Map";
 import DataTable from "./DataTable";
@@ -11,6 +12,7 @@ import {
   fetchMetadataSource,
 
   fetchFilters,
+  fetchHelpText,
 
   choroplethRows,
   choroplethColorStops,
@@ -40,14 +42,17 @@ export default class App extends Component {
     filters: null,
     area: null,
     areaProps: null,
+    areaLocked: false,
     dataSources: {},
     metadataSources: {},
+    notesAndSources: [],
     choroplethSteps: [],
     choroplethColorStops: [],
   }
 
   componentWillMount() {
     fetchFilters().then(filters => this.setState({ filters }));
+    fetchHelpText().then(notesAndSources => this.setState({ notesAndSources }));
   }
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -113,7 +118,8 @@ export default class App extends Component {
           const data = this.state.dataSources[dataKey];
           const rows = choroplethRows(data, geography, indicator, year);
 
-          steps = equalIntervals(rows.map(row => row[indicator]));
+          const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
+          const steps = equalIntervals(rows.map(row => row[indicator]), classifierSteps);
           colorStops = choroplethColorStops(rows, steps, geography, indicator);
         }
 
@@ -170,7 +176,8 @@ export default class App extends Component {
         const data = this.state.dataSources[dataKey];
 
         const rows = choroplethRows(data, geography, indicator, year);
-        const steps = equalIntervals(rows.map(row => row[indicator]));
+        const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
+        const steps = equalIntervals(rows.map(row => row[indicator]), classifierSteps);
         const colorStops = choroplethColorStops(rows, steps, geography, indicator);
 
         const newFilters = filter === "indicator"
@@ -208,15 +215,37 @@ export default class App extends Component {
     this.setState({ area, areaProps });
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  toggleAreaLock = () => {
+    this.setState({ areaLocked: !this.state.areaLocked });
+  }
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  setSelectedTab = (selectedTab) => this.setState({ selectedTab });
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  handleInfoClick = (level, item) => {
+    if (this.state.notesAndSources.length === 0) return;
+
+    this.setState({ selectedTab: "notes" }, () => {
+      const node = document.querySelector(`#${level}-${item}`);
+
+      if (node) node.scrollIntoView();
+    });
+  }
+
   render() {
     const {
       filters,
-      selectedFilters,
-      area, areaProps,
-      dataSources, metadataSources,
+      selectedFilters, selectedFilters: { geography, topic },
+      area, areaProps, areaLocked,
+      dataSources, metadataSources, notesAndSources,
       choroplethSteps, choroplethColorStops,
+      selectedTab,
     } = this.state;
-    const { geography, topic } = selectedFilters;
 
     const dataKey = dataSourceKey(geography, topic);
     const data = dataSources[dataKey];
@@ -227,16 +256,21 @@ export default class App extends Component {
         <div className="App">
           <Map
             area={area}
+            areaProps={areaProps}
+            areaLocked={areaLocked}
             choroplethColorStops={choroplethColorStops}
             choroplethSteps={choroplethSteps}
             clearFilters={this.clearFilters}
             data={data}
             filters={filters}
             metadata={metadata}
+            notesAndSources={notesAndSources}
             onLoad={this.setSelectedFiltersFromQueryString}
             selectedFilters={selectedFilters}
             setArea={this.setArea}
+            toggleAreaLock={this.toggleAreaLock}
             setFilter={this.setFilter}
+            onInfoClick={this.handleInfoClick}
           />
 
           <DataTable
@@ -245,6 +279,10 @@ export default class App extends Component {
             areaProps={areaProps}
             data={data}
             metadata={metadata}
+            notesAndSources={notesAndSources}
+            selectedTab={selectedTab}
+            setSelectedTab={this.setSelectedTab}
+            onInfoClick={this.handleInfoClick}
           />
         </div>
       </div>

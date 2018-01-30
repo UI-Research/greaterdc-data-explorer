@@ -2,6 +2,8 @@ import { h, Component } from "preact";
 import Select from "react-select";
 import map from "lodash.map";
 
+import { hasNotesAndSources } from "../lib/data";
+
 import { geographyOptions } from "../support/filters";
 
 export default class Filters extends Component {
@@ -14,23 +16,28 @@ export default class Filters extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  handleInfoClick = (infoKey) => {
+  handleInfoClick = (level, item, ev) => {
     // TODO: Connect this with whatever shows notes & sources
     // TODO: Prevent select from opening when info is clicked
-    return infoKey;
+    ev.preventDefault();
   }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  renderOptions = (selectedOption) => {
+  renderOptions = (type) => (selectedOption) => {
     return (
       <div>
-        <span
-          className="info-button"
-          onClick={() => this.handleInfoClick(selectedOption.value)}
-        >
-          &#x24d8;&nbsp;
-        </span>
+        {hasNotesAndSources(this.props.notesAndSources, type, selectedOption.value) &&
+          <span
+            className="info-button"
+            onClick={(ev) => {
+              ev.preventDefault();
+              this.props.onInfoClick(type, selectedOption.value);
+            }}
+          >
+            &#x24d8;&nbsp;
+          </span>
+        }
         <span>{selectedOption.label}</span>
       </div>
 
@@ -64,7 +71,7 @@ export default class Filters extends Component {
             options={geographyOptions}
             placeholder="Geography"
             value={geography}
-            valueRenderer={this.renderOptions}
+            valueRenderer={this.renderOptions("geography")}
           />
 
           <Select
@@ -74,7 +81,7 @@ export default class Filters extends Component {
             options={topicOptions}
             placeholder={geography ? "Topic" : "Please select geography"}
             value={topic}
-            valueRenderer={this.renderOptions}
+            valueRenderer={this.renderOptions("topic")}
           />
 
           <Select
@@ -84,7 +91,7 @@ export default class Filters extends Component {
             options={indicatorOptions}
             placeholder={topic ? "Indicator" : "Please select topic"}
             value={indicator}
-            valueRenderer={this.renderOptions}
+            valueRenderer={this.renderOptions("indicator")}
           />
 
           <Select
@@ -94,7 +101,7 @@ export default class Filters extends Component {
             options={yearOptions}
             placeholder={indicator ? "Year" : "Please select Indicator"}
             value={year}
-            valueRenderer={this.renderOptions}
+            valueRenderer={this.renderOptions("year")}
           />
         </div>
 

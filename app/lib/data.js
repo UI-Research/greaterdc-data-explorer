@@ -36,25 +36,25 @@ export const rowKey = (geography) => ({
 export const fetchDataSource = (geography, topic) => {
   const url = `./data/${topic}/${topic}_${geography}.json`;
   return axios
-    .get(url)
-    .then(response => {
-      if (response.headers["content-type"].match(/application\/json/)) {
-        return response.data;
-      }
-      throw new Error(`Unable to fetch '${url}'`);
-    });
+  .get(url)
+  .then(response => {
+    if (response.headers["content-type"].match(/application\/json/)) {
+      return response.data;
+    }
+    throw new Error(`Unable to fetch '${url}'`);
+  });
 };
 
 export const fetchMetadataSource = (geography, topic) => {
   const url = `./data/${topic}/${topic}_${geography}_metadata.json`
   return axios
-    .get(url)
-    .then(response => {
-      if (response.headers["content-type"].match(/application\/json/)) {
-        return response.data;
-      }
-      throw new Error(`Unable to fetch '${url}'`);
-    });
+  .get(url)
+  .then(response => {
+    if (response.headers["content-type"].match(/application\/json/)) {
+      return response.data;
+    }
+    throw new Error(`Unable to fetch '${url}'`);
+  });
 }
 
 export const fetchFilters = () => {
@@ -65,6 +65,17 @@ export const fetchFilters = () => {
       return response.data;
     }
     throw new Error("Unable to fetch ./data/filters.json");
+  });
+}
+
+export const fetchHelpText = () => {
+  return axios
+  .get("./data/help-text.json")
+  .then(response => {
+    if (response.headers["content-type"].match(/application\/json/)) {
+      return response.data;
+    }
+    throw new Error("Unable to fetch ./data/help-text.json");
   });
 }
 
@@ -91,8 +102,6 @@ export const indicators = (data, metadata) => {
     .filter(filterColumn)
     .reduce((all, indicator) => [ ...all, { value: indicator, label: indicatorLabel(indicator, metadata) }], []);
 };
-
-// const uniq = (value, index, self) => (self.indexOf(value) === index);
 
 export const years = (data) => {
   if (!data) return [];
@@ -148,6 +157,7 @@ export const choroplethRows = (data, geography, indicator, year = null) => {
         [rowKey(geography)]: areaTransform(geography, row[rowKey(geography)]),
         [indicator]: row[indicator],
         moe: row[`${indicator}_m`] || row[`${indicator}_MOE`],
+        indc: row.indc,
       }));
   }
 
@@ -158,6 +168,7 @@ export const choroplethRows = (data, geography, indicator, year = null) => {
     [rowKey(geography)]: areaTransform(geography, area),
     [indicator]: grouped[area].reduce((sum, row) => sum + row[indicator], 0) / grouped[area].length,
     moe: null,
+    indc: grouped[area][0].indc,
   }));
 
   return aggregateRows;
@@ -173,8 +184,34 @@ export const choroplethColorStops = (rows, steps, geography, indicator) => {
   });
 }
 
+//
+// Map legend
+//
+export const areaValue = (rows, area, geography, indicator, year) => {
+  if (!year || !area) return "Select Year";
+
+  const value = rows.find(r => r.timeframe === year && r[rowKey(geography)].toString() === area.toString())[indicator];
+
+  return formatNumber(value);
+}
+
+//
+// Sources & Notes
+//
+// export const notesAndSourcesFor = (data, selectedFilters) => {
+//   if (!data) return {};
+export const hasNotesAndSources = (data, level, item) => {
+  if (!data) return false;
+
+  return data.find(h => h.level === level && h.item === item);
+}
+
+//
 // Value formatting
+//
 export const formatNumber = (value) => {
+  if (!value) return "N/A";
+
   // truncate to 2 decimal places to check if number is integer
   //
   // Number.isInteger(1000.00) => true

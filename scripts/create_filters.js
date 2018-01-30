@@ -70,6 +70,7 @@ function createFilters(from, to) {
 function getTopics(from) {
   return glob
   .sync(`${from}/*`)
+  .filter(dir => fs.lstatSync(dir).isDirectory())
   .map(dir => {
     const components = dir.split("/");
     return components[components.length - 1];
