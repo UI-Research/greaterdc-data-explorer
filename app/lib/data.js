@@ -20,6 +20,14 @@ export const dataSourceKey = (geography, topic) => (
   `${geography}_${topic}`
 );
 
+export const geographiesKeys = [
+  "geo2010_nf",
+  "zip_nf",
+  "anc2012_nf",
+  "psa2012_nf",
+  "ward2012_nf",
+];
+
 export const rowKey = (geography) => ({
   [GEO_OPT_CENSUS]    : "geo2010_nf",
   [GEO_OPT_ZIP_CODES] : "zip_nf",
@@ -144,6 +152,8 @@ const areaTransform = (geography, value) => ({
 }[geography](value));
 
 export const rowMOE = (row, indicator) => {
+  if (!row) return null;
+
   const moe = row[`${indicator}_m`] || row[`${indicator}_MOE`];
 
   return isNumeric(moe) ? moe : null;
@@ -190,7 +200,8 @@ export const choroplethColorStops = (rows, steps, geography, indicator) => {
 export const areaValue = (rows, area, geography, indicator, year) => {
   if (!year || !area) return "Select Year";
 
-  const value = rows.find(r => r.timeframe === year && r[rowKey(geography)].toString() === area.toString())[indicator];
+  const row = rows.find(r => r.timeframe === year && r[rowKey(geography)].toString() === area.toString());
+  const value = row && row[indicator];
 
   return formatNumber(value);
 }
@@ -210,7 +221,7 @@ export const hasNotesAndSources = (data, level, item) => {
 // Value formatting
 //
 export const formatNumber = (value) => {
-  if (!value) return "N/A";
+  if (!isNumeric(value) || !value.toString) return "-";
 
   // truncate to 2 decimal places to check if number is integer
   //
@@ -218,5 +229,7 @@ export const formatNumber = (value) => {
   // Number.isInteger(1000.001) => false
   const truncated = parseFloat(value.toString().replace(/(\.\d{2})\d+$/, "$1"));
 
-  return Number.isInteger(truncated) ? parseInt(value) : parseFloat(value).toFixed(2)
+  const number = Number.isInteger(truncated) ? parseInt(value) : parseFloat(value).toFixed(2)
+
+  return isNumeric(number) ? number : "-";
 };

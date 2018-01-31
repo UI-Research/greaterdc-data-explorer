@@ -6,6 +6,17 @@ import glob from "glob";
 import mkdirp from "mkdirp";
 import parse from "csv-parse/lib/sync";
 
+import { geographiesKeys } from "../app/lib/data";
+
+// downcase all geography column names to ensure consistency
+function transformColumns(columns) {
+  return columns.map(column => (
+    geographiesKeys.includes(column.toLowerCase())
+      ? column.toLowerCase()
+      : column
+  ));
+}
+
 function csv2json(file, from, to) {
   const destination_path = path.join(...[
     process.cwd(),
@@ -24,7 +35,7 @@ function csv2json(file, from, to) {
   console.log(`Copied ${file} to ${csv_path}`);
 
   const json =
-    parse(fs.readFileSync(file), { columns: true, auto_parse: true, skip_empty_lines: true })
+    parse(fs.readFileSync(file), { columns: transformColumns, auto_parse: true, skip_empty_lines: true })
     .map(row => {
       const overrides = {};
 
