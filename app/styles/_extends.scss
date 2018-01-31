@@ -1,11 +1,9 @@
 @import "variables";
 
 %input{
-  background: $filters-input-bg;
   border-radius: .125rem;
   border: 0;
   box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3), inset 0 -2px 5px 0 rgba(0,0,0,0.10), inset 0 2px 5px 0 rgba(0,0,0,0.10);
-  color: $filters-input-color;
   display: table;
   font-weight: bold;
   height: $filters-input-height;
@@ -19,6 +17,7 @@
 
 %button{
   @extend %input;
+  background: $filters-input-bg;
   border-radius: 0;
   box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
   text-transform: uppercase;
