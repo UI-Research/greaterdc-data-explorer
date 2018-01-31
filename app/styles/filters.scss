@@ -41,14 +41,16 @@
     // justify-content: space-between;
   }
 
+  .Select-value-label[aria-selected='true']{
+    color: saturate($filters-input-color, 50%) !important;
+  }
   .Select-placeholder {
-    color: rgba($filters-input-color, 50%);
+    color: lighten(black, 25%);
   }
 
   .Select.is-disabled > .Select-control {
-    background-color: $filters-input-bg;
     .Select-placeholder {
-      color: adjust-color($filters-bg, $lightness: 5%);
+      color: lighten(black, 75%);
     }
     &:hover {
       cursor: not-allowed;
@@ -82,10 +84,6 @@
   .Select-value {
     height: $filters-input-height;
     line-height: $filters-input-height;
-  }
-
-  .Select-value-label {
-    color: white !important;
   }
 
   .Select-menu-outer {
