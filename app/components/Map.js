@@ -106,13 +106,13 @@ export default class Map extends Component {
     // indicator chosen or year changed
     if (
       (indicator && indicator !== oldIndicator && this.loadedSources.includes(geography)) ||
-      (year !== oldYear && this.loadedSources.includes(geography))
+      (year && year !== oldYear && this.loadedSources.includes(geography))
     ) {
       this.setChoropleth(geography, choroplethColorStops);
     }
 
-    // indicator cleared
-    if (!indicator && indicator !== oldIndicator && this.loadedSources.includes(geography)) {
+    // year cleared
+    if (!year && year !== oldYear && this.loadedSources.includes(geography)) {
       this.clearChoropleth(geography);
     }
   }
@@ -259,7 +259,7 @@ export default class Map extends Component {
                 </dt>
                 <dd>{areaValue(data, area, geography, indicator, year)}</dd>
               </dl>
-              {indicator && (
+              {indicator && year && (
                 <ul className="Map-key">
                   {choroplethSteps.map((_, step) => (
                     <li key={step}>

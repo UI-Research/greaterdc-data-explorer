@@ -1,5 +1,4 @@
 import axios from "axios";
-import groupBy from "lodash.groupby";
 import sortedUniq from "lodash.sorteduniq";
 
 import {
@@ -159,29 +158,17 @@ export const rowMOE = (row, indicator) => {
   return isNumeric(moe) ? formatNumber(moe) : null;
 }
 
-export const choroplethRows = (data, geography, indicator, year = null) => {
-  if (year) {
-    return data
-      .filter(row => row.timeframe === year && isNumeric(row[indicator]))
-      .map(row => ({
-        [rowKey(geography)]: areaTransform(geography, row[rowKey(geography)]),
-        [indicator]: row[indicator],
-        moe: row[`${indicator}_m`] || row[`${indicator}_MOE`],
-        indc: row.indc,
-      }));
-  }
+export const choroplethRows = (data, geography, indicator, year) => {
+  if (!data || !geography || !indicator || !year) return [];
 
-  const cleanData = data.filter(row => isNumeric(row[indicator]));
-  const grouped = groupBy(cleanData, rowKey(geography));
-
-  const aggregateRows = Object.keys(grouped).map(area => ({
-    [rowKey(geography)]: areaTransform(geography, area),
-    [indicator]: grouped[area].reduce((sum, row) => sum + row[indicator], 0) / grouped[area].length,
-    moe: null,
-    indc: grouped[area][0].indc,
-  }));
-
-  return aggregateRows;
+  return data
+    .filter(row => row.timeframe === year && isNumeric(row[indicator]))
+    .map(row => ({
+      [rowKey(geography)]: areaTransform(geography, row[rowKey(geography)]),
+      [indicator]: row[indicator],
+      moe: row[`${indicator}_m`] || row[`${indicator}_MOE`],
+      indc: row.indc,
+    }));
 }
 
 export const choroplethColorStops = (rows, steps, geography, indicator) => {

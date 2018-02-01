@@ -107,26 +107,10 @@ export default class App extends Component {
           break;
         }
 
-        // recalculate choropleth values when year is cleared
-        let steps = [ ...this.state.choroplethSteps ]
-        let colorStops = [ ...this.state.choroplethColorStops ];
-
-        if (selectedFilters.indicator) {
-          const { geography, topic, indicator, year } = selectedFilters;
-
-          const dataKey = dataSourceKey(geography, topic);
-          const data = this.state.dataSources[dataKey];
-          const rows = choroplethRows(data, geography, indicator, year);
-
-          const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
-          const steps = equalIntervals(rows.map(row => row[indicator]), classifierSteps);
-          colorStops = choroplethColorStops(rows, steps, geography, indicator);
-        }
-
         return this.setState({
           selectedFilters,
-          choroplethSteps: steps,
-          choroplethColorStops: colorStops,
+          choroplethSteps: [],
+          choroplethColorStops: [],
         }, this.setSearchFromFilters(resolve));
       }
 
