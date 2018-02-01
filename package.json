@@ -6,10 +6,13 @@
   "version": "0.0.1",
   "repository": "",
   "scripts": {
-    "start": "yarn convert-data && yarn create-filters && brunch watch --server",
-    "build": "yarn convert-data && yarn create-filters && brunch build --production",
+    "start": "yarn verify-data && yarn convert-data && yarn create-filters && brunch watch --server",
+    "start-skip-verify": "yarn convert-data && yarn create-filters && brunch watch --server",
+    "build": "yarn verify-data && yarn convert-data && yarn create-filters && brunch build --production",
+    "build-skip-verify": "yarn convert-data && yarn create-filters && brunch build --production",
     "convert-data": "yarn babel-node scripts/csv2json.js --from=./data --to=./app/assets/data",
-    "create-filters": "yarn babel-node scripts/create_filters.js --from=./data --to=./app/assets/data"
+    "create-filters": "yarn babel-node scripts/create_filters.js --from=./data --to=./app/assets/data",
+    "verify-data": "yarn babel-node scripts/verify_data.js --from=./data"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -43,6 +46,7 @@
     "eslint-plugin-react": "^7.4.0",
     "glob": "^7.1.2",
     "jsenv-brunch": "^2.0.0",
+    "lodash.isequal": "^4.5.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "sass-brunch": "^2.10.4",

@@ -9,11 +9,24 @@ Setup
 
 #### Run:
   * `yarn start` — watches the project with continuous rebuild. This will also launch HTTP server with [pushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history).
+  * `yarn start-skip-verify`: same as `yarn start`, but skips data verification (which halts execution if any issues are found)
   * `yarn build` — builds minified project for production
+  * `yarn build-skip-verify`: same as `yarn build`, but skips data verification (which halts execution if any issues are found)
 
 #### Learn:
   * `public/` dir is fully auto-generated and served by HTTP server.  Write your code in `app/` dir.
   * Place static files you want to be copied from `app/assets/` to `public/`.
+
+Data Verification
+---
+
+#### Run
+  * `yarn verify-data` - checks metadata files for empty indicators, and duplicate indicators for different topics.
+
+#### Learn
+  * `yarn start` / `yarn build` will automatically perform data verification before everything else; if data verification fails, the whole process will halt.
+  * `yarn start-skip-verify` / `yarn build-skip-verify` will skip data verification. WARNING: This might lead to unexpected behaviour when running the application.
+
 
 CSV Conversion
 ---

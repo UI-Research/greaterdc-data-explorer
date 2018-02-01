@@ -92,7 +92,7 @@ export const fetchHelpText = () => {
 //
 const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip",
+  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "Cluster_tr2000",
 ];
 
 export const indicatorLabel = (indicator, metadata) => metadata.find(e => e.NAME === indicator).LABEL;

@@ -31,7 +31,6 @@
 import path from "path";
 import fs from "fs";
 import glob from "glob";
-// import mkdirp from "mkdirp";
 import parse from "csv-parse/lib/sync";
 
 import { geographies, topics } from "../app/constants/taxonomy.js";
@@ -86,7 +85,6 @@ function indicatorsFor(geography, topic) {
     auto_parse: true,
     skip_empty_lines: true,
   })
-  // .filter(line => !INDICATORS_BLACKLIST.includes(line.NAME))
   .filter(line => filterColumn(line.NAME))
   .map(line => ({
     value: line.NAME,
