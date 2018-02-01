@@ -156,7 +156,7 @@ export const rowMOE = (row, indicator) => {
 
   const moe = row[`${indicator}_m`] || row[`${indicator}_MOE`];
 
-  return isNumeric(moe) ? moe : null;
+  return isNumeric(moe) ? formatNumber(moe) : null;
 }
 
 export const choroplethRows = (data, geography, indicator, year = null) => {
@@ -231,5 +231,9 @@ export const formatNumber = (value) => {
 
   const number = Number.isInteger(truncated) ? parseInt(value) : parseFloat(value).toFixed(2)
 
-  return isNumeric(number) ? number : "-";
+  if (!isNumeric(number)) return "-";
+
+  // add commas as thousands separator
+  // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
