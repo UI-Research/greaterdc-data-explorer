@@ -79,6 +79,18 @@ By default, the app is configured to render in a div with id `#app`. If you wish
 * There is no attempt to validate that the selector used is valid. If the app is not rendering, please check if `RENDER_TARGET` exists and is a valid selector.
 * If using a class as `RENDER_TARGET`, `document.querySelector` will return the first element found, with the [behaviour described in the first note of `document.querySelector` documentation](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
 
+Assets Location
+---
+Because the application is designed to work as standalone or embedded in a non-root location, the `DATA_LOCATION` ENV var is used to tell the application where to load the assets from. If not specified, it defaults to `"."`.
+
+### Example use:
+
+* `DATA_LOCATION=path/to/assets yarn build`
+
+### Notes:
+
+* `DATA_LOCATION` _must not_ have a trailing slash (`"/"`)
+
 Filter dropdowns
 ---
 

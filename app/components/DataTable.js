@@ -22,6 +22,8 @@ import {
   hasNotesAndSources,
 } from "../lib/data";
 
+import { DATA_LOCATION } from "../config";
+
 export default class DataTable extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -96,7 +98,7 @@ export default class DataTable extends Component {
 
         {!canShowData &&
           <div className="DataTable DataTable-empty">
-            <img src="./images/empty-table.png" alt="No data to show" />
+            <img src={`${DATA_LOCATION}/images/empty-table.png`} alt="No data to show" />
             <span>Explore Greater DC Area Data by &lsquo;Geography&rsquo;, &lsquo;Topic&rsquo;, &lsquo;Indicator&rsquo;, &amp; &lsquo;Year&rsquo;</span>
           </div>
         }
