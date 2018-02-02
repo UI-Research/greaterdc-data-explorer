@@ -99,7 +99,7 @@ export default class DataTable extends Component {
         {!canShowData &&
           <div className="DataTable DataTable-empty">
             <img src={`${DATA_LOCATION}/images/empty-table.png`} alt="No data to show" />
-            <span>Explore Greater DC Area Data by &lsquo;Geography&rsquo;, &lsquo;Topic&rsquo;, &lsquo;Indicator&rsquo;, &amp; &lsquo;Year&rsquo;</span>
+            <span>Data you can trust about Greater DC communities.</span>
           </div>
         }
 
@@ -154,12 +154,11 @@ export default class DataTable extends Component {
         <div class="tab-container">
           <Tabs defaultTab={selectedTab} onChange={tab => this.props.setSelectedTab(tab)}>
             <TabList>
-              <Tab tabFor="about">About this App</Tab>
+              <Tab tabFor="about">About</Tab>
               <Tab tabFor="notes">Notes & Sources</Tab>
             </TabList>
             <TabPanel tabId="about">
-              <h2>About this App</h2>
-              <p>Looking for data about your community but don't know where to find it? Find data in our DC neighborhood profiles in the following subject areas: population, well-being, housing, foreclosures, and schools. Browse for relevant statistics and downloadable data.</p>
+              <p>Discover how your neighborhood fares on education, jobs, basic needs, affordable housing, health, and more. Use the findings to assess community needs, plan for change, demand action, or document progress toward equity.</p>
             </TabPanel>
             <TabPanel tabId="notes">
               <ol className="source-list">
