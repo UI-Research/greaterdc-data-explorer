@@ -1,6 +1,8 @@
 import axios from "axios";
 import sortedUniq from "lodash.sorteduniq";
 
+import { DATA_LOCATION } from "../config";
+
 import {
   blueColorRamp,
 } from "../constants/colors";
@@ -41,7 +43,7 @@ export const rowKey = (geography) => ({
 // Data fetching
 //
 export const fetchDataSource = (geography, topic) => {
-  const url = `./data/${topic}/${topic}_${geography}.json`;
+  const url = `${DATA_LOCATION}/data/${topic}/${topic}_${geography}.json`;
   return axios
   .get(url)
   .then(response => {
@@ -53,7 +55,7 @@ export const fetchDataSource = (geography, topic) => {
 };
 
 export const fetchMetadataSource = (geography, topic) => {
-  const url = `./data/${topic}/${topic}_${geography}_metadata.json`
+  const url = `${DATA_LOCATION}/data/${topic}/${topic}_${geography}_metadata.json`
   return axios
   .get(url)
   .then(response => {
@@ -66,23 +68,23 @@ export const fetchMetadataSource = (geography, topic) => {
 
 export const fetchFilters = () => {
   return axios
-  .get("./data/filters.json")
+  .get(`${DATA_LOCATION}/data/filters.json`)
   .then(response => {
     if (response.headers["content-type"].match(/application\/json/)) {
       return response.data;
     }
-    throw new Error("Unable to fetch ./data/filters.json");
+    throw new Error(`Unable to fetch ${DATA_LOCATION}/data/filters.json`);
   });
 }
 
 export const fetchHelpText = () => {
   return axios
-  .get("./data/help-text.json")
+  .get(`${DATA_LOCATION}/data/help-text.json`)
   .then(response => {
     if (response.headers["content-type"].match(/application\/json/)) {
       return response.data;
     }
-    throw new Error("Unable to fetch ./data/help-text.json");
+    throw new Error(`Unable to fetch ${DATA_LOCATION}/data/help-text.json`);
   });
 }
 

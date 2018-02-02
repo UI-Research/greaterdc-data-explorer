@@ -6,7 +6,13 @@ import glob from "glob";
 import mkdirp from "mkdirp";
 import parse from "csv-parse/lib/sync";
 
-import { geographiesKeys } from "../app/lib/data";
+const geographiesKeys = [
+  "geo2010_nf",
+  "zip_nf",
+  "anc2012_nf",
+  "psa2012_nf",
+  "ward2012_nf",
+];
 
 // downcase all geography column names to ensure consistency
 function transformColumns(columns) {

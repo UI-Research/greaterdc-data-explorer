@@ -19,7 +19,7 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      height: 200px;
+      min-height: 200px;
       font-size: 22px;
 
       img { margin-right: 20px }
@@ -111,7 +111,8 @@
     flex-basis: 33.33333333%;
     max-width: 33.33333333%;
     margin-left: 8.33333333%;
-    max-height: 225px;
+    min-height: 200px;
+    max-height: 300px;
 
     #notes {
       max-height: 165px;

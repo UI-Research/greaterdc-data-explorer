@@ -1,3 +1,4 @@
 {
-  RENDER_TARGET: "#app",
+  "RENDER_TARGET": "#app",
+  "DATA_LOCATION": ".",
 }
