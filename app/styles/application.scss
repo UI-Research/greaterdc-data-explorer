@@ -1,5 +1,7 @@
 @import "extends";
 
+html.not-embedded,
+html.not-embedded body,
 #app {
   margin: 0;
   padding: 0;
@@ -50,6 +52,12 @@
 
   .text-center {
     text-align: center;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  .greater-dc-data-explorer .container {
+    width: calc(100vw - 20px) !important;
   }
 }
 
