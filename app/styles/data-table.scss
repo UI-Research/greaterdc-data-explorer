@@ -180,8 +180,9 @@
         &.DataTable-empty {
           img{
             margin: 0 auto;
-            max-width: 100%;
+            width: auto;
             height: auto;
+            max-height: 150px;
           }
           span{
             margin-top: 10px;
