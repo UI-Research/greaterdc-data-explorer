@@ -1,11 +1,15 @@
 @import "extends";
 
+#block-greaterdc-theme-content {
+  background: $map-bg;
+}
+
 html.not-embedded,
 html.not-embedded body,
 #app {
   margin: 0;
   padding: 0;
-  font-size: 12px;
+  font-size: 100%;
   font-family: "Lato", sans-serif;
   background: $map-bg;
 }

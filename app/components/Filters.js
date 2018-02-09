@@ -106,7 +106,7 @@ export default class Filters extends Component {
         </div>
 
         <div className="Filters-row right">
-          <span type="button" className="Filters-reset-filters" onClick={clearFilters} role="button">Clear All</span>
+          <span className="Filters-reset-filters" onClick={clearFilters} role="button">Clear All</span>
         </div>
       </div>
     );

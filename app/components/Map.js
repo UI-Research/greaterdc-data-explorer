@@ -255,7 +255,7 @@ export default class Map extends Component {
               <small>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</small>
               <dl>
                 <dt>
-                  <h3>{area ? areaLabel(geography, areaProps) : "Hover area (click to lock)"}</h3>
+                  <h3 class="h4">{area ? areaLabel(geography, areaProps) : "Hover area (click to lock)"}</h3>
                 </dt>
                 <dd>{areaValue(data, area, geography, indicator, year)}</dd>
               </dl>
