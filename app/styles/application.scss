@@ -1,5 +1,9 @@
 @import "extends";
 
+#block-greaterdc-theme-content {
+  background: $map-bg;
+}
+
 html.not-embedded,
 html.not-embedded body,
 #app {

@@ -98,7 +98,6 @@ export default class DataTable extends Component {
 
         {!canShowData &&
           <div className="DataTable DataTable-empty">
-            <img src={`${DATA_LOCATION}/images/empty-table.png`} alt="No data to show" />
             <span>Data you can trust about Greater DC communities.</span>
           </div>
         }
