@@ -78,7 +78,7 @@ export default class Map extends Component {
     });
 
     this.map.scrollZoom.disable();
-    this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
 
     this.map.on("load", this.props.onLoad);
     this.map.on("data", this.handleMapData);
