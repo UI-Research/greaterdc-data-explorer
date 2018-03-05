@@ -210,7 +210,7 @@ export const hasNotesAndSources = (data, level, item) => {
 // Value formatting
 //
 export const formatNumber = (value) => {
-  if (!isNumeric(value) || !value.toString) return "-";
+  if (!isNumeric(value) || !value.toString) return "N/A";
 
   // truncate to 2 decimal places to check if number is integer
   //
@@ -220,7 +220,7 @@ export const formatNumber = (value) => {
 
   const number = Number.isInteger(truncated) ? parseInt(value) : parseFloat(value).toFixed(2)
 
-  if (!isNumeric(number)) return "-";
+  if (!isNumeric(number)) return "N/A";
 
   // add commas as thousands separator
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript

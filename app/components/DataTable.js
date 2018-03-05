@@ -67,22 +67,24 @@ export default class DataTable extends Component {
         const areaValue = row && row[currentIndicator] || "N/A";
         const marginOfError = rowMOE(row, currentIndicator);
 
-        rows.push(
-          <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
-            <td>{label}, {currentYear}</td>
-            <td>
-              <span>{area && formatNumber(areaValue)}</span>
-              <span className="moe">{marginOfError && `±${marginOfError}`}</span>
-            </td>
-            <td>{formatNumber(aggs.avg)}</td>
-            <td>{formatNumber(aggs.min)}</td>
-            <td>{formatNumber(aggs.max)}</td>
-          </tr>
-        );
+        if(areaValue !== "N/A" && areaValue !== ".") {
+          rows.push(
+            <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
+              <td>{label}, {currentYear}</td>
+              <td>
+                <span>{area && formatNumber(areaValue)}</span>
+                <span className="moe">{marginOfError && `±${marginOfError}`}</span>
+              </td>
+              <td>{formatNumber(aggs.avg)}</td>
+              <td>{formatNumber(aggs.min)}</td>
+              <td>{formatNumber(aggs.max)}</td>
+            </tr>
+          );
+        }
       });
 
       rows.push(
-        <tr key={`${currentIndicator}-separator`}>
+        <tr className="separator" key={`${currentIndicator}-separator`}>
           <td colSpan="5" class="separator" />
         </tr>
       );

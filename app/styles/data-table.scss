@@ -84,6 +84,12 @@
       }
 
       tbody {
+        tr.separator + tr.separator {
+          td.separator {
+            border-bottom: none;
+          }
+        }
+
         td.separator {
           padding: 0;
           border-bottom: 1px solid black;
