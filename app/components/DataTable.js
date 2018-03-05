@@ -22,8 +22,6 @@ import {
   hasNotesAndSources,
 } from "../lib/data";
 
-import { DATA_LOCATION } from "../config";
-
 export default class DataTable extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487

@@ -19,7 +19,7 @@ import {
 } from "../lib/data";
 
 import {
-  equalIntervals,
+  quantileIntervals,
 } from "../lib/classifiers";
 
 const filterObject = (obj, predicate) => {
@@ -161,7 +161,8 @@ export default class App extends Component {
 
         const rows = choroplethRows(data, geography, indicator, year);
         const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
-        const steps = equalIntervals(rows.map(row => row[indicator]), classifierSteps);
+        const steps = quantileIntervals(rows.map(row => row[indicator]), classifierSteps)
+
         const colorStops = choroplethColorStops(rows, steps, geography, indicator);
 
         const newFilters = filter === "indicator"
