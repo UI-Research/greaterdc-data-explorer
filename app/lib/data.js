@@ -120,6 +120,16 @@ export const years = (data) => {
     .reduce((all, year) => [ ...all, { label: year, value: year } ], []);
 };
 
+export const sortIndicators = (indicatorOptions, metadata) => {
+  if (!metadata) return [];
+
+  const sorted = metadata
+  .filter(({ NAME }) => filterColumn(NAME))
+  .map(({ NAME }) => indicatorOptions.find(({ value }) => value === NAME));
+
+  return sorted;
+}
+
 //
 // Data table
 //
