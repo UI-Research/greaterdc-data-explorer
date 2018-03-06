@@ -38,6 +38,30 @@ html.not-embedded body,
     .container {
       @extend %container;
     }
+
+    .scroll-to-table {
+      display: none;
+      position: absolute;
+      top: 55vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.5);
+      border: none;
+      border-radius: 50%;
+      z-index: 10;
+
+      &:after {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        content: "▼";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+      }
+    }
   }
   .btn, .button {
     @extend %button;
@@ -62,6 +86,12 @@ html.not-embedded body,
 @media screen and (max-width: $mobile-breakpoint) {
   .greater-dc-data-explorer .container {
     width: calc(100vw - 20px) !important;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) and (max-height: 500px) {
+  .greater-dc-data-explorer .App .scroll-to-table {
+    display: block;
   }
 }
 

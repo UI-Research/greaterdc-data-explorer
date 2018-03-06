@@ -224,6 +224,12 @@ export default class App extends Component {
     });
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  scrollToTable = () => {
+    document.querySelector(".DataTable").scrollIntoView();
+  }
+
   render() {
     const {
       filters,
@@ -259,6 +265,10 @@ export default class App extends Component {
             setFilter={this.setFilter}
             onInfoClick={this.handleInfoClick}
           />
+
+          <button className="scroll-to-table" onClick={this.scrollToTable}>
+            Scroll to table
+          </button>
 
           <DataTable
             selectedFilters={selectedFilters}
