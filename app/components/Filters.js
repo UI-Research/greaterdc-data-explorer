@@ -12,6 +12,17 @@ export default class Filters extends Component {
   // eslint-disable-next-line no-undef
   handleChange = (name) => (opt) => {
     this.props.setFilter(name, (opt && opt.value));
+
+    if (name === "indicator" && opt && opt.value) {
+      window.setTimeout(() => {
+        const node = document.querySelector(`.data-table-row.${opt.value}`)
+        if (node) {
+          const scroller = document.querySelector(".DataTable .scroller");
+
+          scroller.scrollTop = node.offsetTop;
+        }
+      }, 10);
+    }
   }
 
   // https://github.com/babel/babel-eslint/issues/487

@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
 import PropTypes from "prop-types";
 import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
+import classnames from "classnames";
 
 import {
   topics,
@@ -58,7 +59,9 @@ export default class DataTable extends Component {
 
       selectedYears.forEach(({ value: currentYear }) => {
         const aggs = aggregates(data, currentIndicator, currentYear);
-        const cx = currentIndicator === indicator ? "highlight" : ""
+        const cx = classnames("data-table-row", currentIndicator, {
+          highlight: currentIndicator === indicator,
+        });
 
         const row = area && areaValues.length > 0
           ? areaValues.find(r => r.timeframe === currentYear)
