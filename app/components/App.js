@@ -152,9 +152,11 @@ export default class App extends Component {
 
       // calculate choropleth data if indicator / year changes
       if (filter === "indicator" || filter === "year") {
-        const { selectedFilters, selectedFilters: { geography, topic } } = this.state;
+        const { filters, selectedFilters, selectedFilters: { geography, topic } } = this.state;
         const indicator = filter === "indicator" ? value : selectedFilters.indicator;
-        const year = filter === "year" ? value : selectedFilters.year;
+        const year = filter === "year"
+          ? value
+          : filters[geography].topics[topic].indicators[value].years[0].value;
 
         const dataKey = dataSourceKey(geography, topic);
         const data = this.state.dataSources[dataKey];
@@ -166,7 +168,7 @@ export default class App extends Component {
         const colorStops = choroplethColorStops(rows, steps, geography, indicator);
 
         const newFilters = filter === "indicator"
-          ? { "indicator": value, year: null }
+          ? { indicator: value, year }
           : { year: value };
 
         return this.setState({
