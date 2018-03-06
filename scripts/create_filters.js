@@ -120,6 +120,7 @@ function yearsFor(geography, topic, indicator) {
   .filter(line => isNumeric(line[indicator]))
   .map(line => line.timeframe)
   .filter((v, i, a) => a.indexOf(v) === i) // unique values filtering, https://stackoverflow.com/questions/1960473/get-all-unique-values-in-an-array-remove-duplicates
+  .sort((a, b) => b - a) // sort years in descending order
   .map(timeframe => ({ value: timeframe.toString(), label: timeframe.toString() }));
 
   return years;
