@@ -74,13 +74,18 @@
         background: $filters-input-bg;
         color: white;
       }
-
-      thead tr:first-child td {
-        font-weight: bold;
-        padding-bottom: 0;
+      thead tr{
+        font-size: 80%;
+      }
+      thead tr:first-child{
+        font-size: 80%;
+        td {
+          font-weight: bold;
+          padding-bottom: 0;
+        }
       }
       thead tr:last-child td {
-        font-size: 1rem;
+        font-size: .75rem;
       }
 
       tbody {
