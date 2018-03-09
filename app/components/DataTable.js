@@ -73,7 +73,7 @@ export default class DataTable extends Component {
         if(areaValue !== "N/A" && areaValue !== ".") {
           rows.push(
             <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
-              <td>{label}, {currentYear}</td>
+              <td className="title">{label}, {currentYear}</td>
               <td>
                 <span>{area && formatNumber(areaValue)}</span>
                 <span className="moe">{marginOfError && `±${marginOfError}`}</span>
