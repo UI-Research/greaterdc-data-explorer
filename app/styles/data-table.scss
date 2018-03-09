@@ -84,6 +84,12 @@
       }
 
       tbody {
+        tr.separator + tr.separator {
+          td.separator {
+            border-bottom: none;
+          }
+        }
+
         td.separator {
           padding: 0;
           border-bottom: 1px solid black;
@@ -98,6 +104,11 @@
         }
         tr:last-child td, tr:nth-last-child(2) td {
           border: 0;
+        }
+
+        tr.data-table-row {
+          td { text-align: right; }
+          td.title { text-align: left; }
         }
 
         span.moe {

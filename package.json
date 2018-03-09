@@ -12,7 +12,8 @@
     "build-skip-verify": "yarn convert-data && yarn create-filters && brunch build --production",
     "convert-data": "yarn babel-node scripts/csv2json.js --from=./data --to=./app/assets/data",
     "create-filters": "yarn babel-node scripts/create_filters.js --from=./data --to=./app/assets/data",
-    "verify-data": "yarn babel-node scripts/verify_data.js --from=./data"
+    "verify-data": "yarn babel-node scripts/verify_data.js --from=./data",
+    "data-templates": "yarn babel-node scripts/generate_templates.js"
   },
   "dependencies": {
     "axios": "^0.17.1",

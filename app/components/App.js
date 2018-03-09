@@ -19,7 +19,7 @@ import {
 } from "../lib/data";
 
 import {
-  equalIntervals,
+  quantileIntervals,
 } from "../lib/classifiers";
 
 const filterObject = (obj, predicate) => {
@@ -152,20 +152,23 @@ export default class App extends Component {
 
       // calculate choropleth data if indicator / year changes
       if (filter === "indicator" || filter === "year") {
-        const { selectedFilters, selectedFilters: { geography, topic } } = this.state;
+        const { filters, selectedFilters, selectedFilters: { geography, topic } } = this.state;
         const indicator = filter === "indicator" ? value : selectedFilters.indicator;
-        const year = filter === "year" ? value : selectedFilters.year;
+        const year = filter === "year"
+          ? value
+          : filters[geography].topics[topic].indicators[value].years[0].value;
 
         const dataKey = dataSourceKey(geography, topic);
         const data = this.state.dataSources[dataKey];
 
         const rows = choroplethRows(data, geography, indicator, year);
         const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
-        const steps = equalIntervals(rows.map(row => row[indicator]), classifierSteps);
+        const steps = quantileIntervals(rows.map(row => row[indicator]), classifierSteps)
+
         const colorStops = choroplethColorStops(rows, steps, geography, indicator);
 
         const newFilters = filter === "indicator"
-          ? { "indicator": value, year: null }
+          ? { indicator: value, year }
           : { year: value };
 
         return this.setState({
@@ -221,6 +224,12 @@ export default class App extends Component {
     });
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  scrollToTable = () => {
+    document.querySelector(".DataTable").scrollIntoView();
+  }
+
   render() {
     const {
       filters,
@@ -256,6 +265,10 @@ export default class App extends Component {
             setFilter={this.setFilter}
             onInfoClick={this.handleInfoClick}
           />
+
+          <button className="scroll-to-table" onClick={this.scrollToTable}>
+            Scroll to table
+          </button>
 
           <DataTable
             selectedFilters={selectedFilters}

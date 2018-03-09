@@ -192,3 +192,11 @@ All notes & sources are expected to live in a `help-text.csv` file. This CSV mus
   * `level === "indicator"`: Must exist as a CSV column in whatever data we are looking at (case sensitive)
   * `level === "general"`: Must be one of `average`, `low`, or `high`
 * `text`: whatever text should be shown in the Notes & Sources box
+
+#### Generating a template
+
+Run `yarn data-templates` to generate template CSVs that should be filled and placed in `/data/help-text.csv` to be converted and read by the application. The resulting file will be placed under `/templates/help-text.csv`.
+
+##### NOTE:
+
+This function assumes the existence of a valid `/app/assets/data/filters.json` file. If that's not the case, this task will fail. Please ensure that `yarn create-filters` ran successfuly prior to attempting to generate this template.

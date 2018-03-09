@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
 import PropTypes from "prop-types";
 import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
+import classnames from "classnames";
 
 import {
   topics,
@@ -21,8 +22,6 @@ import {
   rowMOE,
   hasNotesAndSources,
 } from "../lib/data";
-
-import { DATA_LOCATION } from "../config";
 
 export default class DataTable extends Component {
 
@@ -60,7 +59,9 @@ export default class DataTable extends Component {
 
       selectedYears.forEach(({ value: currentYear }) => {
         const aggs = aggregates(data, currentIndicator, currentYear);
-        const cx = currentIndicator === indicator ? "highlight" : ""
+        const cx = classnames("data-table-row", currentIndicator, {
+          highlight: currentIndicator === indicator,
+        });
 
         const row = area && areaValues.length > 0
           ? areaValues.find(r => r.timeframe === currentYear)
@@ -69,22 +70,24 @@ export default class DataTable extends Component {
         const areaValue = row && row[currentIndicator] || "N/A";
         const marginOfError = rowMOE(row, currentIndicator);
 
-        rows.push(
-          <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
-            <td>{label}, {currentYear}</td>
-            <td>
-              <span>{area && formatNumber(areaValue)}</span>
-              <span className="moe">{marginOfError && `±${marginOfError}`}</span>
-            </td>
-            <td>{formatNumber(aggs.avg)}</td>
-            <td>{formatNumber(aggs.min)}</td>
-            <td>{formatNumber(aggs.max)}</td>
-          </tr>
-        );
+        if(areaValue !== "N/A" && areaValue !== ".") {
+          rows.push(
+            <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
+              <td className="title">{label}, {currentYear}</td>
+              <td>
+                <span>{area && formatNumber(areaValue)}</span>
+                <span className="moe">{marginOfError && `±${marginOfError}`}</span>
+              </td>
+              <td>{formatNumber(aggs.avg)}</td>
+              <td>{formatNumber(aggs.min)}</td>
+              <td>{formatNumber(aggs.max)}</td>
+            </tr>
+          );
+        }
       });
 
       rows.push(
-        <tr key={`${currentIndicator}-separator`}>
+        <tr className="separator" key={`${currentIndicator}-separator`}>
           <td colSpan="5" class="separator" />
         </tr>
       );

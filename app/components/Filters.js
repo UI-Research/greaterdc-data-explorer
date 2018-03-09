@@ -2,7 +2,7 @@ import { h, Component } from "preact";
 import Select from "react-select";
 import map from "lodash.map";
 
-import { hasNotesAndSources } from "../lib/data";
+import { sortIndicators, hasNotesAndSources } from "../lib/data";
 
 import { geographyOptions } from "../support/filters";
 
@@ -12,6 +12,17 @@ export default class Filters extends Component {
   // eslint-disable-next-line no-undef
   handleChange = (name) => (opt) => {
     this.props.setFilter(name, (opt && opt.value));
+
+    if (name === "indicator" && opt && opt.value) {
+      window.setTimeout(() => {
+        const node = document.querySelector(`.data-table-row.${opt.value}`)
+        if (node) {
+          const scroller = document.querySelector(".DataTable .scroller");
+
+          scroller.scrollTop = node.offsetTop;
+        }
+      }, 10);
+    }
   }
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -45,7 +56,7 @@ export default class Filters extends Component {
   }
 
   render() {
-    const { filters, selectedFilters, clearFilters } = this.props;
+    const { filters, selectedFilters, clearFilters, metadata } = this.props;
     const { geography, topic, indicator, year } = selectedFilters;
 
     if (!filters) return null;
@@ -88,7 +99,7 @@ export default class Filters extends Component {
             disabled={!topic}
             name="indicator"
             onChange={this.handleChange("indicator")}
-            options={indicatorOptions}
+            options={sortIndicators(indicatorOptions, metadata)}
             placeholder={topic ? "Indicator" : "Please select topic"}
             value={indicator}
             valueRenderer={this.renderOptions("indicator")}

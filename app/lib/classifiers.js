@@ -8,3 +8,10 @@ export const equalIntervals = (values, steps = 5) => {
   // 0.001 is added to account for rounding errors on the highest values
   return times(steps).reduce((all, i) => [ ...all, ((i + 1) * inc) + min + 0.001 ], []);
 };
+
+export const quantileIntervals = (values, steps = 5) => {
+  const perBucket = Math.floor(values.length / steps);
+  const sortedValues = [ ...values ].sort((a,b) => a - b);
+
+  return times(steps).reduce((all, i) => [ ...all, sortedValues[perBucket + i*perBucket - 1] ], []);
+}

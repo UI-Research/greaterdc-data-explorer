@@ -1,5 +1,6 @@
 import { h , Component } from "preact";
 import { func, object } from "prop-types";
+import classnames from "classnames";
 
 import Filters from './Filters';
 
@@ -78,7 +79,7 @@ export default class Map extends Component {
     });
 
     this.map.scrollZoom.disable();
-    this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
 
     this.map.on("load", this.props.onLoad);
     this.map.on("data", this.handleMapData);
@@ -237,6 +238,18 @@ export default class Map extends Component {
       notesAndSources,
     } = this.props;
 
+    const stepsCount = indicator && year
+      ? choroplethSteps.length
+      : 0;
+
+    const largeValues = indicator && year
+      ? parseInt(choroplethSteps[stepsCount - 1]).toString().length * stepsCount > 20
+      : false;
+
+    const legendCx = classnames("Map-legend", {
+      "large-values": largeValues,
+    });
+
     return (
       <div className="Map">
         <div id="map" style={{height: 'calc(100vh + 50px)'}}>
@@ -251,7 +264,8 @@ export default class Map extends Component {
               notesAndSources={notesAndSources}
               onInfoClick={this.props.onInfoClick}
             />
-            <div className="Map-legend">
+
+            <div className={legendCx}>
               <small>{indicator ? (indicator && metadata && indicatorLabel(indicator, metadata)) : "Select an Indicator"}</small>
               <dl>
                 <dt>
