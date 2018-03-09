@@ -79,8 +79,8 @@ export default class DataTable extends Component {
                 <span className="moe">{marginOfError && `±${marginOfError}`}</span>
               </td>
               <td>{formatNumber(aggs.avg)}</td>
-              <td>{formatNumber(aggs.min)}</td>
-              <td>{formatNumber(aggs.max)}</td>
+              <td className="hide-for-mobile">{formatNumber(aggs.min)}</td>
+              <td className="hide-for-mobile">{formatNumber(aggs.max)}</td>
             </tr>
           );
         }
@@ -123,13 +123,13 @@ export default class DataTable extends Component {
                       }
                       Average
                     </td>
-                    <td>
+                    <td className="hide-for-mobile">
                       {hasNotesAndSources(notesAndSources, "general", "low") &&
                         <span className="info-button" onClick={() => this.props.onInfoClick("general", "low")}>&#x24d8;&nbsp;</span>
                       }
                       Low
                     </td>
-                    <td>
+                    <td className="hide-for-mobile">
                       {hasNotesAndSources(notesAndSources, "general", "high") &&
                         <span className="info-button" onClick={() => this.props.onInfoClick("general", "high")}>&#x24d8;&nbsp;</span>
                       }
