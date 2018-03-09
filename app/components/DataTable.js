@@ -111,30 +111,30 @@ export default class DataTable extends Component {
               <table>
                 <thead>
                   <tr>
-                    <td>Indicator</td>
-                    <td>{areaLabel(geography, areaProps)}</td>
-                    <td className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s` : "Please select a geography"}</td>
+                    <th>Indicator</th>
+                    <th>{areaLabel(geography, areaProps)}</th>
+                    <th className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s` : "Please select a geography"}</th>
                   </tr>
                   <tr>
-                    <td colSpan="2" />
-                    <td>
+                    <th colSpan="2" />
+                    <th>
                       {hasNotesAndSources(notesAndSources, "general", "average") &&
                         <span className="info-button" onClick={() => this.props.onInfoClick("general", "average")}>&#x24d8;&nbsp;</span>
                       }
                       Average
-                    </td>
-                    <td className="hide-for-mobile">
+                    </th>
+                    <th className="hide-for-mobile">
                       {hasNotesAndSources(notesAndSources, "general", "low") &&
                         <span className="info-button" onClick={() => this.props.onInfoClick("general", "low")}>&#x24d8;&nbsp;</span>
                       }
                       Low
-                    </td>
-                    <td className="hide-for-mobile">
+                    </th>
+                    <th className="hide-for-mobile">
                       {hasNotesAndSources(notesAndSources, "general", "high") &&
                         <span className="info-button" onClick={() => this.props.onInfoClick("general", "high")}>&#x24d8;&nbsp;</span>
                       }
                       High
-                    </td>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

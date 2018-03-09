@@ -70,22 +70,27 @@
         padding: 10px 20px;
       }
 
-      thead td {
+      thead th {
         background: $filters-input-bg;
         color: white;
+        position: sticky;
+        padding: 5px 0;
       }
       thead tr{
         font-size: 80%;
       }
+
       thead tr:first-child{
         font-size: 80%;
-        td {
+        th {
           font-weight: bold;
           padding-bottom: 0;
+          top: 0;
         }
       }
-      thead tr:last-child td {
+      thead tr:last-child th {
         font-size: .75rem;
+        top: 21px;
       }
 
       tbody {
