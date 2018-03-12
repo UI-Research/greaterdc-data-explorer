@@ -86,6 +86,9 @@ html.not-embedded body,
 @media screen and (max-width: $mobile-breakpoint) {
   .greater-dc-data-explorer .container {
     width: calc(100vw - 20px) !important;
+    .hide-for-mobile{
+      display: none;
+    }
   }
 }
 
