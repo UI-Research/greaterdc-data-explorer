@@ -1,12 +1,21 @@
 import { h, Component } from "preact";
 import Select from "react-select";
 import map from "lodash.map";
+import classnames from "classnames";
+import ClickOutside from "react-click-outside";
 
 import { sortIndicators, hasNotesAndSources } from "../lib/data";
 
 import { geographyOptions } from "../support/filters";
 
 export default class Filters extends Component {
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  state = {
+    tooltipLevel: null,
+    tooltipItem: null,
+  }
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
@@ -27,11 +36,7 @@ export default class Filters extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
-  handleInfoClick = (level, item, ev) => {
-    // TODO: Connect this with whatever shows notes & sources
-    // TODO: Prevent select from opening when info is clicked
-    ev.preventDefault();
-  }
+  setTooltip = (tooltipLevel, tooltipItem) => this.setState({ tooltipLevel, tooltipItem });
 
   // https://github.com/babel/babel-eslint/issues/487
   // eslint-disable-next-line no-undef
@@ -43,7 +48,15 @@ export default class Filters extends Component {
             className="info-button"
             onClick={(ev) => {
               ev.preventDefault();
-              this.props.onInfoClick(type, selectedOption.value);
+              ev.stopPropagation();
+              ev.stopImmediatePropagation();
+
+              if (this.state.tooltipLevel) {
+                this.setTooltip(null, null);
+              }
+              else {
+                this.setTooltip(type, selectedOption.value);
+              }
             }}
           >
             &#x24d8;&nbsp;
@@ -51,15 +64,20 @@ export default class Filters extends Component {
         }
         <span>{selectedOption.label}</span>
       </div>
-
-    )
+    );
   }
 
   render() {
-    const { filters, selectedFilters, clearFilters, metadata } = this.props;
+    const { tooltipLevel, tooltipItem } = this.state;
+    const { filters, selectedFilters, clearFilters, metadata, notesAndSources } = this.props;
     const { geography, topic, indicator, year } = selectedFilters;
 
     if (!filters) return null;
+
+    const tooltipCx = classnames("sources-and-notes-tooltip", tooltipLevel, tooltipItem, {
+      visible: tooltipLevel !== null && tooltipItem !== null,
+    });
+    const tooltipContent = (notesAndSources.find(i => i.level === tooltipLevel && i.item === tooltipItem) || {}).text;
 
     const topicOptions = geography
       ? map(filters[geography].topics, ({ label, value }) => ({ label, value }))
@@ -75,6 +93,13 @@ export default class Filters extends Component {
 
     return (
       <div className="Filters">
+        <ClickOutside onClickOutside={() => this.setTooltip(null, null)}>
+          <div
+            className={tooltipCx}
+            dangerouslySetInnerHTML={{__html: tooltipContent}}
+          />
+        </ClickOutside>
+
         <div className="Filters-row">
           <Select
             name="geography"
@@ -83,6 +108,7 @@ export default class Filters extends Component {
             placeholder="Geography"
             value={geography}
             valueRenderer={this.renderOptions("geography")}
+            openOnClick={false}
           />
 
           <Select
@@ -93,6 +119,7 @@ export default class Filters extends Component {
             placeholder={geography ? "Topic" : "Please select geography"}
             value={topic}
             valueRenderer={this.renderOptions("topic")}
+            openOnClick={false}
           />
 
           <Select
@@ -103,6 +130,7 @@ export default class Filters extends Component {
             placeholder={topic ? "Indicator" : "Please select topic"}
             value={indicator}
             valueRenderer={this.renderOptions("indicator")}
+            openOnClick={false}
           />
 
           <Select

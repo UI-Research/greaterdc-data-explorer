@@ -3,10 +3,29 @@
 .greater-dc-data-explorer {
 
   .Filters {
+    position: relative;
     flex-basis: 33.33333333%;
     max-width: 33.33333333%;
     z-index: 1;
     height: 200px;
+
+    .sources-and-notes-tooltip {
+      position: absolute;
+      display: none;
+      left: 10px;
+      width: 110%;
+      z-index: 2;
+      @extend %card;
+      background: rgba(255, 255, 255, 0.95);
+
+      &.visible { display: block; }
+
+      &.geography { top: 30px; }
+      &.topic { top: 75px; }
+      &.indicator { top: 115px; }
+      &.year { top: 155px; }
+
+    }
   }
 
   .Filters-row{
@@ -41,7 +60,7 @@
     // justify-content: space-between;
   }
 
-  .Select-value-label[aria-selected='true']{
+  .Select-value-label[aria-selected='true'] {
     color: saturate($filters-input-color, 50%) !important;
   }
   .Select-placeholder {
@@ -94,7 +113,7 @@
 }
 
 @media screen and (max-width: $mobile-breakpoint) {
-  .App{
+  .App {
     .Filters {
       flex-basis: 100%;
       max-width: 100%;
