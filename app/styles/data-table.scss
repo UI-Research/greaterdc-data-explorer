@@ -11,8 +11,8 @@
   .DataTable{
     padding: 0;
     z-index: 2;
-    flex-basis: 58.33333333%;
-    max-width: 58.33333333%;
+    flex-basis: 100%;
+    max-width: 100%;
 
     &.DataTable-empty {
       @extend %card;

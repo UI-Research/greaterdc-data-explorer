@@ -1,6 +1,5 @@
 import { h, Component } from "preact";
 import PropTypes from "prop-types";
-import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
 import classnames from "classnames";
 
 import {
@@ -45,7 +44,6 @@ export default class DataTable extends Component {
     const {
       selectedFilters: { geography, topic, indicator, year },
       area, areaProps, data, metadata, notesAndSources,
-      selectedTab,
     } = this.props;
 
     const canShowData = !!(geography && topic);
@@ -152,30 +150,6 @@ export default class DataTable extends Component {
             <a className="button data-download-button" href={downloadURL} download={downloadName} role="button">Download Data</a>
           </div>
         }
-
-        <div class="tab-container">
-          <Tabs defaultTab={selectedTab} onChange={tab => this.props.setSelectedTab(tab)}>
-            <TabList>
-              <Tab tabFor="about">About</Tab>
-              <Tab tabFor="notes">Notes & Sources</Tab>
-            </TabList>
-            <TabPanel tabId="about">
-              <p>Discover how your neighborhood fares on education, jobs, basic needs, affordable housing, health, and more. Use the findings to assess community needs, plan for change, demand action, or document progress toward equity.</p>
-            </TabPanel>
-            <TabPanel tabId="notes">
-              <ol className="source-list">
-                {notesAndSources.map(({ level, item, text }) => (
-                  <li
-                    key={`${level}-${item}`}
-                    id={`${level}-${item}`}
-                    dangerouslySetInnerHTML={{ __html: text }}
-                  />
-                ))}
-              </ol>
-            </TabPanel>
-          </Tabs>
-        </div>
-
       </div>
     );
   }

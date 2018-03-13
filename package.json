@@ -27,6 +27,7 @@
     "preact": "^8.1.0",
     "preact-compat": "^3.17.0",
     "query-string": "^5.0.1",
+    "react-click-outside": "tj/react-click-outside",
     "react-select": "^1.0.0-rc.10",
     "react-web-tabs": "^0.4.3"
   },
