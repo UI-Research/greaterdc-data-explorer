@@ -1,5 +1,6 @@
 import axios from "axios";
 import sortedUniq from "lodash.sorteduniq";
+import cloneDeep from "lodash.clonedeep";
 
 import { DATA_LOCATION } from "../config";
 
@@ -123,9 +124,10 @@ export const years = (data) => {
 export const sortIndicators = (indicatorOptions, metadata) => {
   if (!metadata) return [];
 
-  const sorted = metadata
-  .filter(({ NAME }) => filterColumn(NAME))
-  .map(({ NAME }) => indicatorOptions.find(({ value }) => value === NAME));
+  const sorted = cloneDeep(metadata)
+    .filter(({ NAME }) => filterColumn(NAME))
+    .sort((a,b) => a.weborder - b.weborder)
+    .map(({ NAME }) => indicatorOptions.find(({ value }) => value === NAME));
 
   return sorted;
 }

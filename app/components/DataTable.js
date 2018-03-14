@@ -40,6 +40,15 @@ export default class DataTable extends Component {
     selectedTab: PropTypes.string.isRequired,
   }
 
+  componentDidUpdate() {
+    const { selectedFilters: { indicator } } = this.props;
+
+    const node = document.querySelector(`.DataTable tbody tr.data-table-row.${indicator}`);
+    const scroller = document.querySelector(".DataTable .scroller");
+
+    if (node && scroller) scroller.scrollTop = node.offsetTop - 45;
+  }
+
   render() {
     const {
       selectedFilters: { geography, topic, indicator, year },
