@@ -8,7 +8,19 @@ import parse from "csv-parse/lib/sync";
 import sortedUniq from "lodash.sorteduniq";
 import isEqual from "lodash.isequal";
 
-import { filterColumn } from "../app/lib/data";
+// import { filterColumn } from "../app/lib/data";
+
+const INDICATORS_BLACKLIST = [
+  "start_date", "end_date", "timeframe", "indc",
+  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "Cluster_tr2000",
+];
+
+const filterColumn = (column) => {
+  if (/(_m|_moe|_nf)$/i.test(column)) return false;
+
+  return !INDICATORS_BLACKLIST.includes(column);
+}
+
 
 function gatherData(from) {
   return glob

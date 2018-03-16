@@ -12,6 +12,13 @@ export const equalIntervals = (values, steps = 5) => {
 export const quantileIntervals = (values, steps = 5) => {
   const perBucket = Math.floor(values.length / steps);
   const sortedValues = [ ...values ].sort((a,b) => a - b);
+  const outlierCount = sortedValues.length % perBucket;
 
-  return times(steps).reduce((all, i) => [ ...all, sortedValues[perBucket + i*perBucket - 1] ], []);
+  const intervals = times(steps)
+    .reduce((all, i) => [ ...all, sortedValues[perBucket + i*perBucket - 1]], []);
+
+  if (outlierCount > 0)
+    intervals[intervals.length - 1] = sortedValues[sortedValues.length - 1];
+
+  return intervals;
 }
