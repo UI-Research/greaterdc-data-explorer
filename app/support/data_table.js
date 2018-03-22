@@ -31,7 +31,7 @@ export const areaLabel = (geography, areaProps) => {
     return `PSA ${areaProps.NAME}`;
 
   case GEO_OPT_COUNTY:
-    return areaProps.county;
+    return areaProps.NAME;
 
   default:
     return null;
