@@ -14,6 +14,7 @@ import {
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
   GEO_OPT_WD12,
+  GEO_OPT_COUNTY,
   // GEO_OPT_CITY,
   // GEO_OPT_CLUSTER,
 } from "../constants/taxonomy";
@@ -28,6 +29,7 @@ export const geographiesKeys = [
   "anc2012_nf",
   "psa2012_nf",
   "ward2012_nf",
+  "county_nf",
 ];
 
 export const rowKey = (geography) => ({
@@ -36,6 +38,7 @@ export const rowKey = (geography) => ({
   [GEO_OPT_ANCS]      : "anc2012_nf",
   [GEO_OPT_PSAS]      : "psa2012_nf",
   [GEO_OPT_WD12]      : "ward2012_nf",
+  [GEO_OPT_COUNTY]    : "county_nf",
   // [GEO_OPT_CITY]      : "city_nf",
   // [GEO_OPT_CLUSTER]   : "cluster_tr2000_nf",
 }[geography]);
@@ -92,9 +95,9 @@ export const fetchHelpText = () => {
 //
 // Filters
 //
-const INDICATORS_BLACKLIST = [
+export const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "Cluster_tr2000",
+  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "County", "Cluster_tr2000",
 ];
 
 export const indicatorLabel = (indicator, metadata) => metadata.find(e => e.NAME === indicator).LABEL;
@@ -127,7 +130,8 @@ export const sortIndicators = (indicatorOptions, metadata) => {
   const sorted = cloneDeep(metadata)
     .filter(({ NAME }) => filterColumn(NAME))
     .sort((a,b) => a.weborder - b.weborder)
-    .map(({ NAME }) => indicatorOptions.find(({ value }) => value === NAME));
+    .map(({ NAME }) => indicatorOptions.find(({ value }) => value === NAME))
+    .filter(f => f);
 
   return sorted;
 }
@@ -162,6 +166,7 @@ const areaTransform = (geography, value) => ({
   [GEO_OPT_ANCS]: v => v.toString(),
   [GEO_OPT_PSAS]: v => v.toString(),
   [GEO_OPT_WD12]: v => parseInt(v, 10),
+  [GEO_OPT_COUNTY]: v => v.toString(),
 }[geography](value));
 
 export const rowMOE = (row, indicator) => {

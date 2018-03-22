@@ -3,7 +3,8 @@ import {
   GEO_OPT_ZIP_CODES,
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
-  GEO_OPT_WD12
+  GEO_OPT_WD12,
+  GEO_OPT_COUNTY,
 } from "../constants/taxonomy";
 
 import {
@@ -28,6 +29,9 @@ export const areaLabel = (geography, areaProps) => {
 
   case GEO_OPT_PSAS:
     return `PSA ${areaProps.NAME}`;
+
+  case GEO_OPT_COUNTY:
+    return areaProps.county;
 
   default:
     return null;
