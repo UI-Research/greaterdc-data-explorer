@@ -54,6 +54,7 @@ export default class Map extends Component {
     toggleAreaLock: func.isRequired,
     data: object,
     metadata: object,
+    onAboutAppClick: func.isRequired,
   }
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -236,6 +237,7 @@ export default class Map extends Component {
       selectedFilters: { geography, indicator, year },
       setFilter,
       notesAndSources,
+      onAboutAppClick,
     } = this.props;
 
     const stepsCount = indicator && year
@@ -284,6 +286,9 @@ export default class Map extends Component {
                   ))}
                 </ul>
               )}
+
+              <span className="Map-legend-about-app" onClick={onAboutAppClick} role="button">About this app</span>
+
             </div>
 
           </div>

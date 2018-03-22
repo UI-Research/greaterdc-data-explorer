@@ -5,6 +5,7 @@ import some from "lodash.some";
 
 import Map from "./Map";
 import DataTable from "./DataTable";
+import Modal from "./Modal";
 
 import {
   dataSourceKey,
@@ -48,6 +49,7 @@ export default class App extends Component {
     notesAndSources: [],
     choroplethSteps: [],
     choroplethColorStops: [],
+    modalOpen: false,
   }
 
   componentWillMount() {
@@ -230,6 +232,10 @@ export default class App extends Component {
     document.querySelector(".DataTable").scrollIntoView();
   }
 
+  // https://github.com/babel/babel-eslint/issues/487
+  openModal = () => this.setState({ modalOpen: true }); // eslint-disable-line no-undef
+  closeModal = () => this.setState({ modalOpen: false }); // eslint-disable-line no-undef
+
   render() {
     const {
       filters,
@@ -238,6 +244,7 @@ export default class App extends Component {
       dataSources, metadataSources, notesAndSources,
       choroplethSteps, choroplethColorStops,
       selectedTab,
+      modalOpen,
     } = this.state;
 
     const dataKey = dataSourceKey(geography, topic);
@@ -264,6 +271,7 @@ export default class App extends Component {
             toggleAreaLock={this.toggleAreaLock}
             setFilter={this.setFilter}
             onInfoClick={this.handleInfoClick}
+            onAboutAppClick={this.openModal}
           />
 
           <button className="scroll-to-table" onClick={this.scrollToTable}>
@@ -281,6 +289,12 @@ export default class App extends Component {
             setSelectedTab={this.setSelectedTab}
             onInfoClick={this.handleInfoClick}
           />
+
+          <Modal isOpen={modalOpen} onRequestClose={this.closeModal}>
+            <h2>About this app</h2>
+            <p>Welcome to the Urban–Greater DC Data Explorer. This interactive map allows you to see data related to education, jobs, basic needs, affordable housing, health, and more across the region. We will add additional data and functionality in the coming months, including more regional data on these topics.</p>
+            <p>If there are data you would like to see added to the explorer, please let us know at <a href="mailto:greaterdc@urban.org">greaterdc@urban.org</a>.</p>
+          </Modal>
         </div>
       </div>
     );
