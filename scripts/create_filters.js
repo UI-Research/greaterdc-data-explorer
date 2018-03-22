@@ -37,7 +37,7 @@ import { geographies, topics } from "../app/constants/taxonomy.js";
 
 const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "county", "Cluster_tr2000",
+  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "county", "ucounty", "Cluster_tr2000",
 ];
 
 const filterColumn = (column) => {
