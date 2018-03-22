@@ -3,6 +3,7 @@ export const GEO_OPT_ZIP_CODES = "zip";
 export const GEO_OPT_ANCS      = "anc12";
 export const GEO_OPT_PSAS      = "psa12";
 export const GEO_OPT_WD12      = "wd12";
+export const GEO_OPT_COUNTY    = "cnty";
 // export const GEO_OPT_CITY      = "city";
 // export const GEO_OPT_CLUSTER   = "cltr00";
 
@@ -11,6 +12,7 @@ export const GEO_LABEL_ZIP_CODES = "DC Zip Codes";
 export const GEO_LABEL_ANCS      = "DC Advisory Neighboorhood Commissions";
 export const GEO_LABEL_PSAS      = "DC Police Service Areas";
 export const GEO_LABEL_WD12      = "DC Wards";
+export const GEO_LABEL_COUNTY    = "Counties";
 // export const GEO_LABEL_CITY      = "City";
 // export const GEO_LABEL_CLUSTER   = "Clusters";
 
@@ -20,6 +22,7 @@ export const geographies = {
   [GEO_OPT_ANCS]      : GEO_LABEL_ANCS,
   [GEO_OPT_PSAS]      : GEO_LABEL_PSAS,
   [GEO_OPT_WD12]      : GEO_LABEL_WD12,
+  [GEO_OPT_COUNTY]    : GEO_LABEL_COUNTY,
   // [GEO_OPT_CITY]      : GEO_LABEL_CITY,
   // [GEO_OPT_CLUSTER]   : GEO_LABEL_CLUSTER,
 }
