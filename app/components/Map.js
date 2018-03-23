@@ -147,20 +147,22 @@ export default class Map extends Component {
     });
 
     // select area
-    this.map.on("click", `${geography}-fills`, () => {
-      this.props.toggleAreaLock();
+    this.map.on("click", `${geography}-fills`, (ev) => {
+      const { areaLocked, area, toggleAreaLock } = this.props;
+      const newArea = ev.features[0].properties[areaKey(geography)];
+
+      if (area !== newArea) {
+        this.setArea(geography, ev);
+        if (!areaLocked) toggleAreaLock();
+      } else {
+        toggleAreaLock();
+      }
     })
 
     // show hide current area on mousemove / leave
     this.map.on("mousemove", `${geography}-fills`, (ev) => {
       if (this.props.areaLocked) return;
-
-      const key = areaKey(geography);
-      const newAreaProps = ev.features[0].properties;
-      const newArea = newAreaProps[key];
-
-      this.map.setFilter(`${geography}-hover`, ["==", key, ev.features[0].properties[key]]);
-      this.props.setArea(newArea, newAreaProps);
+      this.setArea(geography, ev);
     });
 
     this.map.on("mouseleave", `${geography}-fills`, () => {
@@ -169,6 +171,17 @@ export default class Map extends Component {
       const key = areaKey(geography);
       this.map.setFilter(`${geography}-hover`, ["==", key, ""]);
     });
+  }
+
+  // https://github.com/babel/babel-eslint/issues/487
+  // eslint-disable-next-line no-undef
+  setArea = (geography, ev) => {
+    const key = areaKey(geography);
+    const newAreaProps = ev.features[0].properties;
+    const newArea = newAreaProps[key];
+
+    this.map.setFilter(`${geography}-hover`, ["==", key, ev.features[0].properties[key]]);
+    this.props.setArea(newArea, newAreaProps);
   }
 
   // https://github.com/babel/babel-eslint/issues/487

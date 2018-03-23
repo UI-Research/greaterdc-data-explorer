@@ -164,7 +164,7 @@ export default class App extends Component {
         const data = this.state.dataSources[dataKey];
 
         const rows = choroplethRows(data, geography, indicator, year);
-        const classifierSteps = some(rows, r => r.indc === 0) ? 5 : 4;
+        const classifierSteps = some(rows, r => r.indc ? r.indc === 0 : true) ? 5 : 4;
         const steps = quantileIntervals(rows.map(row => row[indicator]), classifierSteps)
 
         const colorStops = choroplethColorStops(rows, steps, geography, indicator);
