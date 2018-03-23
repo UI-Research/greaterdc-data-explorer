@@ -118,7 +118,7 @@ export default class DataTable extends Component {
               <table>
                 <thead>
                   <tr>
-                    <th>Indicator</th>
+                    <th>&nbsp;</th>
                     <th>{areaLabel(geography, areaProps)}</th>
                     <th className="text-center" colSpan="3">{geographyType ? `All ${geographyType}s` : "Please select a geography"}</th>
                   </tr>
