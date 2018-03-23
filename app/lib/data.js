@@ -4,6 +4,8 @@ import cloneDeep from "lodash.clonedeep";
 
 import { DATA_LOCATION } from "../config";
 
+import { filterColumn } from "../support/filters";
+
 import {
   blueColorRamp,
 } from "../constants/colors";
@@ -22,15 +24,6 @@ import {
 export const dataSourceKey = (geography, topic) => (
   `${geography}_${topic}`
 );
-
-export const geographiesKeys = [
-  "geo2010_nf",
-  "zip_nf",
-  "anc2012_nf",
-  "psa2012_nf",
-  "ward2012_nf",
-  "county_nf",
-];
 
 export const rowKey = (geography) => ({
   [GEO_OPT_CENSUS]    : "geo2010_nf",
@@ -95,18 +88,7 @@ export const fetchHelpText = () => {
 //
 // Filters
 //
-export const INDICATORS_BLACKLIST = [
-  "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "county", "ucounty", "Cluster_tr2000",
-];
-
 export const indicatorLabel = (indicator, metadata) => metadata.find(e => e.NAME === indicator).LABEL;
-
-export const filterColumn = (column) => {
-  if (/(_m|_moe|_nf)$/i.test(column)) return false;
-
-  return !INDICATORS_BLACKLIST.includes(column);
-}
 
 export const indicators = (data, metadata) => {
   if (!data || !metadata) return [];

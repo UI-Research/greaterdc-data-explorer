@@ -200,3 +200,10 @@ Run `yarn data-templates` to generate template CSVs that should be filled and pl
 ##### NOTE:
 
 This function assumes the existence of a valid `/app/assets/data/filters.json` file. If that's not the case, this task will fail. Please ensure that `yarn create-filters` ran successfuly prior to attempting to generate this template.
+
+Updating existing data / adding new data
+---
+
+#### Ignoring columns
+
+Because this application is designed to work with lots of different data sources, it is expected that some work will need to be done in order to maintain the application working as expected. To that end, one of the most important file is `app/constants/filters.js`. This file contains a list of all column names that should be ignored when building / displaying indicators in filters. Additionaly, all columns that end in `_nf`, `_m`, or `_moe` will be automatically ignored, without the need to manually add them to the blacklist.

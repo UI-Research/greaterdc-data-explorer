@@ -34,17 +34,7 @@ import glob from "glob";
 import parse from "csv-parse/lib/sync";
 
 import { geographies, topics } from "../app/constants/taxonomy.js";
-
-const INDICATORS_BLACKLIST = [
-  "start_date", "end_date", "timeframe", "indc",
-  "Anc2012", "City", "Psa2012", "Geo2000", "Geo2010", "Ward2012", "Zip", "county", "ucounty", "Cluster_tr2000",
-];
-
-const filterColumn = (column) => {
-  if (/(_m|_moe|_nf)$/i.test(column)) return false;
-
-  return !INDICATORS_BLACKLIST.includes(column);
-}
+import { filterColumn } from "../app/support/filters.js";
 
 const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
