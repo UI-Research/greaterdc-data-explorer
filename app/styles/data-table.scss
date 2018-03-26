@@ -86,7 +86,7 @@
           font-weight: bold;
           padding-bottom: 0;
           top: 0;
-          text-align: right;
+          text-align: center;
         }
       }
       thead tr:last-child th {
@@ -118,7 +118,7 @@
         }
 
         tr.data-table-row {
-          td { text-align: right; }
+          td { text-align: center; }
           td.title { text-align: left; }
         }
 
