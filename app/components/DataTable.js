@@ -77,7 +77,7 @@ export default class DataTable extends Component {
         const areaValue = row && row[currentIndicator] || "N/A";
         const marginOfError = rowMOE(row, currentIndicator);
 
-        if(areaValue !== "N/A" && areaValue !== "." && areaValue !== "X") {
+          if(areaValue !== "N/A" && areaValue !== "." && areaValue !== "X") {
           rows.push(
             <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
               <td className="title">{label}, {currentYear}</td>

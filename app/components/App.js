@@ -2,10 +2,12 @@ import { h, Component } from "preact";
 import qs from "query-string";
 import Promise from "bluebird";
 import some from "lodash.some";
+import Cookies from 'universal-cookie';
 
 import Map from "./Map";
 import DataTable from "./DataTable";
 import Modal from "./Modal";
+
 
 import {
   dataSourceKey,
@@ -29,6 +31,9 @@ const filterObject = (obj, predicate) => {
   ), {});
 };
 
+const cookies = new Cookies();
+
+
 export default class App extends Component {
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -50,11 +55,23 @@ export default class App extends Component {
     choroplethSteps: [],
     choroplethColorStops: [],
     modalOpen: false,
+
   }
 
   componentWillMount() {
+    this.checkCookie();
     fetchFilters().then(filters => this.setState({ filters }));
     fetchHelpText().then(notesAndSources => this.setState({ notesAndSources }));
+  }
+
+  checkCookie(){
+    if (cookies.get('gdc') === 'welcomed') {
+      this.setState({ modalOpen: false});
+    }
+    else{
+      cookies.set('gdc', 'welcomed', { path: '/' });
+      this.setState({ modalOpen: true});
+    }
   }
 
   // https://github.com/babel/babel-eslint/issues/487
@@ -291,8 +308,9 @@ export default class App extends Component {
           />
 
           <Modal isOpen={modalOpen} onRequestClose={this.closeModal}>
-            <h2>About this app</h2>
-            <p>Welcome to the Urban–Greater DC Data Explorer. This interactive map allows you to see data related to education, jobs, basic needs, affordable housing, health, and more across the region. We will add additional data and functionality in the coming months, including more regional data on these topics.</p>
+            <h2>Welcome to the Urban–Greater DC Data Explorer</h2>
+            <p> This interactive map allows you to see data related to education, jobs, basic needs, affordable housing, health, and more across the region. We will add additional data and functionality in the coming months, including more regional data on these topics.</p>
+            <p> For more information about the data, <a href="##">read</a> our methodology report.</p>
             <p>If there are data you would like to see added to the explorer, please let us know at <a href="mailto:greaterdc@urban.org">greaterdc@urban.org</a>.</p>
           </Modal>
         </div>
