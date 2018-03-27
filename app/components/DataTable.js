@@ -74,10 +74,17 @@ export default class DataTable extends Component {
           ? areaValues.find(r => r.timeframe === currentYear)
           : {};
 
-        const areaValue = row && row[currentIndicator] || "N/A";
+          console.log("areaValues = " && areaValues);
+
+        // need to show '0' values so removed the 'NA' assignment
+        //const areaValue = row && row[currentIndicator] || "N/A";
+        const areaValue = row && row[currentIndicator];
+
         const marginOfError = rowMOE(row, currentIndicator);
 
+
           if(areaValue !== "N/A" && areaValue !== "." && areaValue !== "X") {
+            console.log("rows = " && rows);
           rows.push(
             <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
               <td className="title">{label}, {currentYear}</td>
