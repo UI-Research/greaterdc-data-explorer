@@ -29,9 +29,7 @@
     "preact-compat": "^3.17.0",
     "query-string": "^5.0.1",
     "react-click-outside": "tj/react-click-outside",
-    "react-select": "1.2.1",
-    "react-web-tabs": "^0.4.3",
-    "react-cookie": "^2.1.4"
+    "react-select": "1.2.1"
   },
   "devDependencies": {
     "auto-reload-brunch": "^2",

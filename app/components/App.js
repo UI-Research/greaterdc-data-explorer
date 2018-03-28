@@ -2,12 +2,10 @@ import { h, Component } from "preact";
 import qs from "query-string";
 import Promise from "bluebird";
 import some from "lodash.some";
-import Cookies from 'universal-cookie';
 
 import Map from "./Map";
 import DataTable from "./DataTable";
 import Modal from "./Modal";
-
 
 import {
   dataSourceKey,
@@ -31,8 +29,7 @@ const filterObject = (obj, predicate) => {
   ), {});
 };
 
-const cookies = new Cookies();
-
+const HAS_VISITED = "gdc-has-visted";
 
 export default class App extends Component {
 
@@ -59,17 +56,14 @@ export default class App extends Component {
   }
 
   componentWillMount() {
-    this.checkCookie();
+    this.checkFirstVisit();
     fetchFilters().then(filters => this.setState({ filters }));
     fetchHelpText().then(notesAndSources => this.setState({ notesAndSources }));
   }
 
-  checkCookie(){
-    if (cookies.get('gdc') === 'welcomed') {
-      this.setState({ modalOpen: false});
-    }
-    else{
-      cookies.set('gdc', 'welcomed', { path: '/' });
+  checkFirstVisit() {
+    if (window.localStorage.getItem(HAS_VISITED) === null) {
+      window.localStorage.setItem(HAS_VISITED, true);
       this.setState({ modalOpen: true});
     }
   }
