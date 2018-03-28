@@ -1,3 +1,5 @@
+import sortedUniq from "lodash.sorteduniq";
+
 const times = (n) => Array.from(Array(n)).map((_, i) => i);
 
 export const equalIntervals = (values, steps = 5) => {
@@ -18,5 +20,5 @@ export const quantileIntervals = (values, steps = 5) => {
 
   intervals[intervals.length - 1] = sortedValues[sortedValues.length - 1];
 
-  return intervals;
+  return sortedUniq(intervals);
 }
