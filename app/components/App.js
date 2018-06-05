@@ -304,6 +304,7 @@ export default class App extends Component {
           <Modal isOpen={modalOpen} onRequestClose={this.closeModal}>
             <h2>Welcome to the Urban–Greater DC Data Explorer</h2>
             <p> This interactive map allows you to see data related to education, jobs, basic needs, affordable housing, health, and more across the region. We will add additional data and functionality in the coming months, including more regional data on these topics.</p>
+            <p> Click <a href="https://greaterdc.urban.org/sites/default/files/2018-05/UrbanGreaterDCMethodology.pdf" target="_blank">here</a> to download the Data Explorer methodology and notes documentation.</p>
             <p>If there are data you would like to see added to the explorer, please let us know at <a href="mailto:greaterdc@urban.org">greaterdc@urban.org</a>.</p>
           </Modal>
         </div>
