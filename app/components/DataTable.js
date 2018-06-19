@@ -73,7 +73,6 @@ export default class DataTable extends Component {
         const row = area && areaValues.length > 0
           ? areaValues.find(r => r.timeframe === currentYear)
           : {};
-
         const areaValue = row && row[currentIndicator];
         const marginOfError = rowMOE(row, currentIndicator);
 
