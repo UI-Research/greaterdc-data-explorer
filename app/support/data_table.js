@@ -5,6 +5,7 @@ import {
   GEO_OPT_PSAS,
   GEO_OPT_WD12,
   GEO_OPT_COUNTY,
+  GEO_OPT_CLUSTER,
 } from "../constants/taxonomy";
 
 import {
@@ -33,10 +34,15 @@ export const areaLabel = (geography, areaProps) => {
   case GEO_OPT_COUNTY:
     return areaProps.NAME;
 
+  case GEO_OPT_CLUSTER:
+    return areaProps.NAME;
+
+
   default:
     return null;
   }
 };
+
 
 export const headerLabels = {
   [GEO_OPT_CENSUS]: "Tract",
@@ -44,6 +50,8 @@ export const headerLabels = {
   [GEO_OPT_ANCS]: "ANC",
   [GEO_OPT_PSAS]: "PSA",
   [GEO_OPT_WD12]: "Ward",
+  [GEO_OPT_COUNTY]: "County",
+  [GEO_OPT_CLUSTER]: "Neighborhood",
 };
 
 export const areaRows = (data, geography, area) => {

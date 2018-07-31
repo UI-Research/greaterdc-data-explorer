@@ -13,6 +13,7 @@ const geographiesKeys = [
   "psa2012_nf",
   "ward2012_nf",
   "county_nf",
+  "cluster_tr2000_nf",
 ];
 
 // downcase all geography column names to ensure consistency

@@ -18,7 +18,7 @@ import {
   GEO_OPT_WD12,
   GEO_OPT_COUNTY,
   // GEO_OPT_CITY,
-  // GEO_OPT_CLUSTER,
+  GEO_OPT_CLUSTER,
 } from "../constants/taxonomy";
 
 export const dataSourceKey = (geography, topic) => (
@@ -33,7 +33,7 @@ export const rowKey = (geography) => ({
   [GEO_OPT_WD12]      : "ward2012_nf",
   [GEO_OPT_COUNTY]    : "county_nf",
   // [GEO_OPT_CITY]      : "city_nf",
-  // [GEO_OPT_CLUSTER]   : "cluster_tr2000_nf",
+  [GEO_OPT_CLUSTER]   : "cluster_tr2000_nf",
 }[geography]);
 
 //
@@ -149,7 +149,9 @@ const areaTransform = (geography, value) => ({
   [GEO_OPT_PSAS]: v => v.toString(),
   [GEO_OPT_WD12]: v => parseInt(v, 10),
   [GEO_OPT_COUNTY]: v => v.toString(),
+  [GEO_OPT_CLUSTER]: v => parseInt(v, 10),
 }[geography](value));
+
 
 export const rowMOE = (row, indicator) => {
   if (!row) return null;
@@ -190,7 +192,6 @@ export const areaValue = (rows, area, geography, indicator, year) => {
 
   const row = rows.find(r => r.timeframe === year && r[rowKey(geography)].toString() === area.toString());
   const value = row && row[indicator];
-
   return formatNumber(value);
 }
 
