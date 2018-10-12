@@ -40,9 +40,9 @@ fi
 # theory change, so it should not really be hardcoded.
 export PROJECT_ROOT="$HOME/clone"
 
-cd clone
-git clone git@github.com:UI-Research/greaterdc-data-explorer.git
-git pull origin stg
+# cd clone
+# git clone git@github.com:UI-Research/greaterdc-data-explorer.git
+# git pull origin stg
 
 git clone git@github.com:UI-Research/greaterdc-map-data.git
 git pull origin stg
@@ -50,6 +50,8 @@ git pull origin stg
 # nodejs
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get update && apt-get install -y nodejs
+
+mv greaterdc-map-data ../data
 
 # npm
 npm install
