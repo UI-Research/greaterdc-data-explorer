@@ -43,13 +43,20 @@ export PROJECT_ROOT="$HOME/clone"
 # cd clone
 # git clone git@github.com:UI-Research/greaterdc-data-explorer.git
 # git pull origin stg
-
-git clone git@github.com:UI-Research/greaterdc-map-data.git
-git pull origin stg
-mv greaterdc-map-data ../data
-
-cd ../
-yarn build
+#
+# # nodejs
+# curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+# sudo apt-get update && apt-get install -y nodejs
+#
+# # npm
+# npm install
+#
+# #yarn
+# curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+# echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+# sudo apt-get update && sudo apt-get install yarn
+#
+# yarn build
 
 
 ### Log deployment details. Keeping one at a time, so delete previous.
@@ -68,7 +75,8 @@ Commit msg: $CI_MESSAGE
 " > DEPLOYMENT.txt
 
 # Rsync our files to the server
-# rsync -avz --exclude '.git' -e "$SETTING"  $PROJECT_ROOT/ $DESTINATION/
+rsync -avz --exclude '.git' -e "$SETTING"  $PROJECT_ROOT/app $DESTINATION/app
+rsync -avz --exclude '.git' -e "$SETTING"  $PROJECT_ROOT/bin $DESTINATION/bin
 
 
 # $SSH 'sudo service nginx restart && sudo service uwsgi restart'
