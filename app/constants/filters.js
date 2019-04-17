@@ -25,6 +25,6 @@ export const INDICATORS_BLACKLIST = [
   "county",
   "COUNTY",
   "ucounty",
-  "Cluster_tr2000",
+  "cluster2017",
   "city",
 ];

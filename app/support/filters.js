@@ -3,6 +3,7 @@ import {
   GEO_OPT_ZIP_CODES,
   GEO_OPT_ANCS,
   GEO_OPT_PSAS,
+  GEO_OPT_CLUSTER,
   topics,
   geographies,
 } from "../constants/taxonomy";
@@ -18,6 +19,7 @@ export const topicOptions = {
   [GEO_OPT_ANCS]: options,
   [GEO_OPT_PSAS]: options,
   [GEO_OPT_ZIP_CODES]: options,
+  [GEO_OPT_CLUSTER]: options,
 };
 
 export const filterColumn = (column) => {
