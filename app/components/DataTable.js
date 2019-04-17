@@ -57,12 +57,10 @@ export default class DataTable extends Component {
       area, areaProps, data, metadata, notesAndSources,
     } = this.props;
 
-    console.warn(data)
-    console.warn(geography)
-    console.warn(area)
-    console.warn(this.props)
-
-
+    // console.warn(data)
+    // console.warn(geography)
+    // console.warn(area)
+    // console.warn(this.props)
 
     const canShowData = !!(geography && topic);
     const geographyType = headerLabels[geography];
@@ -87,7 +85,7 @@ export default class DataTable extends Component {
         const areaValue = row && row[currentIndicator];
         const marginOfError = rowMOE(row, currentIndicator);
 
-        console.log('areaValue:[]' + areaValue+']');  
+        // console.log('areaValue:[]' + areaValue+']');
         if(areaValue !== "N/A" && areaValue !== "." && areaValue !== "X") {
           rows.push(
             <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
