@@ -6,7 +6,7 @@ import {
   GEO_OPT_WD12,
   GEO_OPT_COUNTY,
   // GEO_OPT_CITY,
-  // GEO_OPT_CLUSTER,
+  GEO_OPT_CLUSTER,
 } from "../constants/taxonomy";
 
 export const shapefile = (geography) => {
@@ -18,7 +18,7 @@ export const shapefile = (geography) => {
     [GEO_OPT_WD12]: "mapbox://urbaninstitute.c2qlrj45",
     [GEO_OPT_COUNTY]: "mapbox://urbaninstitute.0jr8fzld",
     // [GEO_OPT_CITY],
-    // [GEO_OPT_CLUSTER],
+    [GEO_OPT_CLUSTER]: "mapbox://urbaninstitute.302mgn0d",
   }[geography];
 };
 
@@ -31,7 +31,7 @@ export const sourceLayer = (geography) => {
     [GEO_OPT_WD12]: "WD12-b4pj2o",
     [GEO_OPT_COUNTY]: "County-bmf7rz",
     // [GEO_OPT_CITY],
-    // [GEO_OPT_CLUSTER],
+    [GEO_OPT_CLUSTER]: "cluster-4r9zs3",
   }[geography];
 };
 
@@ -44,6 +44,6 @@ export const areaKey = (geography) => {
     [GEO_OPT_WD12]: "WARD",
     [GEO_OPT_COUNTY]: "GEOID",
     // [GEO_OPT_CITY],
-    // [GEO_OPT_CLUSTER],
+    [GEO_OPT_CLUSTER]:"NAME",
   }[geography];
 }

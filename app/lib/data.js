@@ -18,7 +18,7 @@ import {
   GEO_OPT_WD12,
   GEO_OPT_COUNTY,
   // GEO_OPT_CITY,
-  // GEO_OPT_CLUSTER,
+  GEO_OPT_CLUSTER,
 } from "../constants/taxonomy";
 
 export const dataSourceKey = (geography, topic) => (
@@ -33,7 +33,7 @@ export const rowKey = (geography) => ({
   [GEO_OPT_WD12]      : "ward2012_nf",
   [GEO_OPT_COUNTY]    : "county_nf",
   // [GEO_OPT_CITY]      : "city_nf",
-  // [GEO_OPT_CLUSTER]   : "cluster_tr2000_nf",
+  [GEO_OPT_CLUSTER]   : "cluster2017_nf",
 }[geography]);
 
 //
@@ -149,6 +149,7 @@ const areaTransform = (geography, value) => ({
   [GEO_OPT_PSAS]: v => v.toString(),
   [GEO_OPT_WD12]: v => parseInt(v, 10),
   [GEO_OPT_COUNTY]: v => v.toString(),
+  [GEO_OPT_CLUSTER]: v => v.toString(),
 }[geography](value));
 
 export const rowMOE = (row, indicator) => {
@@ -209,6 +210,8 @@ export const hasNotesAndSources = (data, level, item) => {
 // Value formatting
 //
 export const formatNumber = (value) => {
+  //if (!isNumeric(value) || !value.toString) return "N/A"+ (value);
+  // Having value at the end of the return string was resolving to "N/ANaN or N/AInfinity"
   if (!isNumeric(value) || !value.toString) return "N/A";
 
   // truncate to 2 decimal places to check if number is integer

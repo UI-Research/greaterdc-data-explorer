@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { h, Component } from "preact";
 import PropTypes from "prop-types";
 import classnames from "classnames";
@@ -55,12 +57,18 @@ export default class DataTable extends Component {
       area, areaProps, data, metadata, notesAndSources,
     } = this.props;
 
+    // console.warn(data)
+    // console.warn(geography)
+    // console.warn(area)
+    // console.warn(this.props)
+
     const canShowData = !!(geography && topic);
     const geographyType = headerLabels[geography];
 
     const rows = [];
     indicators(data, metadata).forEach(({ value: currentIndicator, label }) => {
       const areaValues = areaRows(data, geography, area);
+      //console.warn(`label = '${label}'`)
 
       const selectedYears = year ? [ { value: year } ] : years(data);
 
@@ -77,6 +85,7 @@ export default class DataTable extends Component {
         const areaValue = row && row[currentIndicator];
         const marginOfError = rowMOE(row, currentIndicator);
 
+        // console.log('areaValue:[]' + areaValue+']');
         if(areaValue !== "N/A" && areaValue !== "." && areaValue !== "X") {
           rows.push(
             <tr key={`${currentIndicator}-${currentYear}`} className={cx}>
