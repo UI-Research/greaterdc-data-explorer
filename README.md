@@ -5,7 +5,7 @@ Setup
 ---
 
 #### Dev requirements:
-    * `node >= v8.6.0`
+    * `node >= v12.13.1`
 
 #### Run:
   * `yarn start` — watches the project with continuous rebuild. This will also launch HTTP server with [pushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history).

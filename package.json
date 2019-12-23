@@ -5,54 +5,60 @@
   "author": "João Gradim",
   "version": "0.0.1",
   "repository": "",
-  "scripts": {
-    "start": "yarn verify-data && yarn convert-data && yarn create-filters && brunch watch --server",
-    "start-skip-verify": "yarn convert-data && yarn create-filters && brunch watch --server",
-    "build": "yarn verify-data && yarn convert-data && yarn create-filters && brunch build --production",
-    "build-skip-verify": "yarn convert-data && yarn create-filters && brunch build --production",
-    "convert-data": "yarn babel-node scripts/csv2json.js --from=./data --to=./app/assets/data",
-    "create-filters": "yarn babel-node scripts/create_filters.js --from=./data --to=./app/assets/data",
-    "verify-data": "yarn babel-node scripts/verify_data.js --from=./data",
-    "data-templates": "yarn babel-node scripts/generate_templates.js"
+  "engines": {
+    "node": ">=12.13.1"
   },
+  "scripts": {
+    "start": "yarn verify-data && yarn convert-data && yarn create-filters && react-scripts start",
+    "start-skip-verify": "yarn convert-data && yarn create-filters && react-scripts start",
+    "build": "yarn verify-data && yarn convert-data && yarn create-filters && react-scripts build",
+    "build-skip-verify": "yarn convert-data && yarn create-filters && react-scripts build",
+    "convert-data": "node --experimental-modules scripts/csv2json.js --from=./data --to=./public/data",
+    "create-filters": "node --experimental-modules scripts/create_filters.js --from=./data --to=./public/data",
+    "verify-data": "node --experimental-modules scripts/verify_data.js --from=./data",
+    "data-templates": "node --experimental-modules scripts/generate_templates.js"
+  },
+  "type": "module",
   "dependencies": {
-    "axios": "^0.17.1",
-    "babel-polyfill": "^6.26.0",
+    "axios": "^0.19.0",
     "bluebird": "^3.5.1",
     "classnames": "^2.2.5",
     "lodash.clonedeep": "^4.5.0",
+    "lodash.compact": "^3.0.1",
     "lodash.groupby": "^4.6.0",
     "lodash.map": "^4.6.0",
     "lodash.some": "^4.6.0",
     "lodash.sorteduniq": "^4.2.0",
     "lodash.throttle": "^4.1.1",
-    "preact": "^8.1.0",
-    "preact-compat": "^3.17.0",
+    "node-sass": "^4.13.0",
+    "parse": "^2.10.0",
     "query-string": "^5.0.1",
+    "react": "^16.12.0",
     "react-click-outside": "tj/react-click-outside",
+    "react-dom": "^16.12.0",
+    "react-scripts": "^3.3.0",
     "react-select": "1.2.1"
   },
   "devDependencies": {
-    "auto-reload-brunch": "^2",
-    "babel-brunch": "^6.1.1",
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
-    "brunch": "^2",
-    "clean-css-brunch": "^2",
-    "csv-parse": "^2.0.0",
-    "eslint-brunch": "^3.12.0",
-    "eslint-config-standard-preact": "^1.1.6",
-    "eslint-plugin-react": "^7.4.0",
+    "csv-parse": "^4.8.2",
     "glob": "^7.1.2",
-    "jsenv-brunch": "^2.0.0",
     "lodash.isequal": "^4.5.0",
     "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1",
-    "sass-brunch": "^2.10.4",
-    "uglify-js-brunch": "^2"
+    "mkdirp": "^0.5.1"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

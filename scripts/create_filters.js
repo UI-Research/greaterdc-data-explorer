@@ -28,13 +28,14 @@
  *
  * */
 
-import path from "path";
 import fs from "fs";
 import glob from "glob";
-import parse from "csv-parse/lib/sync";
+import minimist from 'minimist'
+import parse from "csv-parse/lib/sync.js";
+import path from "path";
 
-import { geographies, topics } from "../app/constants/taxonomy.js";
-import { filterColumn } from "../app/support/filters.js";
+import { geographies, topics } from "../src/constants/taxonomy.js";
+import { filterColumn } from "../src/helpers/filters.js";
 
 const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
@@ -119,7 +120,7 @@ function yearsFor(geography, topic, indicator) {
 //-----------------------------------------------------------------------------
 // Main script
 
-const argv = require("minimist")(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2));
 let { from, to } = argv;
 
 // remove trailing slashes from `from`/`to` args
