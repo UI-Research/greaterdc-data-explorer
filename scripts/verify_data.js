@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 
+// import path from "path";
 import fs from "fs";
 import glob from "glob";
-import isEqual from "lodash.isequal";
-import minimist from 'minimist'
-import parse from "csv-parse/lib/sync.js";
+import parse from "csv-parse/lib/sync";
+// import groupBy from "lodash.groupby";
 import sortedUniq from "lodash.sorteduniq";
+import isEqual from "lodash.isequal";
+
+// import { filterColumn } from "../app/lib/data";
 
 const INDICATORS_BLACKLIST = [
   "start_date", "end_date", "timeframe", "indc",
@@ -72,7 +75,7 @@ function verifyData(from) {
 //-----------------------------------------------------------------------------
 // Main script
 
-const argv = minimist(process.argv.slice(2));
+const argv = require("minimist")(process.argv.slice(2));
 let { from } = argv;
 
 if (!from) {

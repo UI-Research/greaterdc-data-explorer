@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 
+import path from "path";
 import fs from "fs";
 import mkdirp from "mkdirp";
-import path from "path";
 
 function generateHelpTextTemplate() {
-  const file = fs.readFileSync(path.resolve(__dirname, "../", "public", "data", "filters.json"))
+  const file = fs.readFileSync(path.resolve(__dirname, "../", "app", "assets", "data", "filters.json"))
   const json = JSON.parse(file);
 
   const csv = [
@@ -39,3 +39,4 @@ mkdirp.sync(path.resolve(__dirname, "../", "templates"));
 fs.writeFileSync(path.resolve(__dirname, "../", "templates", "help-text.csv"), csv);
 
 console.log("Template written to /templates/help-text.csv")
+

@@ -1,0 +1,229 @@
+@import "extends";
+
+.greater-dc-data-explorer {
+
+  .data-table-container{
+    margin: calc(-50px - 30vh) auto 20px !important;
+    position: relative;
+    display: flex;
+  }
+
+  .DataTable{
+    padding: 0;
+    z-index: 2;
+    flex-basis: 100%;
+    max-width: 100%;
+
+    &.DataTable-empty {
+      @extend %card;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      min-height: 200px;
+      font-size: 22px;
+
+      img {
+        margin-right: 20px;
+        max-width: 50%;
+        height: auto;
+      }
+    }
+
+    .scroller{
+      @extend %card;
+      max-height: 500px;
+      max-height: calc(100vh - 50px);
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    .DataTable-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 5px 0;
+
+      a[download] {
+        border: 1px solid $data-list-button-border;
+        background: $data-list-button-bg;
+        text-transform: uppercase;
+        color: white;
+        border-radius: 0;
+        padding: 7px 13px;
+        cursor: pointer;
+
+        &:hover {
+          background: adjust-color($data-list-button-bg, $lightness: 5%);
+        }
+      }
+
+      a {
+        font-size: 12px;
+      }
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+
+      td {
+        padding: 10px 20px;
+      }
+
+      thead th {
+        background: $filters-input-bg;
+        color: white;
+        position: sticky;
+        padding: 5px 0;
+      }
+      thead tr{
+        font-size: 80%;
+      }
+
+      thead tr:first-child{
+        font-size: 80%;
+        th {
+          font-weight: bold;
+          padding-bottom: 0;
+          top: 0;
+          text-align: center;
+          max-width: 100px;
+        }
+      }
+      thead tr:last-child th {
+        font-size: .75rem;
+        top: 21px;
+      }
+
+      tbody {
+        tr.separator + tr.separator {
+          td.separator {
+            border-bottom: none;
+          }
+        }
+
+        td.separator {
+          padding: 0;
+          border-bottom: 1px solid black;
+        }
+        td.indicator {
+          border-bottom: none;
+          font-weight: bold;
+        }
+
+        tr.highlight td {
+          background: rgba($link-blue, 0.1)
+        }
+        tr:last-child td, tr:nth-last-child(2) td {
+          border: 0;
+        }
+
+        tr.data-table-row {
+          td { text-align: center; }
+          td.title { text-align: left; }
+        }
+
+        span.moe {
+          color: $red;
+          font-size: 12px;
+          vertical-align: 1px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .tab-container {
+    @extend %card;
+    flex-basis: 33.33333333%;
+    max-width: 33.33333333%;
+    margin-left: 8.33333333%;
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+
+    #notes {
+      max-height: 165px;
+      overflow-y: auto;
+    }
+  }
+
+  .data-download-button {
+    margin: 10px 0 0;
+
+    &, &:link, &:active, &:visited {
+      color: white !important;
+    }
+  }
+
+  // Tabs
+  .rwt__tablist {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $map-bg;
+    justify-content: space-around;
+    .rwt__tab {
+      display: flex;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      font-family: inherit;
+      padding: $filters-input-padding-base;
+      position: relative;
+      flex-basis: 50%;
+      color: lighten(black, 50%);
+      outline: none;
+      &[aria-selected=true] {
+        font-weight: bold;
+        color: $filters-input-bg;
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          width: 100%;
+          border-bottom: 3px solid $filters-input-bg;
+        }
+      }
+    }
+    .rwt__tabpanel {
+      padding-top: 10px;
+    }
+  }
+  .source-list{
+    padding-left: 1rem;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  .App {
+    .data-table-container {
+      flex-wrap: wrap;
+      .DataTable{
+        flex-basis: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+        &.DataTable-empty {
+          img{
+            margin: 0 auto;
+            width: auto;
+            height: auto;
+            max-height: 150px;
+          }
+          span{
+            margin-top: 10px;
+          }
+          flex-direction: column;
+          font-size: 18px;
+        }
+      }
+      .tab-container {
+        flex-basis: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        min-height: 200px;
+        max-height: 90vh;
+      }
+    }
+  }
+}
