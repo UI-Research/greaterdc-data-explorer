@@ -10,9 +10,9 @@
   },
   "scripts": {
     "start": "yarn verify-data && yarn convert-data && yarn create-filters && react-scripts start",
-    "start-skip-verify": "yarn convert-data && yarn create-filters && react-scripts start",
-    "build": "yarn verify-data && yarn convert-data && yarn create-filters && react-scripts build",
-    "build-skip-verify": "yarn convert-data && yarn create-filters && react-scripts build",
+    "start-skip-verify": "yarn convert-data && yarn create-filters && node ./scripts/build-no-split.cjs",
+    "build": "yarn verify-data && yarn convert-data && yarn create-filters && node ./scripts/build-no-split.cjs",
+    "build-skip-verify": "yarn convert-data && yarn create-filters && node ./scripts/build-no-split.cjs",
     "convert-data": "node --experimental-modules scripts/csv2json.js --from=./data --to=./public/data",
     "create-filters": "node --experimental-modules scripts/create_filters.js --from=./data --to=./public/data",
     "verify-data": "node --experimental-modules scripts/verify_data.js --from=./data",
@@ -44,7 +44,8 @@
     "glob": "^7.1.2",
     "lodash.isequal": "^4.5.0",
     "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "rewire": "^4.0.1"
   },
   "eslintConfig": {
     "extends": "react-app"
