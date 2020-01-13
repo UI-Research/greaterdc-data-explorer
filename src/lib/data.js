@@ -36,7 +36,7 @@ export const rowKey = (geography) => ({
 // Data fetching
 //
 export const fetchDataSource = (geography, topic) => {
-  const url = `/data/${topic}/${topic}_${geography}.json`;
+  const url = `${process.env.REACT_APP_DATA_LOCATION}/data/${topic}/${topic}_${geography}.json`;
   return axios
   .get(url)
   .then(response => {
@@ -48,7 +48,7 @@ export const fetchDataSource = (geography, topic) => {
 };
 
 export const fetchMetadataSource = (geography, topic) => {
-  const url = `/data/${topic}/${topic}_${geography}_metadata.json`
+  const url = `${process.env.REACT_APP_DATA_LOCATION}/data/${topic}/${topic}_${geography}_metadata.json`
   return axios
   .get(url)
   .then(response => {
@@ -61,7 +61,7 @@ export const fetchMetadataSource = (geography, topic) => {
 
 export const fetchFilters = () => {
   return axios
-  .get(`/data/filters.json`)
+  .get(`${process.env.REACT_APP_DATA_LOCATION}/data/filters.json`)
   .then(response => {
     if (response.headers["content-type"].match(/application\/json/)) {
       return response.data;
@@ -72,7 +72,7 @@ export const fetchFilters = () => {
 
 export const fetchHelpText = () => {
   return axios
-  .get(`/data/help-text.json`)
+  .get(`${process.env.REACT_APP_DATA_LOCATION}/data/help-text.json`)
   .then(response => {
     if (response.headers["content-type"].match(/application\/json/)) {
       return response.data;

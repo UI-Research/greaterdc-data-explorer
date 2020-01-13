@@ -74,7 +74,7 @@ export default class Filters extends Component {
     const { tooltipLevel, tooltipItem } = this.state;
     const { filters, selectedFilters, clearFilters, metadata, notesAndSources } = this.props;
     const { geography, topic, indicator, year } = selectedFilters;
-    console.log(filters, selectedFilters, metadata, notesAndSources)
+    // console.log(filters, selectedFilters, metadata, notesAndSources)
     if (!filters) return null;
 
     const tooltipCx = classnames("sources-and-notes-tooltip", tooltipLevel, tooltipItem, {

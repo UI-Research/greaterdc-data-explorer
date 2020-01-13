@@ -81,15 +81,15 @@ By default, the app is configured to render in a div with id `#app`. If you wish
 
 Assets Location
 ---
-Because the application is designed to work as standalone or embedded in a non-root location, the `DATA_LOCATION` ENV var is used to tell the application where to load the assets from. If not specified, it defaults to `"."`.
+Because the application is designed to work as standalone or embedded in a non-root location, the `REACT_APP_DATA_LOCATION` ENV var is used to tell the application where to load the assets from. If not specified, it defaults to `"."`.
 
 ### Example use:
 
-* `DATA_LOCATION=path/to/assets yarn build`
+* `REACT_APP_DATA_LOCATION=path/to/assets yarn build`
 
 ### Notes:
 
-* `DATA_LOCATION` _must not_ have a trailing slash (`"/"`)
+* `REACT_APP_DATA_LOCATION` _must not_ have a trailing slash (`"/"`)
 
 Filter dropdowns
 ---
