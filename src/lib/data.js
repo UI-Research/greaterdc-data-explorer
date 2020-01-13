@@ -133,7 +133,7 @@ export const aggregates = (data, indicator, year) => {
   };
 }
 
-export const csvSourceURL = (geography, topic) => `/data/${topic}/${topic}_${geography}.csv`;
+export const csvSourceURL = (geography, topic) => `${process.env.REACT_APP_DATA_LOCATION}/data/${topic}/${topic}_${geography}.csv`;
 
 //
 // Choropleth
