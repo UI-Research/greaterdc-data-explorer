@@ -21,4 +21,8 @@ config.optimization.runtimeChunk = false;
 // JS
 config.output.filename = 'static/js/[name].js';
 // CSS. "5" is MiniCssPlugin
-config.plugins[5].options.filename = 'static/css/[name].css';
+// Force rename un-chunked file.
+config.plugins[5].options.moduleFilename = () => 'static/css/main.css';
+
+// I may need this again.
+// config.plugins[5].options.filename = 'static/css/main.css';
