@@ -22,10 +22,8 @@ Thumbs.db
 # NPM packages folder.
 node_modules/
 
-# Brunch output folder.
-public/
-
 # data is automatically generated from CSV sources under /data
 data/
-app/assets/data
+public/data
 templates/
+build

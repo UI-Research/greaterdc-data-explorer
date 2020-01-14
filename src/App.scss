@@ -1,0 +1,103 @@
+@import "./styles/extends";
+
+#block-greaterdc-theme-content {
+  background: $map-bg;
+}
+
+html.not-embedded,
+html.not-embedded body,
+#app {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font-family: "LatoRegular", sans-serif;
+  background: $map-bg;
+}
+
+#map {
+  font-family: "LatoRegular", sans-serif;
+}
+
+// in order to avoid rule conflicts, scope everything under .greater-dc-data-explorer
+.greater-dc-data-explorer {
+
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+  .App {
+    margin: 0;
+    padding: 0;
+    font-family: "LatoRegular", sans-serif;
+
+    a, a:link, a:active, a:visited {
+      color: $link-blue;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: adjust-color($link-blue, $lightness: 5%);
+    }
+
+    .container {
+      @extend %container;
+    }
+
+    .scroll-to-table {
+      display: none;
+      position: absolute;
+      top: 55vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.5);
+      border: none;
+      border-radius: 50%;
+      z-index: 10;
+
+      &:after {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        content: "▼";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+      }
+    }
+  }
+  .btn, .button {
+    @extend %button;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  .info-button {
+    opacity: .5;
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  .greater-dc-data-explorer .container {
+    width: calc(100vw - 20px) !important;
+    .hide-for-mobile{
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) and (max-height: 500px) {
+  .greater-dc-data-explorer .App .scroll-to-table {
+    display: block;
+  }
+}

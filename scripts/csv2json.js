@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 
-import path from "path";
 import fs from "fs";
 import glob from "glob";
 import mkdirp from "mkdirp";
-import parse from "csv-parse/lib/sync";
+import parse from "csv-parse/lib/sync.js";
+import path from "path";
+import minimist from 'minimist'
 
 const geographiesKeys = [
   "geo2010_nf",
@@ -58,7 +59,7 @@ function csv2json(file, from, to) {
 //-----------------------------------------------------------------------------
 // Main script
 
-const argv = require("minimist")(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2));
 const { from, to } = argv;
 
 if (!from || !to) {
