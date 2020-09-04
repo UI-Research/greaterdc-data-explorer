@@ -30,7 +30,7 @@
     "lodash.some": "^4.6.0",
     "lodash.sorteduniq": "^4.2.0",
     "lodash.throttle": "^4.1.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "parse": "^2.10.0",
     "query-string": "^5.0.1",
     "react": "^16.12.0",
