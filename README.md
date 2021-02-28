@@ -207,3 +207,6 @@ Updating existing data / adding new data
 #### Ignoring columns
 
 Because this application is designed to work with lots of different data sources, it is expected that some work will need to be done in order to maintain the application working as expected. To that end, one of the most important file is `app/constants/filters.js`. This file contains a list of all column names that should be ignored when building / displaying indicators in filters. Additionaly, all columns that end in `_nf`, `_m`, or `_moe` will be automatically ignored, without the need to manually add them to the blacklist.
+
+#### Issue with csv-parse
+We need to use an older version of csv-parse ^2.0.0 due to an issue with parsing. With version ^4.5.0 numbers are getting parsed as strings. It is likely a configuration setting that was introduced. This can be looked into in the future but for now we are just pinning it at ^2.0.0.
