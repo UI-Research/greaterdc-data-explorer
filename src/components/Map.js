@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { func, object } from "prop-types";
+import PropTypes, { func, object } from "prop-types";
 import classnames from "classnames";
 
 import Filters from './Filters';
@@ -54,8 +54,8 @@ export default class Map extends Component {
     selectedFilters: object,
     setArea: func.isRequired,
     toggleAreaLock: func.isRequired,
-    data: object,
-    metadata: object,
+    data: PropTypes.array,
+    metadata: PropTypes.array,
     onAboutAppClick: func.isRequired,
   }
 

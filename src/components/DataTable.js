@@ -34,12 +34,12 @@ export default class DataTable extends Component {
     area: PropTypes.string,
     areaProps: PropTypes.object,
     data: PropTypes.array,
-    metadata: PropTypes.object,
-    notesAndSources: PropTypes.shape({
+    metadata: PropTypes.array,
+    notesAndSources: PropTypes.arrayOf(PropTypes.shape({
       geography: PropTypes.string,
       topic: PropTypes.string,
       indicator: PropTypes.string,
-    }),
+    })),
     selectedTab: PropTypes.string,
   }
 
@@ -100,7 +100,7 @@ export default class DataTable extends Component {
 
       rows.push(
         <tr className="separator" key={`${currentIndicator}-separator`}>
-          <td colSpan="5" class="separator" />
+          <td colSpan="5" className="separator" />
         </tr>
       );
     });
