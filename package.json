@@ -40,7 +40,7 @@
     "react-select": "1.2.1"
   },
   "devDependencies": {
-    "csv-parse": "^2.0.0",
+    "csv-parse": "^4.4.6",
     "glob": "^7.1.2",
     "lodash.isequal": "^4.5.0",
     "minimist": "^1.2.0",
