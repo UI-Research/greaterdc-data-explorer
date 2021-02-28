@@ -242,7 +242,6 @@ export default class App extends Component {
     const dataKey = dataSourceKey(geography, topic);
     const data = dataSources[dataKey];
     const metadata = metadataSources[dataKey];
-
     return (
       <div className="greater-dc-data-explorer">
         <div className="App">
